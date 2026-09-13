@@ -75,9 +75,7 @@ export class SalonBookings implements OnInit {
           this.isLoading = false;
 
           this.errorMessage =
-            error?.error?.error ??
-            error?.error?.title ??
-            'Impossible de charger les réservations.';
+  'Impossible de charger les réservations.';
 
           this.cdr.detectChanges();
         }
@@ -240,11 +238,7 @@ export class SalonBookings implements OnInit {
     fallback: string
   ): void {
 
-    this.errorMessage =
-      error?.error?.error ??
-      error?.error?.detail ??
-      error?.error?.title ??
-      fallback;
+    this.errorMessage = fallback;
 
     this.cdr.detectChanges();
   }

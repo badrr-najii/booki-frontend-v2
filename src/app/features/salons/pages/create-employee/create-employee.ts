@@ -55,11 +55,33 @@ export class CreateEmployee {
       return;
     }
 
+    if (this.fullName.trim().length > 100) {
+      this.errorMessage =
+        'Le nom de l’employé ne peut pas dépasser 100 caractères.';
+      return;
+    }
     if (!this.salonId) {
       this.errorMessage =
         'Identifiant du salon invalide.';
       return;
     }
+
+    const phoneNumber = this.phoneNumber.trim();
+
+    if (
+      phoneNumber &&
+      !/^[0-9]{10}$/.test(phoneNumber)
+    ) {
+      this.errorMessage =
+        'Le numéro de téléphone doit contenir exactement 10 chiffres.';
+      return;
+    }
+
+    if (this.specialty.trim().length > 50) {
+  this.errorMessage =
+    'La spécialité ne peut pas dépasser 50 caractères.';
+  return;
+}
 
     this.isSubmitting = true;
     this.errorMessage = '';
@@ -87,8 +109,6 @@ export class CreateEmployee {
           this.isSubmitting = false;
 
           this.errorMessage =
-            error?.error?.error ??
-            error?.error?.title ??
             'Impossible de créer l’employé.';
 
           this.cdr.detectChanges();

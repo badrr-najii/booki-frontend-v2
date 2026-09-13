@@ -124,9 +124,7 @@ export class CreateService {
           this.isSubmitting = false;
 
           this.errorMessage =
-            error?.error?.error ??
-            error?.error?.title ??
-            'Impossible de créer le service.';
+  'Impossible de créer le service.';
 
           this.cdr.detectChanges();
         }

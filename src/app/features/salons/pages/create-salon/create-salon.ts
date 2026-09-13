@@ -42,18 +42,32 @@ export class CreateSalon {
 
         name: ['', [
           Validators.required,
-          Validators.minLength(2)
+          Validators.minLength(2),
+          Validators.maxLength(100)
         ]],
 
         slug: ['', [
           Validators.required,
-          Validators.minLength(2)
+          Validators.minLength(2),
+          Validators.maxLength(100),
+          Validators.pattern(/^[a-z0-9-]+$/)
         ]],
 
         description: [''],
-        address: [''],
-        city: [''],
-        phoneNumber: [''],
+
+        address: ['', [
+          Validators.maxLength(200)
+        ]],
+
+        city: ['', [
+          Validators.required,
+          Validators.maxLength(50)
+        ]],
+
+        phoneNumber: ['', [
+          Validators.pattern(/^[0-9]{10}$/)
+        ]],
+
         email: ['', [
           Validators.email
         ]]
@@ -86,45 +100,52 @@ export class CreateSalon {
       return;
     }
 
+    if (
+      !this.salonForm.controls.name.value.trim() ||
+      !this.salonForm.controls.city.value.trim()
+    ) {
+      this.errorMessage =
+        'Le nom et la ville sont obligatoires.';
+      return;
+    }
+
     this.isLoading = true;
 
     const form =
       this.salonForm.getRawValue();
 
     this.salonService.create({
-      name: form.name,
-      slug: form.slug,
+      name: form.name.trim(),
+      slug: form.slug.trim(),
       description:
-        form.description || null,
+        form.description.trim() || null,
       address:
-        form.address || null,
+        form.address.trim() || null,
       city:
-        form.city || null,
+        form.city.trim(),
       phoneNumber:
-        form.phoneNumber || null,
+        form.phoneNumber.trim() || null,
       email:
-        form.email || null,
+        form.email.trim() || null,
       logoUrl: null,
       latitude: null,
       longitude: null
     })
-    .subscribe({
-      next: () => {
-        this.isLoading = false;
-        this.router.navigate([
-          '/dashboard'
-        ]);
-      },
+      .subscribe({
+        next: () => {
+          this.isLoading = false;
+          this.router.navigate([
+            '/dashboard'
+          ]);
+        },
 
-      error: error => {
+        error: error => {
 
-        this.isLoading = false;
+          this.isLoading = false;
 
-        this.errorMessage =
-          error?.error?.error ??
-          error?.error?.message ??
-          'Impossible de créer le salon.';
-      }
-    });
+          this.errorMessage =
+            'Impossible de créer le salon.';
+        }
+      });
   }
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
+import { API_BASE_URL } from '../config/api.config';
 import {
   Observable,
   map
@@ -17,8 +17,8 @@ import { SalonDashboardStats, RecentBooking, TopService, TopEmployee, BookingCha
 })
 export class DashboardService {
 
-  private readonly apiUrl =
-    'http://localhost:5001/api';
+  // dashboard.service.ts
+private readonly apiUrl = API_BASE_URL;
 
   constructor(
     private http: HttpClient

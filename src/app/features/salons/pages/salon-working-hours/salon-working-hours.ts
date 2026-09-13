@@ -152,8 +152,6 @@ export class SalonWorkingHours implements OnInit {
           this.isLoading = false;
 
           this.errorMessage =
-            error?.error?.error ??
-            error?.error?.title ??
             'Impossible de charger les horaires.';
 
           this.cdr.detectChanges();
@@ -310,10 +308,7 @@ export class SalonWorkingHours implements OnInit {
   private handleError(error: any): void {
 
     this.errorMessage =
-      error?.error?.detail ??
-      error?.error?.error ??
-      error?.error?.title ??
-      'Impossible d’enregistrer les horaires.';
+      'Impossible de mettre à jour les horaires.';
 
     this.cdr.detectChanges();
   }

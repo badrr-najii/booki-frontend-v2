@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
+import { API_BASE_URL } from '../config/api.config';
 export interface SalonServiceItem {
   id: string;
   salonId: string;
@@ -34,8 +34,7 @@ export interface UpdateServiceRequest {
 })
 export class ServiceService {
 
-  private readonly apiUrl =
-    'http://localhost:5001/api/Services';
+  private readonly apiUrl = `${API_BASE_URL}/Services`;
 
   constructor(
     private http: HttpClient

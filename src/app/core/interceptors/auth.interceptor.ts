@@ -29,6 +29,8 @@ let isRefreshing = false;
 const refreshTokenSubject =
   new BehaviorSubject<string | null>(null);
 
+let refreshFailed = false;
+
 export const authInterceptor: HttpInterceptorFn =
   (req, next) => {
 
@@ -50,11 +52,11 @@ export const authInterceptor: HttpInterceptorFn =
     const authRequest =
       accessToken
         ? req.clone({
-            setHeaders: {
-              Authorization:
-                `Bearer ${accessToken}`
-            }
-          })
+          setHeaders: {
+            Authorization:
+              `Bearer ${accessToken}`
+          }
+        })
         : req;
 
     return next(authRequest).pipe(
@@ -85,12 +87,10 @@ export const authInterceptor: HttpInterceptorFn =
           }
 
           if (!isRefreshing) {
-
             isRefreshing = true;
+            refreshFailed = false;
 
-            refreshTokenSubject.next(
-              null
-            );
+            refreshTokenSubject.next(null);
 
             return authService
               .refreshToken()
@@ -160,15 +160,20 @@ export const authInterceptor: HttpInterceptorFn =
           }
 
           return refreshTokenSubject.pipe(
-
             filter(
-              token => token !== null
+              token => token !== null || refreshFailed
             ),
 
             take(1),
 
             switchMap(
               newAccessToken => {
+
+                if (refreshFailed || !newAccessToken) {
+                  return throwError(
+                    () => error
+                  );
+                }
 
                 const retryRequest =
                   req.clone({

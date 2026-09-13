@@ -103,8 +103,6 @@ export class PublicBooking implements OnInit {
           this.isLoadingServices = false;
 
           this.errorMessage =
-            error?.error?.error ??
-            error?.error?.title ??
             'Impossible de charger les services.';
 
           this.cdr.detectChanges();
@@ -155,9 +153,6 @@ export class PublicBooking implements OnInit {
           this.isLoadingSlots = false;
 
           this.errorMessage =
-            error?.error?.error ??
-            error?.error?.detail ??
-            error?.error?.title ??
             'Impossible de charger les créneaux disponibles.';
 
           this.cdr.detectChanges();
@@ -184,6 +179,12 @@ export class PublicBooking implements OnInit {
       return;
     }
 
+    if (this.selectedDate < this.minDate) {
+      this.errorMessage =
+        'Veuillez sélectionner une date à partir d’aujourd’hui.';
+      return;
+    }
+
     if (!this.selectedSlot) {
       this.errorMessage =
         'Veuillez sélectionner un créneau.';
@@ -196,9 +197,50 @@ export class PublicBooking implements OnInit {
       return;
     }
 
+    if (!this.clientName.trim()) {
+      this.errorMessage =
+        'Votre nom est obligatoire.';
+      return;
+    }
+
+    if (this.clientName.trim().length > 100) {
+      this.errorMessage =
+        'Le nom ne peut pas dépasser 100 caractères.';
+      return;
+    }
+
     if (!this.clientPhone.trim()) {
       this.errorMessage =
         'Votre téléphone est obligatoire.';
+      return;
+    }
+
+    if (!this.clientPhone.trim()) {
+      this.errorMessage =
+        'Votre téléphone est obligatoire.';
+      return;
+    }
+
+    if (!/^[0-9]{10}$/.test(this.clientPhone.trim())) {
+      this.errorMessage =
+        'Le numéro de téléphone doit contenir exactement 10 chiffres.';
+      return;
+    }
+
+    const email = this.clientEmail.trim();
+
+    if (
+      email &&
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+    ) {
+      this.errorMessage =
+        'Veuillez saisir une adresse email valide.';
+      return;
+    }
+
+    if (this.notes.trim().length > 500) {
+      this.errorMessage =
+        'Les notes ne peuvent pas dépasser 500 caractères.';
       return;
     }
 
@@ -246,9 +288,6 @@ export class PublicBooking implements OnInit {
           this.isSubmitting = false;
 
           this.errorMessage =
-            error?.error?.error ??
-            error?.error?.detail ??
-            error?.error?.title ??
             'Impossible de créer la réservation.';
 
           this.cdr.detectChanges();

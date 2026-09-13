@@ -74,7 +74,6 @@ export class SalonServices implements OnInit {
           this.isLoading = false;
 
           this.errorMessage =
-            error?.error?.error ??
             'Impossible de charger les services.';
 
           this.cdr.detectChanges();
@@ -113,9 +112,6 @@ export class SalonServices implements OnInit {
               'Impossible de supprimer ce service car il est associé à une ou plusieurs réservations.';
           } else {
             this.errorMessage =
-              error?.error?.detail ??
-              error?.error?.error ??
-              error?.error?.title ??
               'Impossible de supprimer le service.';
           }
 

@@ -98,8 +98,6 @@ export class EditEmployee implements OnInit {
           this.isLoading = false;
 
           this.errorMessage =
-            error?.error?.error ??
-            error?.error?.title ??
             'Impossible de charger l’employé.';
 
           this.cdr.detectChanges();
@@ -167,8 +165,6 @@ export class EditEmployee implements OnInit {
           this.isSubmitting = false;
 
           this.errorMessage =
-            error?.error?.error ??
-            error?.error?.title ??
             'Impossible de modifier l’employé.';
 
           this.cdr.detectChanges();

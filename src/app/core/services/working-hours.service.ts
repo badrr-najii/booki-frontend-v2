@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
+import { API_BASE_URL } from '../config/api.config';
 export enum DayOfWeek {
   Sunday = 0,
   Monday = 1,
@@ -41,8 +41,7 @@ export interface UpdateWorkingHoursRequest {
 })
 export class WorkingHoursService {
 
-  private readonly apiUrl =
-    'http://localhost:5001/api/WorkingHours';
+  private readonly apiUrl = `${API_BASE_URL}/WorkingHours`;
 
   constructor(
     private http: HttpClient

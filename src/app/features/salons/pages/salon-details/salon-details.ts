@@ -98,7 +98,6 @@ export class SalonDetails implements OnInit {
           this.isLoading = false;
 
           this.errorMessage =
-            error?.error?.error ??
             'Impossible de charger le salon.';
 
           this.cdr.detectChanges();
@@ -129,7 +128,6 @@ export class SalonDetails implements OnInit {
           this.isLoading = false;
 
           this.errorMessage =
-            error?.error?.error ??
             'Impossible de charger les statistiques.';
 
           this.cdr.detectChanges();
@@ -164,7 +162,6 @@ export class SalonDetails implements OnInit {
           this.isLoading = false;
 
           this.errorMessage =
-            error?.error?.error ??
             'Impossible de charger les réservations récentes.';
 
           this.cdr.detectChanges();
@@ -199,7 +196,6 @@ export class SalonDetails implements OnInit {
           this.isLoading = false;
 
           this.errorMessage =
-            error?.error?.error ??
             'Impossible de charger les services populaires.';
 
           this.cdr.detectChanges();
@@ -234,7 +230,6 @@ export class SalonDetails implements OnInit {
           this.isLoading = false;
 
           this.errorMessage =
-            error?.error?.error ??
             'Impossible de charger les employés performants.';
 
           this.cdr.detectChanges();
@@ -268,7 +263,6 @@ export class SalonDetails implements OnInit {
           this.isLoading = false;
 
           this.errorMessage =
-            error?.error?.error ??
             'Impossible de charger la distribution des statuts.';
 
           this.cdr.detectChanges();
@@ -303,7 +297,6 @@ export class SalonDetails implements OnInit {
           this.isLoading = false;
 
           this.errorMessage =
-            error?.error?.error ??
             'Impossible de charger l’évolution du chiffre d’affaires.';
 
           this.cdr.detectChanges();
@@ -338,7 +331,6 @@ export class SalonDetails implements OnInit {
           this.isLoading = false;
 
           this.errorMessage =
-            error?.error?.error ??
             'Impossible de charger l’activité des réservations.';
 
           this.cdr.detectChanges();

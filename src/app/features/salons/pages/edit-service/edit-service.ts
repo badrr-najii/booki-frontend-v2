@@ -54,7 +54,7 @@ export class EditService implements OnInit {
         '',
         [
           Validators.required,
-          Validators.maxLength(150)
+          Validators.maxLength(100)
         ]
       ],
 
@@ -70,11 +70,17 @@ export class EditService implements OnInit {
         30,
         [
           Validators.required,
-          Validators.min(1)
+          Validators.min(5),
+          Validators.max(480)
         ]
       ],
 
-      description: [''],
+      description: [
+        '',
+        [
+          Validators.maxLength(500)
+        ]
+      ],
 
       isActive: [true]
     });
@@ -135,7 +141,6 @@ export class EditService implements OnInit {
           this.isLoading = false;
 
           this.errorMessage =
-            error?.error?.error ??
             'Impossible de charger le service.';
 
           this.cdr.detectChanges();
@@ -186,8 +191,6 @@ export class EditService implements OnInit {
           this.isSubmitting = false;
 
           this.errorMessage =
-            error?.error?.error ??
-            error?.error?.title ??
             'Impossible de modifier le service.';
 
           this.cdr.detectChanges();
