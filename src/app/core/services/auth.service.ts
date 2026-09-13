@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap, finalize } from 'rxjs';
-
+import { API_BASE_URL } from '../config/api.config';
 
 import {
   AuthResponse,
@@ -14,8 +14,7 @@ import {
 })
 export class AuthService {
 
-  private readonly apiUrl =
-    'http://localhost:5001/api/auth';
+  private readonly apiUrl = `${API_BASE_URL}/auth`;
 
   private readonly accessTokenKey =
     'booki_access_token';
@@ -81,11 +80,40 @@ export class AuthService {
   }
 
   isAuthenticated(): boolean {
+    const token = this.getAccessToken();
 
-    const token =
-      this.getAccessToken();
+    if (!token) {
+      return false;
+    }
 
-    return !!token;
+    try {
+      const parts = token.split('.');
+
+      if (parts.length !== 3) {
+        this.clearSession();
+        return false;
+      }
+
+      const base64Url = parts[1];
+      const base64 = base64Url
+        .replace(/-/g, '+')
+        .replace(/_/g, '/')
+        .padEnd(Math.ceil(base64Url.length / 4) * 4, '=');
+
+      const payload = JSON.parse(atob(base64));
+
+      const expirationTime = Number(payload.exp) * 1000;
+
+      if (!Number.isFinite(expirationTime) || Date.now() >= expirationTime) {
+        this.clearSession();
+        return false;
+      }
+
+      return true;
+    } catch {
+      this.clearSession();
+      return false;
+    }
   }
 
   logout(): Observable<{ message: string }> {

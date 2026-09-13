@@ -41,10 +41,9 @@ export class Login {
 
       password: ['', [
         Validators.required,
-        Validators.minLength(6)
+        Validators.minLength(8),
+        Validators.maxLength(72)
       ]],
-
-      rememberMe: [false]
     });
   }
 
@@ -73,20 +72,21 @@ export class Login {
       email: form.email,
       password: form.password
     })
-    .subscribe({
-      next: response => {
-        this.isLoading = false;
+      .subscribe({
+        next: response => {
+          this.isLoading = false;
 
-        this.router.navigate(['/']);
-      },
+          this.router.navigate(['/']);
+        },
 
-      error: error => {
-        this.isLoading = false;
+        error: error => {
+          this.isLoading = false;
 
-        this.errorMessage =
-          error?.error?.error ??
-          'Une erreur est survenue lors de la connexion.';
-      }
-    });
+          this.errorMessage =
+            error.status === 400 || error.status === 401
+              ? 'Email ou mot de passe incorrect, ou compte non confirmé.'
+              : 'Une erreur est survenue lors de la connexion.';
+        }
+      });
   }
 }

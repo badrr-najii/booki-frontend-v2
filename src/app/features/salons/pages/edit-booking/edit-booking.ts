@@ -139,9 +139,6 @@ export class EditBooking implements OnInit {
           this.isLoading = false;
 
           this.errorMessage =
-            error?.error?.error ??
-            error?.error?.detail ??
-            error?.error?.title ??
             'Impossible de charger la réservation.';
 
           this.cdr.detectChanges();
@@ -170,8 +167,6 @@ export class EditBooking implements OnInit {
           this.isLoading = false;
 
           this.errorMessage =
-            error?.error?.error ??
-            error?.error?.title ??
             'Impossible de charger les employés.';
 
           this.cdr.detectChanges();
@@ -222,9 +217,6 @@ export class EditBooking implements OnInit {
           this.isLoadingSlots = false;
 
           this.errorMessage =
-            error?.error?.error ??
-            error?.error?.detail ??
-            error?.error?.title ??
             'Impossible de charger les créneaux disponibles.';
 
           this.cdr.detectChanges();
@@ -254,9 +246,32 @@ export class EditBooking implements OnInit {
       return;
     }
 
+    if (this.clientName.trim().length > 100) {
+      this.errorMessage =
+        'Le nom du client ne peut pas dépasser 100 caractères.';
+      return;
+    }
+
     if (!this.clientPhone.trim()) {
       this.errorMessage =
         'Le téléphone du client est obligatoire.';
+      return;
+    }
+
+    if (!/^[0-9]{10}$/.test(this.clientPhone.trim())) {
+      this.errorMessage =
+        'Le numéro de téléphone doit contenir exactement 10 chiffres.';
+      return;
+    }
+
+    const email = this.clientEmail.trim();
+
+    if (
+      email &&
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+    ) {
+      this.errorMessage =
+        'Veuillez saisir une adresse email valide.';
       return;
     }
 
@@ -266,6 +281,24 @@ export class EditBooking implements OnInit {
     ) {
       this.errorMessage =
         'La date et l’heure sont obligatoires.';
+      return;
+    }
+
+    if (this.notes.trim().length > 500) {
+      this.errorMessage =
+        'Les notes ne peuvent pas dépasser 500 caractères.';
+      return;
+    }
+
+    const today = new Date();
+    const minDate =
+      `${today.getFullYear()}-` +
+      `${String(today.getMonth() + 1).padStart(2, '0')}-` +
+      `${String(today.getDate()).padStart(2, '0')}`;
+
+    if (this.bookingDate < minDate) {
+      this.errorMessage =
+        'La date de réservation ne peut pas être dans le passé.';
       return;
     }
 
@@ -317,11 +350,7 @@ export class EditBooking implements OnInit {
           this.isSubmitting = false;
 
           this.errorMessage =
-            error?.error?.error ??
-            error?.error?.detail ??
-            error?.error?.title ??
             'Impossible de modifier la réservation.';
-
           this.cdr.detectChanges();
         }
       });

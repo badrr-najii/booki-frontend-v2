@@ -20,7 +20,7 @@ import { RouterLink } from '@angular/router';
   selector: 'app-dashboard',
   imports: [
     CommonModule,
-     RouterLink
+    RouterLink
   ],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
@@ -41,7 +41,7 @@ export class Dashboard implements OnInit {
   constructor(
     private dashboardService: DashboardService,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loadDashboard();
@@ -85,7 +85,6 @@ export class Dashboard implements OnInit {
           this.isLoading = false;
 
           this.errorMessage =
-            error?.error?.error ??
             'Impossible de charger le dashboard.';
 
           this.cdr.detectChanges();

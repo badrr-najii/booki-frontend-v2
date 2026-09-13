@@ -147,7 +147,7 @@
             Nom complet
           </label>
 
-          <input id="clientName" name="clientName" type="text" [(ngModel)]="clientName"
+          <input id="clientName" name="clientName" type="text" [(ngModel)]="clientName" maxlength="100"
             class="w-full rounded-lg border border-gray-300 px-4 py-3" />
 
         </div>
@@ -180,7 +180,7 @@
             Notes
           </label>
 
-          <textarea id="notes" name="notes" rows="4" [(ngModel)]="notes"
+          <textarea id="notes" name="notes" rows="4" [(ngModel)]="notes" maxlength="500"
             class="w-full rounded-lg border border-gray-300 px-4 py-3"></textarea>
 
         </div>

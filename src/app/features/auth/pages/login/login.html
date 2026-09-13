@@ -76,19 +76,16 @@
 
             @if (password.touched && password.hasError('minlength')) {
             <p class="text-sm text-red-600 mt-2">
-                Le mot de passe doit contenir au moins 6 caractères.
+                Le mot de passe doit contenir au moins 8 caractères.
+            </p>
+            }
+
+            @if (password.touched && password.hasError('maxlength')) {
+            <p class="text-sm text-red-600 mt-2">
+                Le mot de passe ne doit pas dépasser 72 caractères.
             </p>
             }
         </div>
-
-        <!-- Remember -->
-        <label class="flex items-center gap-3 cursor-pointer">
-            <input type="checkbox" formControlName="rememberMe" class="h-4 w-4 rounded border-gray-300 accent-black">
-
-            <span class="text-sm text-gray-600">
-                Se souvenir de moi
-            </span>
-        </label>
 
         <!-- Submit -->
         <button type="submit" [disabled]="isLoading" class="w-full bg-black text-white

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { API_BASE_URL } from '../config/api.config';
 
 export enum BookingStatus {
     Pending = 0,
@@ -75,8 +76,7 @@ export interface CreateBookingRequest {
 })
 export class BookingService {
 
-    private readonly apiUrl =
-        'http://localhost:5001/api/Bookings';
+private readonly apiUrl = `${API_BASE_URL}/Bookings`;
 
     constructor(
         private http: HttpClient

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
+import { API_BASE_URL } from '../config/api.config';
 export interface EmployeeItem {
   id: string;
   salonId: string;
@@ -31,8 +31,7 @@ export interface UpdateEmployeeRequest {
   providedIn: 'root'
 })
 export class EmployeeService {
-  private readonly apiUrl =
-    'http://localhost:5001/api/Employees';
+  private readonly apiUrl = `${API_BASE_URL}/Employees`;
 
   constructor(
     private http: HttpClient

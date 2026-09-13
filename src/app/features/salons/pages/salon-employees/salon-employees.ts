@@ -71,8 +71,6 @@ export class SalonEmployees implements OnInit {
           this.isLoading = false;
 
           this.errorMessage =
-            error?.error?.error ??
-            error?.error?.title ??
             'Impossible de charger les employés.';
 
           this.cdr.detectChanges();
@@ -112,9 +110,6 @@ export class SalonEmployees implements OnInit {
               'Impossible de supprimer cet employé car il est associé à une ou plusieurs réservations.';
           } else {
             this.errorMessage =
-              error?.error?.detail ??
-              error?.error?.error ??
-              error?.error?.title ??
               'Impossible de supprimer cet employé.';
           }
 
