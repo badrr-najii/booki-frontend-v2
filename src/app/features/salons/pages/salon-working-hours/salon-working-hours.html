@@ -1,0 +1,163 @@
+<section class="mx-auto max-w-5xl px-6 py-8">
+
+  <a
+    [routerLink]="['/dashboard/salons', salonId]"
+    class="text-sm text-gray-500 hover:text-gray-900"
+  >
+    ← Retour au salon
+  </a>
+
+  <div class="mt-6">
+
+    <p class="text-sm text-gray-500">
+      Gestion du salon
+    </p>
+
+    <h1 class="text-2xl font-bold">
+      Horaires d'ouverture
+    </h1>
+
+    <p class="mt-2 text-sm text-gray-500">
+      Configurez les jours et les heures d'ouverture de votre salon.
+    </p>
+
+  </div>
+
+  @if (errorMessage) {
+
+    <div
+      class="mt-6 rounded-lg border border-red-200 p-4 text-sm text-red-600"
+    >
+      {{ errorMessage }}
+    </div>
+
+  }
+
+  @if (successMessage) {
+
+    <div
+      class="mt-6 rounded-lg border border-green-200 p-4 text-sm text-green-700"
+    >
+      {{ successMessage }}
+    </div>
+
+  }
+
+  @if (isLoading) {
+
+    <div class="mt-8">
+      Chargement des horaires...
+    </div>
+
+  } @else {
+
+    <div class="mt-8 grid gap-4">
+
+      @for (day of days; track day.day) {
+
+        <div
+          class="rounded-xl border border-gray-200 p-5"
+        >
+
+          <div
+            class="flex flex-wrap items-center justify-between gap-5"
+          >
+
+            <div class="w-28">
+
+              <h2 class="font-semibold">
+                {{ day.label }}
+              </h2>
+
+              <p class="mt-1 text-xs text-gray-500">
+                @if (day.isClosed) {
+                  Fermé
+                } @else {
+                  Ouvert
+                }
+              </p>
+
+            </div>
+
+            <label class="flex items-center gap-2">
+
+              <input
+                type="checkbox"
+                [(ngModel)]="day.isClosed"
+                [name]="'closed-' + day.day"
+              />
+
+              <span class="text-sm">
+                Fermé
+              </span>
+
+            </label>
+
+            <div class="flex items-center gap-3">
+
+              <div>
+
+                <label
+                  class="mb-1 block text-xs text-gray-500"
+                >
+                  Ouverture
+                </label>
+
+                <input
+                  type="time"
+                  [(ngModel)]="day.openTime"
+                  [name]="'open-' + day.day"
+                  [disabled]="day.isClosed"
+                  class="rounded-lg border border-gray-300 px-3 py-2 text-sm disabled:bg-gray-100"
+                />
+
+              </div>
+
+              <span class="mt-5 text-gray-400">
+                →
+              </span>
+
+              <div>
+
+                <label
+                  class="mb-1 block text-xs text-gray-500"
+                >
+                  Fermeture
+                </label>
+
+                <input
+                  type="time"
+                  [(ngModel)]="day.closeTime"
+                  [name]="'close-' + day.day"
+                  [disabled]="day.isClosed"
+                  class="rounded-lg border border-gray-300 px-3 py-2 text-sm disabled:bg-gray-100"
+                />
+
+              </div>
+
+            </div>
+
+            <button
+              type="button"
+              (click)="save(day)"
+              [disabled]="day.isSaving"
+              class="rounded-lg bg-black px-4 py-2 text-sm text-white hover:bg-gray-800 disabled:opacity-50"
+            >
+              @if (day.isSaving) {
+                Enregistrement...
+              } @else {
+                Enregistrer
+              }
+            </button>
+
+          </div>
+
+        </div>
+
+      }
+
+    </div>
+
+  }
+
+</section>

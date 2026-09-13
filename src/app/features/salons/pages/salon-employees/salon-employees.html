@@ -1,0 +1,153 @@
+<section class="mx-auto max-w-6xl px-6 py-8">
+
+  <a
+    [routerLink]="['/dashboard/salons', salonId]"
+    class="text-sm text-gray-500 hover:text-gray-900"
+  >
+    ← Retour au salon
+  </a>
+
+  <div class="mt-6 flex items-center justify-between">
+
+    <div>
+      <p class="text-sm text-gray-500">
+        Gestion du salon
+      </p>
+
+      <h1 class="text-2xl font-bold">
+        Employés
+      </h1>
+    </div>
+
+    <a
+      [routerLink]="[
+        '/dashboard/salons',
+        salonId,
+        'employees',
+        'new'
+      ]"
+      class="rounded-lg bg-black px-4 py-2 text-sm text-white hover:bg-gray-800"
+    >
+      + Ajouter un employé
+    </a>
+
+  </div>
+
+  @if (isLoading) {
+
+    <div class="mt-8">
+      Chargement des employés...
+    </div>
+
+  } @else if (errorMessage) {
+
+    <div
+      class="mt-8 rounded-lg border border-red-200 p-4 text-red-600"
+    >
+      {{ errorMessage }}
+    </div>
+
+  } @else if (employees.length === 0) {
+
+    <div
+      class="mt-8 rounded-xl border border-gray-200 p-8 text-center"
+    >
+      <h2 class="text-lg font-semibold">
+        Aucun employé
+      </h2>
+
+      <p class="mt-2 text-sm text-gray-500">
+        Ajoutez votre premier employé pour commencer.
+      </p>
+    </div>
+
+  } @else {
+
+    <div class="mt-8 grid gap-4">
+
+      @for (employee of employees; track employee.id) {
+
+        <div
+          class="rounded-xl border border-gray-200 p-5"
+        >
+
+          <div class="flex items-start justify-between gap-6">
+
+            <div>
+
+              <div class="flex items-center gap-3">
+
+                <h2 class="font-semibold">
+                  {{ employee.fullName }}
+                </h2>
+
+                @if (employee.isActive) {
+                  <span class="text-xs text-green-600">
+                    Actif
+                  </span>
+                } @else {
+                  <span class="text-xs text-gray-500">
+                    Inactif
+                  </span>
+                }
+
+              </div>
+
+              @if (employee.specialty) {
+                <p class="mt-2 text-sm text-gray-500">
+                  {{ employee.specialty }}
+                </p>
+              }
+
+              <div class="mt-3 flex gap-5 text-sm">
+
+                @if (employee.phoneNumber) {
+                  <span>
+                    {{ employee.phoneNumber }}
+                  </span>
+                }
+
+                <span>
+                  {{ employee.bookingsCount }} réservation(s)
+                </span>
+
+              </div>
+
+            </div>
+
+            <div class="flex shrink-0 items-center gap-2">
+
+              <a
+                [routerLink]="[
+                  '/dashboard/salons',
+                  salonId,
+                  'employees',
+                  employee.id,
+                  'edit'
+                ]"
+                class="rounded-lg border border-gray-300 px-4 py-2 text-sm hover:bg-gray-50"
+              >
+                Modifier
+              </a>
+
+              <button
+                type="button"
+                (click)="deleteEmployee(employee)"
+                class="rounded-lg border border-red-200 px-4 py-2 text-sm text-red-600 hover:bg-red-50"
+              >
+                Supprimer
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      }
+
+    </div>
+
+  }
+
+</section>

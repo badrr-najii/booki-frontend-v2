@@ -1,0 +1,206 @@
+<section class="mx-auto max-w-3xl px-6 py-8">
+
+  <a
+    [routerLink]="[
+      '/dashboard/salons',
+      salonId,
+      'services'
+    ]"
+    class="text-sm text-gray-500 hover:text-gray-900"
+  >
+    ← Retour aux services
+  </a>
+
+  <div class="mt-6">
+
+    <p class="text-sm text-gray-500">
+      Gestion du salon
+    </p>
+
+    <h1 class="text-2xl font-bold">
+      Ajouter un service
+    </h1>
+
+    <p class="mt-2 text-sm text-gray-500">
+      Renseignez les informations du nouveau service.
+    </p>
+
+  </div>
+
+  @if (errorMessage) {
+    <div
+      class="mt-6 rounded-lg border border-red-200 p-4 text-sm text-red-600"
+    >
+      {{ errorMessage }}
+    </div>
+  }
+
+  <form
+    [formGroup]="form"
+    (ngSubmit)="submit()"
+    class="mt-8 space-y-6"
+  >
+
+    <div>
+
+      <label
+        for="name"
+        class="mb-2 block text-sm font-medium"
+      >
+        Nom du service
+      </label>
+
+      <input
+        id="name"
+        type="text"
+        maxlength="100"
+        formControlName="name"
+        placeholder="Ex: Coupe homme"
+        class="w-full rounded-lg border border-gray-300 px-4 py-3"
+      />
+
+      @if (
+        form.controls.name.touched &&
+        form.controls.name.invalid
+      ) {
+        <p class="mt-1 text-sm text-red-600">
+          Le nom du service est obligatoire et ne doit pas dépasser 100 caractères.
+        </p>
+      }
+
+    </div>
+
+    <div class="grid gap-6 md:grid-cols-2">
+
+      <div>
+
+        <label
+          for="price"
+          class="mb-2 block text-sm font-medium"
+        >
+          Prix (MAD)
+        </label>
+
+        <input
+          id="price"
+          type="number"
+          min="0"
+          step="0.01"
+          formControlName="price"
+          class="w-full rounded-lg border border-gray-300 px-4 py-3"
+        />
+
+        @if (
+          form.controls.price.touched &&
+          form.controls.price.invalid
+        ) {
+          <p class="mt-1 text-sm text-red-600">
+            Le prix doit être supérieur ou égal à 0.
+          </p>
+        }
+
+      </div>
+
+      <div>
+
+        <label
+          for="durationMinutes"
+          class="mb-2 block text-sm font-medium"
+        >
+          Durée (minutes)
+        </label>
+
+        <input
+          id="durationMinutes"
+          type="number"
+          min="5"
+          max="480"
+          formControlName="durationMinutes"
+          class="w-full rounded-lg border border-gray-300 px-4 py-3"
+        />
+
+        @if (
+          form.controls.durationMinutes.touched &&
+          form.controls.durationMinutes.invalid
+        ) {
+          <p class="mt-1 text-sm text-red-600">
+            La durée doit être comprise entre 5 et 480 minutes.
+          </p>
+        }
+
+      </div>
+
+    </div>
+
+    <div>
+
+      <label
+        for="description"
+        class="mb-2 block text-sm font-medium"
+      >
+        Description
+      </label>
+
+      <textarea
+        id="description"
+        rows="4"
+        maxlength="500"
+        formControlName="description"
+        placeholder="Description du service..."
+        class="w-full rounded-lg border border-gray-300 px-4 py-3"
+      ></textarea>
+
+      @if (
+        form.controls.description.touched &&
+        form.controls.description.invalid
+      ) {
+        <p class="mt-1 text-sm text-red-600">
+          La description ne doit pas dépasser 500 caractères.
+        </p>
+      }
+
+    </div>
+
+    <label class="flex items-center gap-3">
+
+      <input
+        type="checkbox"
+        formControlName="isActive"
+      />
+
+      <span class="text-sm">
+        Service actif
+      </span>
+
+    </label>
+
+    <div class="flex justify-end gap-3">
+
+      <a
+        [routerLink]="[
+          '/dashboard/salons',
+          salonId,
+          'services'
+        ]"
+        class="rounded-lg border border-gray-300 px-5 py-3 text-sm"
+      >
+        Annuler
+      </a>
+
+      <button
+        type="submit"
+        [disabled]="isSubmitting"
+        class="rounded-lg bg-black px-5 py-3 text-sm text-white disabled:opacity-50"
+      >
+        @if (isSubmitting) {
+          Création...
+        } @else {
+          Créer le service
+        }
+      </button>
+
+    </div>
+
+  </form>
+
+</section>

@@ -1,0 +1,789 @@
+@if (isLoading) {
+
+<p>
+    Chargement...
+</p>
+
+} @else {
+
+@if (errorMessage) {
+
+<div class="error-message">
+    {{ errorMessage }}
+</div>
+
+}
+
+@if (salon && stats) {
+
+<section class="salon-header">
+
+    <div>
+
+        <p class="eyebrow">
+            Gestion du salon
+        </p>
+
+        <h1>
+            {{ salon.name }}
+        </h1>
+
+        <p class="salon-location">
+            {{ salon.city }}
+        </p>
+
+    </div>
+
+    <div class="header-actions">
+
+        <a [routerLink]="[
+                '/dashboard/salons',
+                salon.id,
+                'bookings'
+            ]" class="btn btn-primary">
+            Réservations
+        </a>
+
+        <a [routerLink]="[
+                '/dashboard/salons',
+                salon.id,
+                'services'
+            ]" class="btn">
+            Services
+        </a>
+
+        <a [routerLink]="[
+                '/dashboard/salons',
+                salon.id,
+                'employees'
+            ]" class="btn">
+            Employés
+        </a>
+
+        <a [routerLink]="[
+                '/dashboard/salons',
+                salon.id,
+                'working-hours'
+            ]" class="btn">
+            Horaires
+        </a>
+
+    </div>
+
+</section>
+
+
+<section class="stats-grid">
+
+    <article class="stat-card">
+
+        <span class="stat-label">
+            Réservations aujourd'hui
+        </span>
+
+        <strong class="stat-value">
+            {{ stats.todayBookings }}
+        </strong>
+
+        <span class="stat-meta">
+            {{ stats.totalBookings }}
+            au total
+        </span>
+
+    </article>
+
+
+    <article class="stat-card">
+
+        <span class="stat-label">
+            Chiffre d'affaires aujourd'hui
+        </span>
+
+        <strong class="stat-value">
+            {{ stats.todayRevenue }} MAD
+        </strong>
+
+        <span class="stat-meta">
+            {{ stats.totalRevenue }}
+            MAD au total
+        </span>
+
+    </article>
+
+
+    <article class="stat-card">
+
+        <span class="stat-label">
+            Clients
+        </span>
+
+        <strong class="stat-value">
+            {{ stats.totalClients }}
+        </strong>
+
+        <span class="stat-meta">
+            +{{ stats.newClientsThisMonth }}
+            ce mois
+        </span>
+
+    </article>
+
+
+    <article class="stat-card">
+
+        <span class="stat-label">
+            Équipe
+        </span>
+
+        <strong class="stat-value">
+            {{ stats.totalEmployees }}
+        </strong>
+
+        <span class="stat-meta">
+            {{ stats.totalServices }}
+            services
+        </span>
+
+    </article>
+
+</section>
+
+
+<section class="period-grid">
+
+    <article class="panel">
+
+        <div class="panel-header">
+
+            <div>
+
+                <p class="eyebrow">
+                    Activité
+                </p>
+
+                <h2>
+                    Réservations
+                </h2>
+
+            </div>
+
+        </div>
+
+        <div class="metric-list">
+
+            <div class="metric-row">
+
+                <span>
+                    Aujourd'hui
+                </span>
+
+                <strong>
+                    {{ stats.todayBookings }}
+                </strong>
+
+            </div>
+
+
+            <div class="metric-row">
+
+                <span>
+                    Cette semaine
+                </span>
+
+                <strong>
+                    {{ stats.weekBookings }}
+                </strong>
+
+            </div>
+
+
+            <div class="metric-row">
+
+                <span>
+                    Ce mois
+                </span>
+
+                <strong>
+                    {{ stats.monthBookings }}
+                </strong>
+
+            </div>
+
+
+            <div class="metric-row">
+
+                <span>
+                    Total
+                </span>
+
+                <strong>
+                    {{ stats.totalBookings }}
+                </strong>
+
+            </div>
+
+        </div>
+
+    </article>
+
+
+    <article class="panel">
+
+        <div class="panel-header">
+
+            <div>
+
+                <p class="eyebrow">
+                    Revenus
+                </p>
+
+                <h2>
+                    Chiffre d'affaires
+                </h2>
+
+            </div>
+
+        </div>
+
+        <div class="metric-list">
+
+            <div class="metric-row">
+
+                <span>
+                    Aujourd'hui
+                </span>
+
+                <strong>
+                    {{ stats.todayRevenue }} MAD
+                </strong>
+
+            </div>
+
+
+            <div class="metric-row">
+
+                <span>
+                    Cette semaine
+                </span>
+
+                <strong>
+                    {{ stats.weekRevenue }} MAD
+                </strong>
+
+            </div>
+
+
+            <div class="metric-row">
+
+                <span>
+                    Ce mois
+                </span>
+
+                <strong>
+                    {{ stats.monthRevenue }} MAD
+                </strong>
+
+            </div>
+
+
+            <div class="metric-row">
+
+                <span>
+                    Total
+                </span>
+
+                <strong>
+                    {{ stats.totalRevenue }} MAD
+                </strong>
+
+            </div>
+
+        </div>
+
+    </article>
+
+</section>
+
+
+<section class="rates-section">
+
+    <div class="section-heading">
+
+        <p class="eyebrow">
+            Performance
+        </p>
+
+        <h2>
+            Taux des réservations
+        </h2>
+
+    </div>
+
+    <div class="rates-grid">
+
+        <article class="rate-card">
+
+            <span>
+                Taux de réservation
+            </span>
+
+            <strong>
+                {{ stats.bookingRate }}%
+            </strong>
+
+        </article>
+
+
+        <article class="rate-card">
+
+            <span>
+                Taux de complétion
+            </span>
+
+            <strong>
+                {{ stats.completionRate }}%
+            </strong>
+
+        </article>
+
+
+        <article class="rate-card">
+
+            <span>
+                Taux d'annulation
+            </span>
+
+            <strong>
+                {{ stats.cancellationRate }}%
+            </strong>
+
+        </article>
+
+    </div>
+
+</section>
+
+<section class="status-section">
+
+    <div class="section-heading">
+
+        <p class="eyebrow">
+            Réservations
+        </p>
+
+        <h2>
+            Répartition par statut
+        </h2>
+
+    </div>
+
+    <div class="status-grid">
+
+        <article class="status-card">
+
+            <span>
+                En attente
+            </span>
+
+            <strong>
+                {{ statusDistribution['En attente'] }}
+            </strong>
+
+        </article>
+
+        <article class="status-card">
+
+            <span>
+                Confirmées
+            </span>
+
+            <strong>
+                {{ statusDistribution['Confirmées'] }}
+            </strong>
+
+        </article>
+
+        <article class="status-card">
+
+            <span>
+                Terminées
+            </span>
+
+            <strong>
+                {{ statusDistribution['Terminées'] }}
+            </strong>
+
+        </article>
+
+        <article class="status-card">
+
+            <span>
+                Annulées
+            </span>
+
+            <strong>
+                {{ statusDistribution['Annulées'] }}
+            </strong>
+
+        </article>
+
+        <article class="status-card">
+
+            <span>
+                Absentes
+            </span>
+
+            <strong>
+                {{ statusDistribution['Absentes'] }}
+            </strong>
+
+        </article>
+
+    </div>
+
+</section>
+
+<section class="revenue-trend-section">
+
+    <div class="section-heading">
+
+        <p class="eyebrow">
+            Revenus
+        </p>
+
+        <h2>
+            Évolution du chiffre d'affaires
+        </h2>
+
+    </div>
+
+    @if (revenueTrend.length === 0) {
+
+    <div class="empty-state">
+        Aucune donnée disponible pour le moment.
+    </div>
+
+    } @else {
+
+    <div class="revenue-chart">
+
+        @for (
+        item of revenueTrend;
+        track item.label
+        ) {
+
+        <div class="revenue-column">
+
+            <div class="revenue-value">
+                {{ item.revenue }} MAD
+            </div>
+
+            <div class="revenue-bar-area">
+
+                <div class="revenue-bar" [style.height.%]="getRevenueHeight(item.revenue)">
+                </div>
+
+            </div>
+
+            <div class="revenue-label">
+                {{ item.label }}
+            </div>
+
+        </div>
+
+        }
+
+    </div>
+
+    }
+
+</section>
+<section class="booking-activity-section">
+
+    <div class="section-heading">
+
+        <p class="eyebrow">
+            Activité
+        </p>
+
+        <h2>
+            Réservations des 30 derniers jours
+        </h2>
+
+    </div>
+
+    @if (bookingsByDay.length === 0) {
+
+    <div class="empty-state">
+        Aucune donnée disponible pour le moment.
+    </div>
+
+    } @else {
+
+    <div class="booking-activity-chart">
+
+        @for (
+        item of bookingsByDay;
+        track item.label
+        ) {
+
+        <div class="booking-day-column">
+
+            <div class="booking-day-value">
+                {{ item.count }}
+            </div>
+
+            <div class="booking-day-bar-area">
+
+                <div class="booking-day-bar" [style.height.%]="getBookingBarHeight(item.count)">
+                </div>
+
+            </div>
+
+            <div class="booking-day-label">
+                {{ item.label }}
+            </div>
+
+        </div>
+
+        }
+
+    </div>
+
+    }
+
+</section>
+
+<section class="top-services-section">
+
+    <div class="section-heading">
+
+        <p class="eyebrow">
+            Popularité
+        </p>
+
+        <h2>
+            Services les plus populaires
+        </h2>
+
+    </div>
+
+    @if (topServices.length === 0) {
+
+    <div class="empty-state">
+        Aucune donnée disponible pour le moment.
+    </div>
+
+    } @else {
+
+    <div class="top-services-list">
+
+        @for (
+        service of topServices;
+        track service.serviceName
+        ) {
+
+        <article class="top-service-row">
+
+            <div class="top-service-main">
+
+                <div class="top-service-title">
+
+                    <strong>
+                        {{ service.serviceName }}
+                    </strong>
+
+                    <span>
+                        {{ service.count }}
+                        réservation(s)
+                    </span>
+
+                </div>
+
+                <div class="progress-track">
+
+                    <div class="progress-value" [style.width.%]="service.percentage">
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="top-service-stats">
+
+                <strong>
+                    {{ service.percentage }}%
+                </strong>
+
+                <span>
+                    {{ service.revenue }} MAD
+                </span>
+
+            </div>
+
+        </article>
+
+        }
+
+    </div>
+
+    }
+
+</section>
+
+
+<section class="top-employees-section">
+
+    <div class="section-heading">
+
+        <p class="eyebrow">
+            Équipe
+        </p>
+
+        <h2>
+            Employés les plus performants
+        </h2>
+
+    </div>
+
+    @if (topEmployees.length === 0) {
+
+    <div class="empty-state">
+        Aucune donnée disponible pour le moment.
+    </div>
+
+    } @else {
+
+    <div class="top-employees-list">
+
+        @for (
+        employee of topEmployees;
+        track employee.employeeName
+        ) {
+
+        <article class="top-employee-row">
+
+            <div>
+
+                <strong>
+                    {{ employee.employeeName }}
+                </strong>
+
+                <p>
+                    {{ employee.bookingsCount }}
+                    réservation(s)
+                </p>
+
+            </div>
+
+            <div class="top-employee-stats">
+
+                <span>
+                    Chiffre d'affaires
+                </span>
+
+                <strong>
+                    {{ employee.revenue }} MAD
+                </strong>
+
+            </div>
+
+        </article>
+
+        }
+
+    </div>
+
+    }
+
+</section>
+
+
+<section class="recent-section">
+
+    <div class="section-heading">
+
+        <p class="eyebrow">
+            Activité récente
+        </p>
+
+        <h2>
+            Dernières réservations
+        </h2>
+
+    </div>
+
+    @if (recentBookings.length === 0) {
+
+    <div class="empty-state">
+        Aucune réservation récente.
+    </div>
+
+    } @else {
+
+    <div class="recent-list">
+
+        @for (
+        booking of recentBookings;
+        track booking.id
+        ) {
+
+        <article class="recent-booking">
+
+            <div>
+
+                <strong>
+                    {{ booking.clientName }}
+                </strong>
+
+                <p>
+                    {{ booking.serviceName }}
+                </p>
+
+            </div>
+
+            <div class="recent-booking-info">
+
+                <span class="status-badge" [class]="getStatusClass(
+                        booking.status
+                    )">
+                    {{
+                    getStatusLabel(
+                    booking.status
+                    )
+                    }}
+                </span>
+
+                <span>
+                    {{
+                    booking.bookingDate
+                    .substring(0, 10)
+                    }}
+                </span>
+
+                <span>
+                    {{
+                    booking.startTime
+                    .substring(0, 5)
+                    }}
+                </span>
+
+                <strong>
+                    {{ booking.price }} MAD
+                </strong>
+
+            </div>
+
+        </article>
+
+        }
+
+    </div>
+
+    }
+
+</section>
+
+}
+
+}

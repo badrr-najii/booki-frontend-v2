@@ -1,0 +1,261 @@
+<section class="mx-auto max-w-6xl px-6 py-8">
+
+  <a [routerLink]="['/dashboard/salons', salonId]" class="text-sm text-gray-500 hover:text-gray-900">
+    ← Retour au salon
+  </a>
+
+  <div class="mt-6">
+
+    <p class="text-sm text-gray-500">
+      Gestion du salon
+    </p>
+
+    <h1 class="text-2xl font-bold">
+      Réservations
+    </h1>
+
+  </div>
+
+
+  @if (errorMessage) {
+
+  <div class="mt-8 rounded-lg border border-red-200 bg-red-50 p-4 text-red-600">
+    {{ errorMessage }}
+  </div>
+
+  }
+
+
+  @if (isLoading) {
+
+  <div class="mt-8">
+    Chargement des réservations...
+  </div>
+
+  } @else {
+
+  @if (bookings.length === 0) {
+
+  <div class="mt-8 rounded-xl border border-gray-200 p-8 text-center">
+
+    <h2 class="text-lg font-semibold">
+      Aucune réservation
+    </h2>
+
+    <p class="mt-2 text-sm text-gray-500">
+      Les réservations de votre salon apparaîtront ici.
+    </p>
+
+  </div>
+
+  } @else {
+
+  <div class="mt-8 grid gap-4">
+
+    @for (
+    booking of bookings;
+    track booking.id
+    ) {
+
+    <div class="rounded-xl border border-gray-200 p-5">
+
+      <div class="flex items-start justify-between gap-6">
+
+        <div class="w-full">
+
+          <div class="flex items-center gap-3">
+
+            <h2 class="font-semibold">
+              {{ booking.clientName }}
+            </h2>
+
+            <span class="text-xs text-gray-500">
+              {{
+              getStatusLabel(
+              booking.status
+              )
+              }}
+            </span>
+
+          </div>
+
+
+          <div class="mt-3 grid gap-2 text-sm">
+
+            <p>
+              <strong>
+                Service :
+              </strong>
+
+              {{ booking.serviceName }}
+            </p>
+
+
+            @if (booking.employeeName) {
+
+            <p>
+              <strong>
+                Employé :
+              </strong>
+
+              {{ booking.employeeName }}
+            </p>
+
+            }
+
+
+            <p>
+              <strong>
+                Date :
+              </strong>
+
+              {{
+              formatDate(
+              booking.bookingDate
+              )
+              }}
+            </p>
+
+
+            <p>
+              <strong>
+                Heure :
+              </strong>
+
+              {{
+              formatTime(
+              booking.startTime
+              )
+              }}
+
+              -
+
+              {{
+              formatTime(
+              booking.endTime
+              )
+              }}
+            </p>
+
+
+            <p>
+              <strong>
+                Prix :
+              </strong>
+
+              {{ booking.servicePrice }}
+              MAD
+            </p>
+
+
+            <p>
+              <strong>
+                Téléphone :
+              </strong>
+
+              {{ booking.clientPhone }}
+            </p>
+
+
+            @if (booking.clientEmail) {
+
+            <p>
+              <strong>
+                Email :
+              </strong>
+
+              {{ booking.clientEmail }}
+            </p>
+
+            }
+
+          </div>
+
+
+          <div class="mt-5 flex flex-wrap gap-2">
+
+            @if (
+            booking.status ===
+            BookingStatus.Pending
+            ) {
+
+            <a [routerLink]="[
+                        '/dashboard/salons',
+                        salonId,
+                        'bookings',
+                        booking.id,
+                        'edit'
+                      ]" class="rounded-lg border border-gray-300 px-4 py-2 text-sm hover:bg-gray-50">
+              Modifier
+            </a>
+
+
+            <button type="button" (click)="confirmBooking(booking)"
+              class="rounded-lg bg-black px-4 py-2 text-sm text-white hover:bg-gray-800">
+              Confirmer
+            </button>
+
+
+            <button type="button" (click)="cancelBooking(booking)"
+              class="rounded-lg border border-red-200 px-4 py-2 text-sm text-red-600 hover:bg-red-50">
+              Annuler
+            </button>
+
+            <button type="button" (click)="deleteBooking(booking)"
+              class="rounded-lg border border-red-300 px-4 py-2 text-sm font-medium text-red-700 hover:bg-red-50">
+              Supprimer
+            </button>
+            }
+
+
+            @if (
+            booking.status ===
+            BookingStatus.Confirmed
+            ) {
+
+            <a [routerLink]="[
+                        '/dashboard/salons',
+                        salonId,
+                        'bookings',
+                        booking.id,
+                        'edit'
+                      ]" class="rounded-lg border border-gray-300 px-4 py-2 text-sm hover:bg-gray-50">
+              Modifier
+            </a>
+
+
+            <button type="button" (click)="completeBooking(booking)"
+              class="rounded-lg bg-black px-4 py-2 text-sm text-white hover:bg-gray-800">
+              Terminer
+            </button>
+
+
+            <button type="button" (click)="markAsNoShow(booking)"
+              class="rounded-lg border border-gray-300 px-4 py-2 text-sm hover:bg-gray-50">
+              Absent
+            </button>
+
+            <button type="button" (click)="cancelBooking(booking)"
+              class="rounded-lg border border-red-200 px-4 py-2 text-sm text-red-600 hover:bg-red-50">
+              Annuler
+            </button>
+
+            }
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    }
+
+  </div>
+
+  }
+
+  }
+
+</section>

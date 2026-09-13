@@ -1,0 +1,288 @@
+<section class="mx-auto max-w-3xl px-6 py-8">
+
+  <a
+    [routerLink]="[
+      '/dashboard/salons',
+      salonId,
+      'bookings'
+    ]"
+    class="text-sm text-gray-500 hover:text-gray-900"
+  >
+    ← Retour aux réservations
+  </a>
+
+  <div class="mt-6">
+    <p class="text-sm text-gray-500">
+      Gestion du salon
+    </p>
+
+    <h1 class="text-2xl font-bold">
+      Modifier la réservation
+    </h1>
+  </div>
+
+  @if (isLoading) {
+
+    <div class="mt-8">
+      Chargement...
+    </div>
+
+  } @else {
+
+    @if (errorMessage) {
+      <div
+        class="mt-6 rounded-lg border border-red-200 p-4 text-sm text-red-600"
+      >
+        {{ errorMessage }}
+      </div>
+    }
+
+    @if (canEdit) {
+  <form
+    class="mt-8 space-y-6"
+    (ngSubmit)="submit()"
+  >
+
+      <div>
+
+        <label
+          for="clientName"
+          class="mb-2 block text-sm font-medium"
+        >
+          Nom du client
+        </label>
+
+        <input
+          id="clientName"
+          name="clientName"
+          type="text"
+          [(ngModel)]="clientName"
+          class="w-full rounded-lg border border-gray-300 px-4 py-3"
+        />
+
+      </div>
+
+      <div>
+
+        <label
+          for="clientPhone"
+          class="mb-2 block text-sm font-medium"
+        >
+          Téléphone
+        </label>
+
+        <input
+          id="clientPhone"
+          name="clientPhone"
+          type="text"
+          [(ngModel)]="clientPhone"
+          class="w-full rounded-lg border border-gray-300 px-4 py-3"
+        />
+
+      </div>
+
+      <div>
+
+        <label
+          for="clientEmail"
+          class="mb-2 block text-sm font-medium"
+        >
+          Email
+        </label>
+
+        <input
+          id="clientEmail"
+          name="clientEmail"
+          type="email"
+          [(ngModel)]="clientEmail"
+          class="w-full rounded-lg border border-gray-300 px-4 py-3"
+        />
+
+      </div>
+
+      <div>
+
+        <label
+          for="employee"
+          class="mb-2 block text-sm font-medium"
+        >
+          Employé
+        </label>
+
+        <select
+          id="employee"
+          name="employee"
+          [(ngModel)]="employeeId"
+          (change)="onEmployeeChange()"
+          class="w-full rounded-lg border border-gray-300 px-4 py-3"
+        >
+
+          <option value="">
+            Aucun employé spécifique
+          </option>
+
+          @for (employee of employees; track employee.id) {
+
+            <option
+              [value]="employee.id"
+              [disabled]="!employee.isActive"
+            >
+              {{ employee.fullName }}
+
+              @if (!employee.isActive) {
+                - Inactif
+              }
+            </option>
+
+          }
+
+        </select>
+
+      </div>
+
+      <div>
+
+        <label
+          for="bookingDate"
+          class="mb-2 block text-sm font-medium"
+        >
+          Date
+        </label>
+
+        <input
+          id="bookingDate"
+          name="bookingDate"
+          type="date"
+          [(ngModel)]="bookingDate"
+          (change)="onDateChange()"
+          class="w-full rounded-lg border border-gray-300 px-4 py-3"
+        />
+
+      </div>
+
+      <div>
+
+        <label
+          class="mb-3 block text-sm font-medium"
+        >
+          Créneaux disponibles
+        </label>
+
+        @if (isLoadingSlots) {
+
+          <div
+            class="rounded-lg border border-gray-200 px-4 py-4 text-sm text-gray-500"
+          >
+            Chargement des créneaux...
+          </div>
+
+        } @else {
+
+          @if (availableSlots.length === 0) {
+
+            <div
+              class="rounded-lg border border-gray-200 px-4 py-4 text-sm text-gray-500"
+            >
+              Aucun créneau disponible pour cette date.
+            </div>
+
+          } @else {
+
+            <div class="flex flex-wrap gap-3">
+
+              @for (
+                slot of availableSlots;
+                track slot.startTime
+              ) {
+
+                <button
+                  type="button"
+                  (click)="selectSlot(slot)"
+                  class="rounded-lg border px-4 py-2 text-sm transition"
+                  [class.border-black]="isSelectedSlot(slot)"
+                  [class.bg-black]="isSelectedSlot(slot)"
+                  [class.text-white]="isSelectedSlot(slot)"
+                  [class.border-gray-300]="!isSelectedSlot(slot)"
+                  [class.bg-white]="!isSelectedSlot(slot)"
+                  [class.text-gray-900]="!isSelectedSlot(slot)"
+                >
+                  {{ slot.startTime.substring(0, 5) }}
+                </button>
+
+              }
+
+            </div>
+
+          }
+
+        }
+
+      </div>
+
+      @if (startTime) {
+
+        <div
+          class="rounded-lg border border-green-200 bg-green-50 p-4 text-sm text-green-700"
+        >
+          Créneau sélectionné :
+
+          <strong>
+            {{ bookingDate }}
+            -
+            {{ startTime }}
+          </strong>
+        </div>
+
+      }
+
+      <div>
+
+        <label
+          for="notes"
+          class="mb-2 block text-sm font-medium"
+        >
+          Notes
+        </label>
+
+        <textarea
+          id="notes"
+          name="notes"
+          rows="4"
+          [(ngModel)]="notes"
+          class="w-full rounded-lg border border-gray-300 px-4 py-3"
+        ></textarea>
+
+      </div>
+
+      <div class="flex justify-end gap-3">
+
+        <a
+          [routerLink]="[
+            '/dashboard/salons',
+            salonId,
+            'bookings'
+          ]"
+          class="rounded-lg border border-gray-300 px-5 py-3 text-sm"
+        >
+          Annuler
+        </a>
+
+        <button
+          type="submit"
+          [disabled]="isSubmitting || !startTime"
+          class="rounded-lg bg-black px-5 py-3 text-sm text-white disabled:cursor-not-allowed disabled:opacity-50"
+        >
+          @if (isSubmitting) {
+            Enregistrement...
+          } @else {
+            Enregistrer
+          }
+        </button>
+
+      </div>
+
+    </form>
+  }
+  }
+
+</section>
