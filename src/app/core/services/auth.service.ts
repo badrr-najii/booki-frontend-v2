@@ -19,9 +19,6 @@ export class AuthService {
   private readonly accessTokenKey =
     'booki_access_token';
 
-  private readonly refreshTokenKey =
-    'booki_refresh_token';
-
   constructor(
     private http: HttpClient
   ) { }
@@ -43,7 +40,10 @@ export class AuthService {
     return this.http
       .post<AuthResponse>(
         `${this.apiUrl}/login`,
-        request
+        request,
+        {
+          withCredentials: true
+        }
       )
       .pipe(
         tap(response =>
@@ -60,11 +60,6 @@ export class AuthService {
       this.accessTokenKey,
       response.accessToken
     );
-
-    localStorage.setItem(
-      this.refreshTokenKey,
-      response.refreshToken
-    );
   }
 
   getAccessToken(): string | null {
@@ -73,11 +68,6 @@ export class AuthService {
     );
   }
 
-  getRefreshToken(): string | null {
-    return localStorage.getItem(
-      this.refreshTokenKey
-    );
-  }
 
   isAuthenticated(): boolean {
     const token = this.getAccessToken();
@@ -117,10 +107,14 @@ export class AuthService {
   }
 
   logout(): Observable<{ message: string }> {
+
     return this.http
       .post<{ message: string }>(
         `${this.apiUrl}/logout`,
-        {}
+        {},
+        {
+          withCredentials: true
+        }
       )
       .pipe(
         finalize(() => {
@@ -134,28 +128,16 @@ export class AuthService {
     localStorage.removeItem(
       this.accessTokenKey
     );
-
-    localStorage.removeItem(
-      this.refreshTokenKey
-    );
   }
 
   refreshToken(): Observable<AuthResponse> {
 
-    const refreshToken =
-      this.getRefreshToken();
-
-    if (!refreshToken) {
-      throw new Error(
-        'Refresh token not found'
-      );
-    }
-
     return this.http
       .post<AuthResponse>(
         `${this.apiUrl}/refresh-token`,
+        {},
         {
-          refreshToken
+          withCredentials: true
         }
       )
       .pipe(
