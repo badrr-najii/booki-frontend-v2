@@ -70,27 +70,14 @@ export const authInterceptor: HttpInterceptorFn =
             );
           }
 
-          const refreshToken =
-            authService.getRefreshToken();
-
-          if (!refreshToken) {
-
-            authService.clearSession();
-
-            router.navigate([
-              '/login'
-            ]);
-
-            return throwError(
-              () => error
-            );
-          }
-
           if (!isRefreshing) {
+
             isRefreshing = true;
             refreshFailed = false;
 
-            refreshTokenSubject.next(null);
+            refreshTokenSubject.next(
+              null
+            );
 
             return authService
               .refreshToken()
@@ -99,6 +86,7 @@ export const authInterceptor: HttpInterceptorFn =
                 switchMap(() => {
 
                   isRefreshing = false;
+                  refreshFailed = false;
 
                   const newAccessToken =
                     authService
@@ -139,6 +127,7 @@ export const authInterceptor: HttpInterceptorFn =
                   refreshError => {
 
                     isRefreshing = false;
+                    refreshFailed = true;
 
                     refreshTokenSubject.next(
                       null
@@ -160,8 +149,11 @@ export const authInterceptor: HttpInterceptorFn =
           }
 
           return refreshTokenSubject.pipe(
+
             filter(
-              token => token !== null || refreshFailed
+              token =>
+                token !== null ||
+                refreshFailed
             ),
 
             take(1),
@@ -169,7 +161,10 @@ export const authInterceptor: HttpInterceptorFn =
             switchMap(
               newAccessToken => {
 
-                if (refreshFailed || !newAccessToken) {
+                if (
+                  refreshFailed ||
+                  !newAccessToken
+                ) {
                   return throwError(
                     () => error
                   );

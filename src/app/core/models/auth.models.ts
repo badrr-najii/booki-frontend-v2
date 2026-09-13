@@ -13,7 +13,6 @@ export interface LoginRequest {
 
 export interface AuthResponse {
   accessToken: string;
-  refreshToken: string;
   expiresAt: string;
   userName: string;
   email: string;
