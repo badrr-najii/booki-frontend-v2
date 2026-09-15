@@ -40,9 +40,13 @@ export const authInterceptor: HttpInterceptorFn =
     const router =
       inject(Router);
 
-    if (
-      req.url.includes('/api/auth/refresh-token')
-    ) {
+    const isAuthEndpoint =
+      req.url.includes('/api/auth/login') ||
+      req.url.includes('/api/auth/register') ||
+      req.url.includes('/api/auth/logout') ||
+      req.url.includes('/api/auth/refresh-token');
+
+    if (isAuthEndpoint) {
       return next(req);
     }
 
