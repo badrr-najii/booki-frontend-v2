@@ -1,5 +1,15 @@
 :host {
     display: block;
+    min-height: 100vh;
+    padding: 40px 24px;
+    background: #f9fafb;
+}
+
+:host>* {
+    width: 100%;
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .salon-header {
@@ -503,6 +513,7 @@ h2 {
     text-align: center;
     white-space: nowrap;
 }
+
 /* Booking activity */
 
 .booking-activity-section {
@@ -616,6 +627,18 @@ h2 {
         align-items: flex-start;
         flex-direction: column;
         gap: 6px;
+    }
+
+    :host {
+        padding: 24px 16px;
+    }
+
+    .header-actions {
+        width: 100%;
+    }
+
+    .header-actions .btn {
+        flex: 1 1 auto;
     }
 
 

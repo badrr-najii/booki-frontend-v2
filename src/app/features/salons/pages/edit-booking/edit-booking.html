@@ -1,4 +1,4 @@
-<section class="mx-auto max-w-3xl px-6 py-8">
+﻿<section class="mx-auto max-w-3xl px-4 py-8 sm:px-6 lg:py-10">
 
   <a
     [routerLink]="[
@@ -31,7 +31,7 @@
 
     @if (errorMessage) {
       <div
-        class="mt-6 rounded-lg border border-red-200 p-4 text-sm text-red-600"
+        class="mt-6 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700"
       >
         {{ errorMessage }}
       </div>
@@ -57,7 +57,7 @@
           name="clientName"
           type="text"
           [(ngModel)]="clientName"
-          class="w-full rounded-lg border border-gray-300 px-4 py-3"
+          class="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-gray-950 outline-none transition placeholder:text-gray-400 focus:border-gray-950 focus:ring-2 focus:ring-gray-950/10"
         />
 
       </div>
@@ -76,7 +76,7 @@
           name="clientPhone"
           type="text"
           [(ngModel)]="clientPhone"
-          class="w-full rounded-lg border border-gray-300 px-4 py-3"
+          class="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-gray-950 outline-none transition placeholder:text-gray-400 focus:border-gray-950 focus:ring-2 focus:ring-gray-950/10"
         />
 
       </div>
@@ -95,7 +95,7 @@
           name="clientEmail"
           type="email"
           [(ngModel)]="clientEmail"
-          class="w-full rounded-lg border border-gray-300 px-4 py-3"
+          class="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-gray-950 outline-none transition placeholder:text-gray-400 focus:border-gray-950 focus:ring-2 focus:ring-gray-950/10"
         />
 
       </div>
@@ -114,7 +114,7 @@
           name="employee"
           [(ngModel)]="employeeId"
           (change)="onEmployeeChange()"
-          class="w-full rounded-lg border border-gray-300 px-4 py-3"
+          class="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-gray-950 outline-none transition placeholder:text-gray-400 focus:border-gray-950 focus:ring-2 focus:ring-gray-950/10"
         >
 
           <option value="">
@@ -155,7 +155,7 @@
           type="date"
           [(ngModel)]="bookingDate"
           (change)="onDateChange()"
-          class="w-full rounded-lg border border-gray-300 px-4 py-3"
+          class="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-gray-950 outline-none transition placeholder:text-gray-400 focus:border-gray-950 focus:ring-2 focus:ring-gray-950/10"
         />
 
       </div>
@@ -249,12 +249,12 @@
           name="notes"
           rows="4"
           [(ngModel)]="notes"
-          class="w-full rounded-lg border border-gray-300 px-4 py-3"
+          class="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-gray-950 outline-none transition placeholder:text-gray-400 focus:border-gray-950 focus:ring-2 focus:ring-gray-950/10"
         ></textarea>
 
       </div>
 
-      <div class="flex justify-end gap-3">
+      <div class="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
 
         <a
           [routerLink]="[
@@ -262,7 +262,7 @@
             salonId,
             'bookings'
           ]"
-          class="rounded-lg border border-gray-300 px-5 py-3 text-sm"
+          class="inline-flex min-h-11 items-center justify-center rounded-xl border border-gray-300 bg-white px-5 py-3 text-sm font-medium text-gray-800 transition hover:bg-gray-50"
         >
           Annuler
         </a>

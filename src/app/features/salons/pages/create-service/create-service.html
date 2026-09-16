@@ -1,4 +1,4 @@
-<section class="mx-auto max-w-3xl px-6 py-8">
+﻿<section class="mx-auto max-w-3xl px-4 py-8 sm:px-6 lg:py-10">
 
   <a
     [routerLink]="[
@@ -29,7 +29,7 @@
 
   @if (errorMessage) {
     <div
-      class="mt-6 rounded-lg border border-red-200 p-4 text-sm text-red-600"
+      class="mt-6 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700"
     >
       {{ errorMessage }}
     </div>
@@ -56,7 +56,7 @@
         maxlength="100"
         formControlName="name"
         placeholder="Ex: Coupe homme"
-        class="w-full rounded-lg border border-gray-300 px-4 py-3"
+        class="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-gray-950 outline-none transition placeholder:text-gray-400 focus:border-gray-950 focus:ring-2 focus:ring-gray-950/10"
       />
 
       @if (
@@ -87,7 +87,7 @@
           min="0"
           step="0.01"
           formControlName="price"
-          class="w-full rounded-lg border border-gray-300 px-4 py-3"
+          class="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-gray-950 outline-none transition placeholder:text-gray-400 focus:border-gray-950 focus:ring-2 focus:ring-gray-950/10"
         />
 
         @if (
@@ -116,7 +116,7 @@
           min="5"
           max="480"
           formControlName="durationMinutes"
-          class="w-full rounded-lg border border-gray-300 px-4 py-3"
+          class="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-gray-950 outline-none transition placeholder:text-gray-400 focus:border-gray-950 focus:ring-2 focus:ring-gray-950/10"
         />
 
         @if (
@@ -147,7 +147,7 @@
         maxlength="500"
         formControlName="description"
         placeholder="Description du service..."
-        class="w-full rounded-lg border border-gray-300 px-4 py-3"
+        class="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-gray-950 outline-none transition placeholder:text-gray-400 focus:border-gray-950 focus:ring-2 focus:ring-gray-950/10"
       ></textarea>
 
       @if (
@@ -174,7 +174,7 @@
 
     </label>
 
-    <div class="flex justify-end gap-3">
+    <div class="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
 
       <a
         [routerLink]="[
@@ -182,7 +182,7 @@
           salonId,
           'services'
         ]"
-        class="rounded-lg border border-gray-300 px-5 py-3 text-sm"
+        class="inline-flex min-h-11 items-center justify-center rounded-xl border border-gray-300 bg-white px-5 py-3 text-sm font-medium text-gray-800 transition hover:bg-gray-50"
       >
         Annuler
       </a>
@@ -190,7 +190,7 @@
       <button
         type="submit"
         [disabled]="isSubmitting"
-        class="rounded-lg bg-black px-5 py-3 text-sm text-white disabled:opacity-50"
+        class="inline-flex min-h-11 items-center justify-center rounded-xl bg-gray-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-50"
       >
         @if (isSubmitting) {
           Création...
