@@ -1,4 +1,4 @@
-<section class="mx-auto max-w-3xl px-6 py-8">
+﻿<section class="mx-auto max-w-3xl px-4 py-8 sm:px-6 lg:py-10">
 
   <a
     [routerLink]="[
@@ -8,7 +8,7 @@
     ]"
     class="text-sm text-gray-500 hover:text-gray-900"
   >
-    ← Retour aux services
+    â† Retour aux services
   </a>
 
   <div class="mt-6">
@@ -29,7 +29,7 @@
 
   @if (errorMessage) {
     <div
-      class="mt-6 rounded-lg border border-red-200 p-4 text-sm text-red-600"
+      class="mt-6 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700"
     >
       {{ errorMessage }}
     </div>
@@ -56,7 +56,7 @@
         maxlength="100"
         formControlName="name"
         placeholder="Ex: Coupe homme"
-        class="w-full rounded-lg border border-gray-300 px-4 py-3"
+        class="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-gray-950 outline-none transition placeholder:text-gray-400 focus:border-gray-950 focus:ring-2 focus:ring-gray-950/10"
       />
 
       @if (
@@ -64,7 +64,7 @@
         form.controls.name.invalid
       ) {
         <p class="mt-1 text-sm text-red-600">
-          Le nom du service est obligatoire et ne doit pas dépasser 100 caractères.
+          Le nom du service est obligatoire et ne doit pas dÃ©passer 100 caractÃ¨res.
         </p>
       }
 
@@ -87,7 +87,7 @@
           min="0"
           step="0.01"
           formControlName="price"
-          class="w-full rounded-lg border border-gray-300 px-4 py-3"
+          class="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-gray-950 outline-none transition placeholder:text-gray-400 focus:border-gray-950 focus:ring-2 focus:ring-gray-950/10"
         />
 
         @if (
@@ -95,7 +95,7 @@
           form.controls.price.invalid
         ) {
           <p class="mt-1 text-sm text-red-600">
-            Le prix doit être supérieur ou égal à 0.
+            Le prix doit Ãªtre supÃ©rieur ou Ã©gal Ã  0.
           </p>
         }
 
@@ -107,7 +107,7 @@
           for="durationMinutes"
           class="mb-2 block text-sm font-medium"
         >
-          Durée (minutes)
+          DurÃ©e (minutes)
         </label>
 
         <input
@@ -116,7 +116,7 @@
           min="5"
           max="480"
           formControlName="durationMinutes"
-          class="w-full rounded-lg border border-gray-300 px-4 py-3"
+          class="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-gray-950 outline-none transition placeholder:text-gray-400 focus:border-gray-950 focus:ring-2 focus:ring-gray-950/10"
         />
 
         @if (
@@ -124,7 +124,7 @@
           form.controls.durationMinutes.invalid
         ) {
           <p class="mt-1 text-sm text-red-600">
-            La durée doit être comprise entre 5 et 480 minutes.
+            La durÃ©e doit Ãªtre comprise entre 5 et 480 minutes.
           </p>
         }
 
@@ -147,7 +147,7 @@
         maxlength="500"
         formControlName="description"
         placeholder="Description du service..."
-        class="w-full rounded-lg border border-gray-300 px-4 py-3"
+        class="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-gray-950 outline-none transition placeholder:text-gray-400 focus:border-gray-950 focus:ring-2 focus:ring-gray-950/10"
       ></textarea>
 
       @if (
@@ -155,7 +155,7 @@
         form.controls.description.invalid
       ) {
         <p class="mt-1 text-sm text-red-600">
-          La description ne doit pas dépasser 500 caractères.
+          La description ne doit pas dÃ©passer 500 caractÃ¨res.
         </p>
       }
 
@@ -174,7 +174,7 @@
 
     </label>
 
-    <div class="flex justify-end gap-3">
+    <div class="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
 
       <a
         [routerLink]="[
@@ -182,7 +182,7 @@
           salonId,
           'services'
         ]"
-        class="rounded-lg border border-gray-300 px-5 py-3 text-sm"
+        class="inline-flex min-h-11 items-center justify-center rounded-xl border border-gray-300 bg-white px-5 py-3 text-sm font-medium text-gray-800 transition hover:bg-gray-50"
       >
         Annuler
       </a>
@@ -190,12 +190,12 @@
       <button
         type="submit"
         [disabled]="isSubmitting"
-        class="rounded-lg bg-black px-5 py-3 text-sm text-white disabled:opacity-50"
+        class="inline-flex min-h-11 items-center justify-center rounded-xl bg-gray-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-50"
       >
         @if (isSubmitting) {
-          Création...
+          CrÃ©ation...
         } @else {
-          Créer le service
+          CrÃ©er le service
         }
       </button>
 

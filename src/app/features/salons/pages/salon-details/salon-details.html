@@ -1,4 +1,4 @@
-@if (isLoading) {
+﻿@if (isLoading) {
 
 <p>
     Chargement...
@@ -41,7 +41,7 @@
                 salon.id,
                 'bookings'
             ]" class="btn btn-primary">
-            Réservations
+            RÃ©servations
         </a>
 
         <a [routerLink]="[
@@ -57,7 +57,7 @@
                 salon.id,
                 'employees'
             ]" class="btn">
-            Employés
+            EmployÃ©s
         </a>
 
         <a [routerLink]="[
@@ -78,7 +78,7 @@
     <article class="stat-card">
 
         <span class="stat-label">
-            Réservations aujourd'hui
+            RÃ©servations aujourd'hui
         </span>
 
         <strong class="stat-value">
@@ -132,7 +132,7 @@
     <article class="stat-card">
 
         <span class="stat-label">
-            Équipe
+            Ã‰quipe
         </span>
 
         <strong class="stat-value">
@@ -158,11 +158,11 @@
             <div>
 
                 <p class="eyebrow">
-                    Activité
+                    ActivitÃ©
                 </p>
 
                 <h2>
-                    Réservations
+                    RÃ©servations
                 </h2>
 
             </div>
@@ -314,7 +314,7 @@
         </p>
 
         <h2>
-            Taux des réservations
+            Taux des rÃ©servations
         </h2>
 
     </div>
@@ -324,7 +324,7 @@
         <article class="rate-card">
 
             <span>
-                Taux de réservation
+                Taux de rÃ©servation
             </span>
 
             <strong>
@@ -337,7 +337,7 @@
         <article class="rate-card">
 
             <span>
-                Taux de complétion
+                Taux de complÃ©tion
             </span>
 
             <strong>
@@ -368,11 +368,11 @@
     <div class="section-heading">
 
         <p class="eyebrow">
-            Réservations
+            RÃ©servations
         </p>
 
         <h2>
-            Répartition par statut
+            RÃ©partition par statut
         </h2>
 
     </div>
@@ -394,11 +394,11 @@
         <article class="status-card">
 
             <span>
-                Confirmées
+                ConfirmÃ©es
             </span>
 
             <strong>
-                {{ statusDistribution['Confirmées'] }}
+                {{ statusDistribution['ConfirmÃ©es'] }}
             </strong>
 
         </article>
@@ -406,11 +406,11 @@
         <article class="status-card">
 
             <span>
-                Terminées
+                TerminÃ©es
             </span>
 
             <strong>
-                {{ statusDistribution['Terminées'] }}
+                {{ statusDistribution['TerminÃ©es'] }}
             </strong>
 
         </article>
@@ -418,11 +418,11 @@
         <article class="status-card">
 
             <span>
-                Annulées
+                AnnulÃ©es
             </span>
 
             <strong>
-                {{ statusDistribution['Annulées'] }}
+                {{ statusDistribution['AnnulÃ©es'] }}
             </strong>
 
         </article>
@@ -452,7 +452,7 @@
         </p>
 
         <h2>
-            Évolution du chiffre d'affaires
+            Ã‰volution du chiffre d'affaires
         </h2>
 
     </div>
@@ -460,7 +460,7 @@
     @if (revenueTrend.length === 0) {
 
     <div class="empty-state">
-        Aucune donnée disponible pour le moment.
+        Aucune donnÃ©e disponible pour le moment.
     </div>
 
     } @else {
@@ -503,11 +503,11 @@
     <div class="section-heading">
 
         <p class="eyebrow">
-            Activité
+            ActivitÃ©
         </p>
 
         <h2>
-            Réservations des 30 derniers jours
+            RÃ©servations des 30 derniers jours
         </h2>
 
     </div>
@@ -515,7 +515,7 @@
     @if (bookingsByDay.length === 0) {
 
     <div class="empty-state">
-        Aucune donnée disponible pour le moment.
+        Aucune donnÃ©e disponible pour le moment.
     </div>
 
     } @else {
@@ -559,7 +559,7 @@
     <div class="section-heading">
 
         <p class="eyebrow">
-            Popularité
+            PopularitÃ©
         </p>
 
         <h2>
@@ -571,7 +571,7 @@
     @if (topServices.length === 0) {
 
     <div class="empty-state">
-        Aucune donnée disponible pour le moment.
+        Aucune donnÃ©e disponible pour le moment.
     </div>
 
     } @else {
@@ -595,7 +595,7 @@
 
                     <span>
                         {{ service.count }}
-                        réservation(s)
+                        rÃ©servation(s)
                     </span>
 
                 </div>
@@ -637,11 +637,11 @@
     <div class="section-heading">
 
         <p class="eyebrow">
-            Équipe
+            Ã‰quipe
         </p>
 
         <h2>
-            Employés les plus performants
+            EmployÃ©s les plus performants
         </h2>
 
     </div>
@@ -649,7 +649,7 @@
     @if (topEmployees.length === 0) {
 
     <div class="empty-state">
-        Aucune donnée disponible pour le moment.
+        Aucune donnÃ©e disponible pour le moment.
     </div>
 
     } @else {
@@ -671,7 +671,7 @@
 
                 <p>
                     {{ employee.bookingsCount }}
-                    réservation(s)
+                    rÃ©servation(s)
                 </p>
 
             </div>
@@ -704,11 +704,11 @@
     <div class="section-heading">
 
         <p class="eyebrow">
-            Activité récente
+            ActivitÃ© rÃ©cente
         </p>
 
         <h2>
-            Dernières réservations
+            DerniÃ¨res rÃ©servations
         </h2>
 
     </div>
@@ -716,7 +716,7 @@
     @if (recentBookings.length === 0) {
 
     <div class="empty-state">
-        Aucune réservation récente.
+        Aucune rÃ©servation rÃ©cente.
     </div>
 
     } @else {

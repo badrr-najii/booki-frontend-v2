@@ -1,10 +1,10 @@
-<section class="mx-auto max-w-5xl px-6 py-8">
+﻿<section class="mx-auto max-w-5xl px-6 py-8">
 
   <a
     [routerLink]="['/dashboard/salons', salonId]"
     class="text-sm text-gray-500 hover:text-gray-900"
   >
-    ← Retour au salon
+    â† Retour au salon
   </a>
 
   <div class="mt-6">
@@ -26,7 +26,7 @@
   @if (errorMessage) {
 
     <div
-      class="mt-6 rounded-lg border border-red-200 p-4 text-sm text-red-600"
+      class="mt-6 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700"
     >
       {{ errorMessage }}
     </div>
@@ -56,7 +56,7 @@
       @for (day of days; track day.day) {
 
         <div
-          class="rounded-xl border border-gray-200 p-5"
+          class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition hover:border-gray-300 sm:p-6"
         >
 
           <div
@@ -71,7 +71,7 @@
 
               <p class="mt-1 text-xs text-gray-500">
                 @if (day.isClosed) {
-                  Fermé
+                  FermÃ©
                 } @else {
                   Ouvert
                 }
@@ -88,7 +88,7 @@
               />
 
               <span class="text-sm">
-                Fermé
+                FermÃ©
               </span>
 
             </label>
@@ -114,7 +114,7 @@
               </div>
 
               <span class="mt-5 text-gray-400">
-                →
+                â†’
               </span>
 
               <div>

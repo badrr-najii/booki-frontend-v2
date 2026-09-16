@@ -1,7 +1,7 @@
-<section class="mx-auto max-w-6xl px-6 py-8">
+﻿<section class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-10">
 
   <a [routerLink]="['/dashboard/salons', salonId]" class="text-sm text-gray-500 hover:text-gray-900">
-    ← Retour au salon
+    â† Retour au salon
   </a>
 
   <div class="mt-6">
@@ -11,7 +11,7 @@
     </p>
 
     <h1 class="text-2xl font-bold">
-      Réservations
+      RÃ©servations
     </h1>
 
   </div>
@@ -29,21 +29,21 @@
   @if (isLoading) {
 
   <div class="mt-8">
-    Chargement des réservations...
+    Chargement des rÃ©servations...
   </div>
 
   } @else {
 
   @if (bookings.length === 0) {
 
-  <div class="mt-8 rounded-xl border border-gray-200 p-8 text-center">
+  <div class="mt-8 rounded-2xl border border-dashed border-gray-300 bg-white px-6 py-12 text-center">
 
     <h2 class="text-lg font-semibold">
-      Aucune réservation
+      Aucune rÃ©servation
     </h2>
 
     <p class="mt-2 text-sm text-gray-500">
-      Les réservations de votre salon apparaîtront ici.
+      Les rÃ©servations de votre salon apparaÃ®tront ici.
     </p>
 
   </div>
@@ -57,9 +57,9 @@
     track booking.id
     ) {
 
-    <div class="rounded-xl border border-gray-200 p-5">
+    <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition hover:border-gray-300 sm:p-6">
 
-      <div class="flex items-start justify-between gap-6">
+      <div class="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between sm:gap-6">
 
         <div class="w-full">
 
@@ -95,7 +95,7 @@
 
             <p>
               <strong>
-                Employé :
+                EmployÃ© :
               </strong>
 
               {{ booking.employeeName }}
@@ -150,7 +150,7 @@
 
             <p>
               <strong>
-                Téléphone :
+                TÃ©lÃ©phone :
               </strong>
 
               {{ booking.clientPhone }}
