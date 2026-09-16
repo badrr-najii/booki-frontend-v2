@@ -91,4 +91,56 @@ export class SalonService {
       `${this.apiUrl}/slug/${encodeURIComponent(slug)}`
     );
   }
+
+  createWithImage(
+    request: CreateSalonRequest,
+    logoImage: File
+  ): Observable<SalonResponse> {
+
+    const formData = new FormData();
+
+    formData.append('Name', request.name);
+    formData.append('Slug', request.slug);
+
+    if (request.description) {
+      formData.append('Description', request.description);
+    }
+
+    if (request.address) {
+      formData.append('Address', request.address);
+    }
+
+    if (request.city) {
+      formData.append('City', request.city);
+    }
+
+    if (request.phoneNumber) {
+      formData.append('PhoneNumber', request.phoneNumber);
+    }
+
+    if (request.email) {
+      formData.append('Email', request.email);
+    }
+
+    if (request.latitude != null) {
+      formData.append(
+        'Latitude',
+        request.latitude.toString()
+      );
+    }
+
+    if (request.longitude != null) {
+      formData.append(
+        'Longitude',
+        request.longitude.toString()
+      );
+    }
+
+    formData.append('LogoImage', logoImage);
+
+    return this.http.post<SalonResponse>(
+      `${this.apiUrl}/with-image`,
+      formData
+    );
+  }
 }

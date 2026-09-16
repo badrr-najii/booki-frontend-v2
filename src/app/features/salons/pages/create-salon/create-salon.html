@@ -98,6 +98,45 @@
         </div>
 
         <div>
+          <label class="mb-2 block text-sm font-medium">
+            Photo du salon
+          </label>
+
+          <label
+            class="flex cursor-pointer flex-col items-center justify-center overflow-hidden rounded-2xl border border-dashed border-gray-300 bg-gray-50 transition hover:border-gray-400 hover:bg-gray-100"
+          >
+            @if (logoPreviewUrl) {
+              <img
+                [src]="logoPreviewUrl"
+                alt="Aperçu du salon"
+                class="h-56 w-full object-cover"
+              >
+            } @else {
+              <div class="px-6 py-10 text-center">
+                <p class="font-medium text-gray-900">
+                  Ajouter une photo
+                </p>
+                <p class="mt-1 text-sm text-gray-500">
+                  JPG, PNG, GIF ou WEBP · 5 MB max
+                </p>
+              </div>
+            }
+
+            <input
+              type="file"
+              accept="image/jpeg,image/png,image/gif,image/webp"
+              (change)="onLogoSelected($event)"
+              class="sr-only"
+            >
+          </label>
+
+          @if (logoPreviewUrl) {
+            <p class="mt-2 text-xs text-gray-500">
+              Cliquez sur la photo pour la remplacer.
+            </p>
+          }
+        </div>
+        <div>
 
           <label
             class="mb-2 block
@@ -155,7 +194,7 @@
             <input
               type="text"
               formControlName="phoneNumber"
-              placeholder="+212..."
+              placeholder="0612345678"
               class="w-full rounded-xl
                      border border-gray-300
                      px-4 py-3

@@ -28,6 +28,8 @@ export class CreateSalon {
 
   isLoading = false;
   errorMessage = '';
+  selectedLogo: File | null = null;
+  logoPreviewUrl: string | null = null;
 
   salonForm;
 
@@ -91,6 +93,47 @@ export class CreateSalon {
       .setValue(slug);
   }
 
+  onLogoSelected(event: Event): void {
+    this.errorMessage = '';
+
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+
+    if (!file) {
+      return;
+    }
+
+    const allowedTypes = [
+      'image/jpeg',
+      'image/png',
+      'image/gif',
+      'image/webp'
+    ];
+
+    if (!allowedTypes.includes(file.type)) {
+      this.errorMessage =
+        'Format non supporté. Utilisez JPG, PNG, GIF ou WEBP.';
+      input.value = '';
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      this.errorMessage =
+        'La photo ne doit pas dépasser 5 MB.';
+      input.value = '';
+      return;
+    }
+
+    this.selectedLogo = file;
+
+    if (this.logoPreviewUrl) {
+      URL.revokeObjectURL(this.logoPreviewUrl);
+    }
+
+    this.logoPreviewUrl =
+      URL.createObjectURL(file);
+  }
+
   onSubmit(): void {
 
     this.errorMessage = '';
@@ -114,7 +157,7 @@ export class CreateSalon {
     const form =
       this.salonForm.getRawValue();
 
-    this.salonService.create({
+    const request = {
       name: form.name.trim(),
       slug: form.slug.trim(),
       description:
@@ -130,22 +173,28 @@ export class CreateSalon {
       logoUrl: null,
       latitude: null,
       longitude: null
-    })
-      .subscribe({
-        next: () => {
-          this.isLoading = false;
-          this.router.navigate([
-            '/dashboard'
-          ]);
-        },
+    };
 
-        error: error => {
+    const createRequest = this.selectedLogo
+      ? this.salonService.createWithImage(
+        request,
+        this.selectedLogo
+      )
+      : this.salonService.create(request);
 
-          this.isLoading = false;
+    createRequest.subscribe({
+      next: () => {
+        this.isLoading = false;
+        this.router.navigate([
+          '/dashboard'
+        ]);
+      },
 
-          this.errorMessage =
-            'Impossible de créer le salon.';
-        }
-      });
+      error: () => {
+        this.isLoading = false;
+        this.errorMessage =
+          'Impossible de créer le salon.';
+      }
+    });
   }
 }
