@@ -17,120 +17,111 @@
 
     @if (isLoading) {
 
-      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        @for (item of [1, 2, 3]; track item) {
-          <div
-            class="h-80 animate-pulse rounded-3xl border border-gray-200 bg-gray-100">
-          </div>
-        }
+    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      @for (item of [1, 2, 3]; track item) {
+      <div class="h-80 animate-pulse rounded-3xl border border-gray-200 bg-gray-100">
       </div>
+      }
+    </div>
 
     } @else if (errorMessage) {
 
-      <div
-        class="rounded-2xl border border-red-200 bg-red-50 px-5 py-4 text-sm text-red-700">
-        {{ errorMessage }}
-      </div>
+    <div class="rounded-2xl border border-red-200 bg-red-50 px-5 py-4 text-sm text-red-700">
+      {{ errorMessage }}
+    </div>
 
     } @else if (salons.length === 0) {
 
-      <div
-        class="rounded-3xl border border-dashed border-gray-300 bg-gray-50 px-6 py-12 text-center">
+    <div class="rounded-3xl border border-dashed border-gray-300 bg-gray-50 px-6 py-12 text-center">
 
-        <h3 class="text-lg font-semibold text-gray-950">
-          Aucun salon disponible
-        </h3>
+      <h3 class="text-lg font-semibold text-gray-950">
+        Aucun salon disponible
+      </h3>
 
-        <p class="mt-2 text-sm text-gray-500">
-          De nouveaux salons seront bientôt disponibles.
-        </p>
-      </div>
+      <p class="mt-2 text-sm text-gray-500">
+        De nouveaux salons seront bientôt disponibles.
+      </p>
+    </div>
 
     } @else {
 
-      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
 
-        @for (salon of salons; track salon.id) {
+      @for (salon of salons; track salon.id) {
 
-          <article
-            class="group flex overflow-hidden rounded-3xl border border-gray-200 bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl">
+      <article
+        class="group flex overflow-hidden rounded-3xl border border-gray-200 bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl">
 
-            <div class="flex w-full flex-col">
+        <div class="flex w-full flex-col">
 
-              @if (salon.logoUrl) {
-                <img
-                  [src]="salon.logoUrl"
-                  [alt]="'Logo de ' + salon.name"
-                  class="h-48 w-full bg-gray-100 object-cover"
-                  loading="lazy">
-              } @else {
-                <div
-                  class="flex h-48 items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200">
+          @if (getLogoUrl(salon); as logoUrl) {
+          <img [src]="logoUrl" [alt]="'Logo de ' + salon.name" class="h-48 w-full bg-gray-100 object-cover"
+            loading="lazy">
+          } @else {
+          <div class="flex h-48 items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200">
 
-                  <span class="text-3xl font-bold text-gray-400">
-                    {{ salon.name.charAt(0).toUpperCase() }}
-                  </span>
-                </div>
+            <span class="text-3xl font-bold text-gray-400">
+              {{ salon.name.charAt(0).toUpperCase() }}
+            </span>
+          </div>
+          }
+
+          <div class="flex flex-1 flex-col p-6">
+
+            <h3 class="text-xl font-bold text-black">
+              {{ salon.name }}
+            </h3>
+
+            <p class="mt-1 text-sm text-gray-500">
+              {{ salon.city || 'Localisation non renseignée' }}
+            </p>
+
+            @if (salon.description) {
+            <p class="mt-4 line-clamp-2 text-sm leading-6 text-gray-500">
+              {{ salon.description }}
+            </p>
+            }
+
+            <div class="mt-5 flex flex-wrap gap-2">
+              @for (
+              service of salon.services.slice(0, 3);
+              track service.id
+              ) {
+              @if (service.isActive) {
+              <span class="rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-700">
+                {{ service.name }}
+              </span>
               }
+              }
+            </div>
 
-              <div class="flex flex-1 flex-col p-6">
+            <div class="mt-auto pt-6">
 
-                <h3 class="text-xl font-bold text-black">
-                  {{ salon.name }}
-                </h3>
-
-                <p class="mt-1 text-sm text-gray-500">
-                  {{ salon.city || 'Localisation non renseignée' }}
+              @if (getStartingPrice(salon); as price) {
+              <div class="mb-4">
+                <p class="text-xs text-gray-400">
+                  À partir de
                 </p>
 
-                @if (salon.description) {
-                  <p class="mt-4 line-clamp-2 text-sm leading-6 text-gray-500">
-                    {{ salon.description }}
-                  </p>
-                }
-
-                <div class="mt-5 flex flex-wrap gap-2">
-                  @for (
-                    service of salon.services.slice(0, 3);
-                    track service.id
-                  ) {
-                    @if (service.isActive) {
-                      <span
-                        class="rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-700">
-                        {{ service.name }}
-                      </span>
-                    }
-                  }
-                </div>
-
-                <div class="mt-auto pt-6">
-
-                  @if (getStartingPrice(salon); as price) {
-                    <div class="mb-4">
-                      <p class="text-xs text-gray-400">
-                        À partir de
-                      </p>
-
-                      <p class="text-lg font-bold text-black">
-                        {{ price }} MAD
-                      </p>
-                    </div>
-                  }
-
-                  <a
-                    [routerLink]="['/salons', salon.id, 'book']"
-                    class="inline-flex w-full items-center justify-center rounded-2xl bg-black px-4 py-3 font-semibold text-white transition hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2">
-
-                    Réserver
-                  </a>
-
-                </div>
+                <p class="text-lg font-bold text-black">
+                  {{ price }} MAD
+                </p>
               </div>
-            </div>
-          </article>
-        }
+              }
 
-      </div>
+              <a [routerLink]="['/salons', salon.id, 'book']"
+                class="inline-flex w-full items-center justify-center rounded-2xl bg-black px-4 py-3 font-semibold text-white transition hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2">
+
+                Réserver
+              </a>
+
+            </div>
+          </div>
+        </div>
+      </article>
+      }
+
+    </div>
     }
 
   </div>
