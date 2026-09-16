@@ -1,214 +1,137 @@
-<section class="py-20">
-  <div class="mx-auto max-w-6xl px-4">
-    <div class="mb-10 flex items-end justify-between gap-4">
-      <div>
-        <p class="mb-2 text-sm text-gray-500">À découvrir</p>
+<section id="salons" class="scroll-mt-24 py-16 sm:py-20">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6">
 
-        <h2 class="text-3xl font-bold text-black">
-          Salons populaires
-        </h2>
+    <div class="mb-10">
+      <p class="mb-2 text-sm font-medium text-gray-500">
+        À découvrir
+      </p>
 
-        <p class="mt-2 text-gray-500">
-          Découvrez les salons les mieux notés près de chez vous.
+      <h2 class="text-3xl font-bold tracking-tight text-black sm:text-4xl">
+        Découvrez nos salons
+      </h2>
+
+      <p class="mt-3 max-w-2xl text-gray-500">
+        Trouvez un salon et réservez votre prochain rendez-vous en quelques clics.
+      </p>
+    </div>
+
+    @if (isLoading) {
+
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        @for (item of [1, 2, 3]; track item) {
+          <div
+            class="h-80 animate-pulse rounded-3xl border border-gray-200 bg-gray-100">
+          </div>
+        }
+      </div>
+
+    } @else if (errorMessage) {
+
+      <div
+        class="rounded-2xl border border-red-200 bg-red-50 px-5 py-4 text-sm text-red-700">
+        {{ errorMessage }}
+      </div>
+
+    } @else if (salons.length === 0) {
+
+      <div
+        class="rounded-3xl border border-dashed border-gray-300 bg-gray-50 px-6 py-12 text-center">
+
+        <h3 class="text-lg font-semibold text-gray-950">
+          Aucun salon disponible
+        </h3>
+
+        <p class="mt-2 text-sm text-gray-500">
+          De nouveaux salons seront bientôt disponibles.
         </p>
       </div>
 
-      <a
-        href="#"
-        class="hidden text-sm font-medium text-black transition hover:opacity-60 md:block"
-      >
-        Voir tous les salons →
-      </a>
-    </div>
+    } @else {
 
-    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
 
-      <!-- Salon 1 -->
-      <article
-        class="overflow-hidden rounded-3xl border border-gray-200 bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl"
-      >
-        <div
-          class="flex h-52 items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200"
-        >
-          <span class="text-5xl">✂️</span>
-        </div>
+        @for (salon of salons; track salon.id) {
 
-        <div class="p-6">
-          <div class="mb-3 flex items-start justify-between gap-3">
-            <div>
-              <h3 class="text-xl font-bold text-black">
-                Maison Beauty
-              </h3>
+          <article
+            class="group flex overflow-hidden rounded-3xl border border-gray-200 bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl">
 
-              <p class="mt-1 text-sm text-gray-500">
-                Casablanca · Maarif
-              </p>
+            <div class="flex w-full flex-col">
+
+              @if (salon.logoUrl) {
+                <img
+                  [src]="salon.logoUrl"
+                  [alt]="'Logo de ' + salon.name"
+                  class="h-48 w-full bg-gray-100 object-cover"
+                  loading="lazy">
+              } @else {
+                <div
+                  class="flex h-48 items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200">
+
+                  <span class="text-3xl font-bold text-gray-400">
+                    {{ salon.name.charAt(0).toUpperCase() }}
+                  </span>
+                </div>
+              }
+
+              <div class="flex flex-1 flex-col p-6">
+
+                <h3 class="text-xl font-bold text-black">
+                  {{ salon.name }}
+                </h3>
+
+                <p class="mt-1 text-sm text-gray-500">
+                  {{ salon.city || 'Localisation non renseignée' }}
+                </p>
+
+                @if (salon.description) {
+                  <p class="mt-4 line-clamp-2 text-sm leading-6 text-gray-500">
+                    {{ salon.description }}
+                  </p>
+                }
+
+                <div class="mt-5 flex flex-wrap gap-2">
+                  @for (
+                    service of salon.services.slice(0, 3);
+                    track service.id
+                  ) {
+                    @if (service.isActive) {
+                      <span
+                        class="rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-700">
+                        {{ service.name }}
+                      </span>
+                    }
+                  }
+                </div>
+
+                <div class="mt-auto pt-6">
+
+                  @if (getStartingPrice(salon); as price) {
+                    <div class="mb-4">
+                      <p class="text-xs text-gray-400">
+                        À partir de
+                      </p>
+
+                      <p class="text-lg font-bold text-black">
+                        {{ price }} MAD
+                      </p>
+                    </div>
+                  }
+
+                  <a
+                    [routerLink]="['/salons', salon.id, 'book']"
+                    class="inline-flex w-full items-center justify-center rounded-2xl bg-black px-4 py-3 font-semibold text-white transition hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2">
+
+                    Réserver
+                  </a>
+
+                </div>
+              </div>
             </div>
+          </article>
+        }
 
-            <span
-              class="rounded-xl bg-black px-3 py-1 text-xs font-semibold text-white"
-            >
-              4.9 ★
-            </span>
-          </div>
+      </div>
+    }
 
-          <div class="mb-5 flex flex-wrap gap-2">
-            <span class="rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-700">
-              Coiffure
-            </span>
-
-            <span class="rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-700">
-              Soin
-            </span>
-
-            <span class="rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-700">
-              Barber
-            </span>
-          </div>
-
-          <div class="mb-5 flex items-center justify-between">
-            <div>
-              <p class="text-xs text-gray-400">À partir de</p>
-              <p class="text-lg font-bold text-black">100 MAD</p>
-            </div>
-
-            <p class="text-sm text-gray-500">
-              Disponible aujourd'hui
-            </p>
-          </div>
-
-          <button
-            class="w-full rounded-2xl bg-black px-4 py-3 font-medium text-white transition hover:bg-gray-800"
-          >
-            Voir le salon
-          </button>
-        </div>
-      </article>
-
-      <!-- Salon 2 -->
-      <article
-        class="overflow-hidden rounded-3xl border border-gray-200 bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl"
-      >
-        <div
-          class="flex h-52 items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200"
-        >
-          <span class="text-5xl">💈</span>
-        </div>
-
-        <div class="p-6">
-          <div class="mb-3 flex items-start justify-between gap-3">
-            <div>
-              <h3 class="text-xl font-bold text-black">
-                Black House Barber
-              </h3>
-
-              <p class="mt-1 text-sm text-gray-500">
-                Casablanca · Racine
-              </p>
-            </div>
-
-            <span
-              class="rounded-xl bg-black px-3 py-1 text-xs font-semibold text-white"
-            >
-              4.8 ★
-            </span>
-          </div>
-
-          <div class="mb-5 flex flex-wrap gap-2">
-            <span class="rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-700">
-              Coupe
-            </span>
-
-            <span class="rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-700">
-              Barbe
-            </span>
-
-            <span class="rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-700">
-              Styling
-            </span>
-          </div>
-
-          <div class="mb-5 flex items-center justify-between">
-            <div>
-              <p class="text-xs text-gray-400">À partir de</p>
-              <p class="text-lg font-bold text-black">80 MAD</p>
-            </div>
-
-            <p class="text-sm text-gray-500">
-              Prochain créneau 15:00
-            </p>
-          </div>
-
-          <button
-            class="w-full rounded-2xl bg-black px-4 py-3 font-medium text-white transition hover:bg-gray-800"
-          >
-            Voir le salon
-          </button>
-        </div>
-      </article>
-
-      <!-- Salon 3 -->
-      <article
-        class="overflow-hidden rounded-3xl border border-gray-200 bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl"
-      >
-        <div
-          class="flex h-52 items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200"
-        >
-          <span class="text-5xl">✨</span>
-        </div>
-
-        <div class="p-6">
-          <div class="mb-3 flex items-start justify-between gap-3">
-            <div>
-              <h3 class="text-xl font-bold text-black">
-                Glow Studio
-              </h3>
-
-              <p class="mt-1 text-sm text-gray-500">
-                Casablanca · Bourgogne
-              </p>
-            </div>
-
-            <span
-              class="rounded-xl bg-black px-3 py-1 text-xs font-semibold text-white"
-            >
-              4.7 ★
-            </span>
-          </div>
-
-          <div class="mb-5 flex flex-wrap gap-2">
-            <span class="rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-700">
-              Ongles
-            </span>
-
-            <span class="rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-700">
-              Spa
-            </span>
-
-            <span class="rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-700">
-              Esthétique
-            </span>
-          </div>
-
-          <div class="mb-5 flex items-center justify-between">
-            <div>
-              <p class="text-xs text-gray-400">À partir de</p>
-              <p class="text-lg font-bold text-black">120 MAD</p>
-            </div>
-
-            <p class="text-sm text-gray-500">
-              Disponible demain
-            </p>
-          </div>
-
-          <button
-            class="w-full rounded-2xl bg-black px-4 py-3 font-medium text-white transition hover:bg-gray-800"
-          >
-            Voir le salon
-          </button>
-        </div>
-      </article>
-
-    </div>
   </div>
 </section>

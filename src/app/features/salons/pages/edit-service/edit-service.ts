@@ -156,6 +156,12 @@ export class EditService implements OnInit {
       return;
     }
 
+    if (!this.form.controls.name.value.trim()) {
+      this.errorMessage =
+        'Le nom du service est obligatoire.';
+      return;
+    }
+
     this.isSubmitting = true;
     this.errorMessage = '';
 

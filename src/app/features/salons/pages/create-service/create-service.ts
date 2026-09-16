@@ -93,6 +93,12 @@ export class CreateService {
       return;
     }
 
+    if (!this.form.controls.name.value.trim()) {
+      this.errorMessage =
+        'Le nom du service est obligatoire.';
+      return;
+    }
+
     this.isSubmitting = true;
     this.errorMessage = '';
 
@@ -124,7 +130,7 @@ export class CreateService {
           this.isSubmitting = false;
 
           this.errorMessage =
-  'Impossible de créer le service.';
+            'Impossible de créer le service.';
 
           this.cdr.detectChanges();
         }

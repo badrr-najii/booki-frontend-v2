@@ -197,21 +197,9 @@ export class PublicBooking implements OnInit {
       return;
     }
 
-    if (!this.clientName.trim()) {
-      this.errorMessage =
-        'Votre nom est obligatoire.';
-      return;
-    }
-
     if (this.clientName.trim().length > 100) {
       this.errorMessage =
         'Le nom ne peut pas dépasser 100 caractères.';
-      return;
-    }
-
-    if (!this.clientPhone.trim()) {
-      this.errorMessage =
-        'Votre téléphone est obligatoire.';
       return;
     }
 
