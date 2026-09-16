@@ -4,7 +4,7 @@
     [routerLink]="['/dashboard/salons', salonId]"
     class="text-sm text-gray-500 hover:text-gray-900"
   >
-    â† Retour au salon
+    ← Retour au salon
   </a>
 
   <div class="mt-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
@@ -15,7 +15,7 @@
       </p>
 
       <h1 class="text-2xl font-bold">
-        EmployÃ©s
+        Employés
       </h1>
     </div>
 
@@ -28,7 +28,7 @@
       ]"
       class="rounded-lg bg-black px-4 py-2 text-sm text-white hover:bg-gray-800"
     >
-      + Ajouter un employÃ©
+      + Ajouter un employé
     </a>
 
   </div>
@@ -36,7 +36,7 @@
   @if (isLoading) {
 
     <div class="mt-8">
-      Chargement des employÃ©s...
+      Chargement des employés...
     </div>
 
   } @else if (errorMessage) {
@@ -53,11 +53,11 @@
       class="mt-8 rounded-2xl border border-dashed border-gray-300 bg-white px-6 py-12 text-center"
     >
       <h2 class="text-lg font-semibold">
-        Aucun employÃ©
+        Aucun employé
       </h2>
 
       <p class="mt-2 text-sm text-gray-500">
-        Ajoutez votre premier employÃ© pour commencer.
+        Ajoutez votre premier employé pour commencer.
       </p>
     </div>
 
@@ -108,7 +108,7 @@
                 }
 
                 <span>
-                  {{ employee.bookingsCount }} rÃ©servation(s)
+                  {{ employee.bookingsCount }} réservation(s)
                 </span>
 
               </div>

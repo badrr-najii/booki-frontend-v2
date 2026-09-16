@@ -8,7 +8,7 @@
     ]"
     class="text-sm text-gray-500 hover:text-gray-900"
   >
-    â† Retour aux rÃ©servations
+    ← Retour aux réservations
   </a>
 
   <div class="mt-6">
@@ -17,7 +17,7 @@
     </p>
 
     <h1 class="text-2xl font-bold">
-      Modifier la rÃ©servation
+      Modifier la réservation
     </h1>
   </div>
 
@@ -68,7 +68,7 @@
           for="clientPhone"
           class="mb-2 block text-sm font-medium"
         >
-          TÃ©lÃ©phone
+          Téléphone
         </label>
 
         <input
@@ -106,7 +106,7 @@
           for="employee"
           class="mb-2 block text-sm font-medium"
         >
-          EmployÃ©
+          Employé
         </label>
 
         <select
@@ -118,7 +118,7 @@
         >
 
           <option value="">
-            Aucun employÃ© spÃ©cifique
+            Aucun employé spécifique
           </option>
 
           @for (employee of employees; track employee.id) {
@@ -165,7 +165,7 @@
         <label
           class="mb-3 block text-sm font-medium"
         >
-          CrÃ©neaux disponibles
+          Créneaux disponibles
         </label>
 
         @if (isLoadingSlots) {
@@ -173,7 +173,7 @@
           <div
             class="rounded-lg border border-gray-200 px-4 py-4 text-sm text-gray-500"
           >
-            Chargement des crÃ©neaux...
+            Chargement des créneaux...
           </div>
 
         } @else {
@@ -183,7 +183,7 @@
             <div
               class="rounded-lg border border-gray-200 px-4 py-4 text-sm text-gray-500"
             >
-              Aucun crÃ©neau disponible pour cette date.
+              Aucun créneau disponible pour cette date.
             </div>
 
           } @else {
@@ -224,7 +224,7 @@
         <div
           class="rounded-lg border border-green-200 bg-green-50 p-4 text-sm text-green-700"
         >
-          CrÃ©neau sÃ©lectionnÃ© :
+          Créneau sélectionné :
 
           <strong>
             {{ bookingDate }}

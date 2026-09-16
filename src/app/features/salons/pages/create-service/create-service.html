@@ -8,7 +8,7 @@
     ]"
     class="text-sm text-gray-500 hover:text-gray-900"
   >
-    â† Retour aux services
+    ← Retour aux services
   </a>
 
   <div class="mt-6">
@@ -64,7 +64,7 @@
         form.controls.name.invalid
       ) {
         <p class="mt-1 text-sm text-red-600">
-          Le nom du service est obligatoire et ne doit pas dÃ©passer 100 caractÃ¨res.
+          Le nom du service est obligatoire et ne doit pas dépasser 100 caractères.
         </p>
       }
 
@@ -95,7 +95,7 @@
           form.controls.price.invalid
         ) {
           <p class="mt-1 text-sm text-red-600">
-            Le prix doit Ãªtre supÃ©rieur ou Ã©gal Ã  0.
+            Le prix doit être supérieur ou égal à 0.
           </p>
         }
 
@@ -107,7 +107,7 @@
           for="durationMinutes"
           class="mb-2 block text-sm font-medium"
         >
-          DurÃ©e (minutes)
+          Durée (minutes)
         </label>
 
         <input
@@ -124,7 +124,7 @@
           form.controls.durationMinutes.invalid
         ) {
           <p class="mt-1 text-sm text-red-600">
-            La durÃ©e doit Ãªtre comprise entre 5 et 480 minutes.
+            La durée doit être comprise entre 5 et 480 minutes.
           </p>
         }
 
@@ -155,7 +155,7 @@
         form.controls.description.invalid
       ) {
         <p class="mt-1 text-sm text-red-600">
-          La description ne doit pas dÃ©passer 500 caractÃ¨res.
+          La description ne doit pas dépasser 500 caractères.
         </p>
       }
 
@@ -193,9 +193,9 @@
         class="inline-flex min-h-11 items-center justify-center rounded-xl bg-gray-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-50"
       >
         @if (isSubmitting) {
-          CrÃ©ation...
+          Création...
         } @else {
-          CrÃ©er le service
+          Créer le service
         }
       </button>
 
