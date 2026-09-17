@@ -22,6 +22,19 @@ import {
   BookingService
 } from '../../../../core/services/booking.service';
 
+import {
+  PublicSalonResponse,
+  SalonService
+} from '../../../../core/services/salon.service';
+
+import {
+  resolveApiAssetUrl
+} from '../../../../core/config/api.config';
+
+import {
+  RouterLink
+} from '@angular/router';
+
 @Component({
   selector: 'app-public-booking',
   imports: [
@@ -55,8 +68,12 @@ export class PublicBooking implements OnInit {
   bookingCreated = false;
   minDate = '';
 
+  salon?: PublicSalonResponse;
+  isLoadingSalon = true;
+
   constructor(
     private route: ActivatedRoute,
+    private salonService: SalonService,
     private serviceService: ServiceService,
     private bookingService: BookingService,
     private cdr: ChangeDetectorRef
@@ -81,7 +98,49 @@ export class PublicBooking implements OnInit {
       `${String(today.getMonth() + 1).padStart(2, '0')}-` +
       `${String(today.getDate()).padStart(2, '0')}`;
 
+    this.loadSalon();
     this.loadServices();
+  }
+
+  loadSalon(): void {
+    this.salonService.getAllPublic().subscribe({
+      next: salons => {
+        this.salon = salons.find(
+          salon =>
+            salon.id.toLowerCase() ===
+            this.salonId.toLowerCase()
+        );
+
+        this.isLoadingSalon = false;
+
+        if (!this.salon) {
+          this.errorMessage =
+            'Salon introuvable ou indisponible.';
+        }
+
+        this.cdr.detectChanges();
+      },
+
+      error: () => {
+        this.isLoadingSalon = false;
+        this.errorMessage =
+          'Impossible de charger les informations du salon.';
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  getSalonLogoUrl(): string | null {
+    return resolveApiAssetUrl(
+      this.salon?.logoUrl
+    );
+  }
+
+  getSelectedService(): SalonServiceItem | undefined {
+    return this.services.find(
+      service =>
+        service.id === this.selectedServiceId
+    );
   }
 
   loadServices(): void {

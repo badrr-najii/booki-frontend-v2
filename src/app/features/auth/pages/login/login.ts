@@ -76,7 +76,7 @@ export class Login {
         next: response => {
           this.isLoading = false;
 
-          this.router.navigate(['/']);
+          this.router.navigate(['/dashboard']);
         },
 
         error: error => {

@@ -1,226 +1,530 @@
-<section class="mx-auto max-w-4xl px-6 py-10">
+<div class="booking-page">
 
-  <div>
+  <div class="booking-shell">
 
-    <p class="text-sm text-gray-500">
-      Réservation en ligne
-    </p>
+    <a routerLink="/" class="back-link">
+      <span>←</span>
+      Retour à l'accueil
+    </a>
 
-    <h1 class="text-3xl font-bold">
-      Prendre rendez-vous
-    </h1>
+    @if (isLoadingSalon) {
 
-    <p class="mt-2 text-sm text-gray-500">
-      Choisissez votre service, votre date et votre créneau.
-    </p>
-
-  </div>
-
-  @if (errorMessage) {
-
-  <div class="mt-6 rounded-lg border border-red-200 p-4 text-sm text-red-600">
-    {{ errorMessage }}
-  </div>
-
-  }
-
-  @if (isLoadingServices) {
-
-  <div class="mt-8">
-    Chargement des services...
-  </div>
-
-  } @else {
-
-  <div class="mt-8 space-y-8">
-
-    <div>
-
-      <label for="service" class="mb-2 block text-sm font-medium">
-        Service
-      </label>
-
-      <select id="service" name="service" [(ngModel)]="selectedServiceId" (ngModelChange)="loadSlots()"
-        class="w-full rounded-lg border border-gray-300 px-4 py-3">
-
-        <option value="">
-          Sélectionnez un service
-        </option>
-
-        @for (service of services; track service.id) {
-
-        <option [value]="service.id">
-          {{ service.name }}
-          - {{ service.price }} MAD
-          - {{ service.durationMinutes }} min
-        </option>
-
-        }
-
-      </select>
-
-    </div>
-
-    <div>
-
-      <label for="date" class="mb-2 block text-sm font-medium">
-        Date
-      </label>
-
-      <input id="date" name="date" type="date" [(ngModel)]="selectedDate" (ngModelChange)="loadSlots()" [min]="minDate"
-        class="w-full rounded-lg border border-gray-300 px-4 py-3" />
-
-    </div>
-
-    @if (isLoadingSlots) {
-
-    <div>
-      Chargement des créneaux...
-    </div>
-
-    } @else if (
-    selectedServiceId &&
-    selectedDate &&
-    slots.length === 0
-    ) {
-
-    <div class="rounded-lg border border-gray-200 p-5 text-sm text-gray-500">
-      Aucun créneau disponible pour cette date.
-    </div>
-
-    } @else if (slots.length > 0) {
-
-    <div>
-
-      <h2 class="font-semibold">
-        Créneaux disponibles
-      </h2>
-
-      <div class="mt-4 flex flex-wrap gap-3">
-
-        @for (slot of slots; track slot.startTime) {
-
-        <button type="button" (click)="selectSlot(slot)" class="rounded-lg border px-4 py-2 text-sm"
-          [class.bg-black]="selectedSlot === slot" [class.text-white]="selectedSlot === slot">
-          {{ formatTime(slot.startTime) }}
-        </button>
-
-        }
-
+      <div class="salon-hero salon-hero-loading">
+        Chargement du salon...
       </div>
 
-    </div>
+    } @else if (salon) {
 
-    }
+      <section class="salon-hero">
 
-    @if (selectedSlot) {
+        <div class="salon-photo">
 
-    <div class="rounded-xl border border-green-200 p-5">
-
-      <p class="text-sm text-gray-500">
-        Créneau sélectionné
-      </p>
-
-      <p class="mt-1 font-semibold">
-        {{ selectedDate }}
-        -
-        {{ formatTime(selectedSlot.startTime) }}
-      </p>
-
-    </div>
-
-    }
-
-    @if (selectedSlot && !bookingCreated) {
-
-    <div class="mt-8">
-
-      <h2 class="text-lg font-semibold">
-        Vos informations
-      </h2>
-
-      <div class="mt-5 grid gap-5">
-
-        <div>
-
-          <label for="clientName" class="mb-2 block text-sm font-medium">
-            Nom complet
-          </label>
-
-          <input id="clientName" name="clientName" type="text" [(ngModel)]="clientName" maxlength="100"
-            class="w-full rounded-lg border border-gray-300 px-4 py-3" />
-
-        </div>
-
-        <div>
-
-          <label for="clientPhone" class="mb-2 block text-sm font-medium">
-            Téléphone
-          </label>
-
-          <input id="clientPhone" name="clientPhone" type="text" [(ngModel)]="clientPhone"
-            class="w-full rounded-lg border border-gray-300 px-4 py-3" />
-
-        </div>
-
-        <div>
-
-          <label for="clientEmail" class="mb-2 block text-sm font-medium">
-            Email
-          </label>
-
-          <input id="clientEmail" name="clientEmail" type="email" [(ngModel)]="clientEmail"
-            class="w-full rounded-lg border border-gray-300 px-4 py-3" />
-
-        </div>
-
-        <div>
-
-          <label for="notes" class="mb-2 block text-sm font-medium">
-            Notes
-          </label>
-
-          <textarea id="notes" name="notes" rows="4" [(ngModel)]="notes" maxlength="500"
-            class="w-full rounded-lg border border-gray-300 px-4 py-3"></textarea>
-
-        </div>
-
-        <button type="button" (click)="submitBooking()" [disabled]="isSubmitting"
-          class="rounded-lg bg-black px-5 py-3 text-sm text-white disabled:opacity-50">
-
-          @if (isSubmitting) {
-          Réservation en cours...
+          @if (getSalonLogoUrl(); as logoUrl) {
+            <img
+              [src]="logoUrl"
+              [alt]="salon.name"
+            />
           } @else {
-          Envoyer la demande
+            <div class="salon-photo-fallback">
+              {{ salon.name.charAt(0).toUpperCase() }}
+            </div>
           }
 
-        </button>
+        </div>
 
-      </div>
+        <div class="salon-info">
 
-    </div>
+          <span class="eyebrow">
+            Réservation en ligne
+          </span>
+
+          <h1>{{ salon.name }}</h1>
+
+          @if (salon.city || salon.address) {
+  <p class="salon-location">
+    @if (
+      salon.address &&
+      salon.address.toLowerCase() !== salon.city?.toLowerCase()
+    ) {
+      {{ salon.address }}
+
+      @if (salon.city) {
+        ·
+      }
+    }
+
+    @if (salon.city) {
+      {{ salon.city }}
+    }
+  </p>
+}
+
+          @if (salon.description) {
+            <p class="salon-description">
+              {{ salon.description }}
+            </p>
+          }
+
+        </div>
+
+      </section>
 
     }
 
-    @if (bookingCreated) {
+    @if (errorMessage) {
+      <div class="alert alert-error">
+        {{ errorMessage }}
+      </div>
+    }
 
-    <div class="mt-8 rounded-xl border border-green-200 p-6">
+    @if (!bookingCreated) {
 
-      <h2 class="text-lg font-semibold text-green-700">
-        Demande de réservation enregistrée
-      </h2>
+      <div class="booking-layout">
 
-      <p class="mt-2 text-sm text-gray-600">
-        Votre demande de réservation a bien été enregistrée.
-        Le salon doit encore confirmer votre rendez-vous.
-      </p>
+        <main class="booking-card">
 
-    </div>
+          <div class="booking-heading">
+            <span class="eyebrow">
+              Votre rendez-vous
+            </span>
+
+            <h2>Prendre rendez-vous</h2>
+
+            <p>
+              Choisissez un service, une date et le créneau
+              qui vous convient.
+            </p>
+          </div>
+
+          @if (isLoadingServices) {
+
+            <div class="loading-state">
+              Chargement des services...
+            </div>
+
+          } @else {
+
+            <div class="booking-section">
+
+              <div class="section-heading">
+                <span class="step-number">1</span>
+
+                <div>
+                  <h3>Choisissez votre service</h3>
+                  <p>Sélectionnez la prestation souhaitée.</p>
+                </div>
+              </div>
+
+              <label
+                for="service"
+                class="field-label"
+              >
+                Service
+              </label>
+
+              <select
+                id="service"
+                name="service"
+                [(ngModel)]="selectedServiceId"
+                (ngModelChange)="loadSlots()"
+                class="form-control"
+              >
+                <option value="">
+                  Sélectionnez un service
+                </option>
+
+                @for (service of services; track service.id) {
+                  <option [value]="service.id">
+                    {{ service.name }}
+                    · {{ service.price }} MAD
+                    · {{ service.durationMinutes }} min
+                  </option>
+                }
+              </select>
+
+              @if (services.length === 0) {
+                <div class="empty-state">
+                  Aucun service disponible pour ce salon.
+                </div>
+              }
+
+            </div>
+
+            <div class="booking-section">
+
+              <div class="section-heading">
+                <span class="step-number">2</span>
+
+                <div>
+                  <h3>Choisissez une date</h3>
+                  <p>
+                    Consultez les disponibilités du salon.
+                  </p>
+                </div>
+              </div>
+
+              <label
+                for="date"
+                class="field-label"
+              >
+                Date
+              </label>
+
+              <input
+                id="date"
+                name="date"
+                type="date"
+                [(ngModel)]="selectedDate"
+                (ngModelChange)="loadSlots()"
+                [min]="minDate"
+                class="form-control"
+              />
+
+            </div>
+
+            @if (selectedServiceId && selectedDate) {
+
+              <div class="booking-section">
+
+                <div class="section-heading">
+                  <span class="step-number">3</span>
+
+                  <div>
+                    <h3>Choisissez un créneau</h3>
+                    <p>
+                      Sélectionnez l'heure de votre rendez-vous.
+                    </p>
+                  </div>
+                </div>
+
+                @if (isLoadingSlots) {
+
+                  <div class="loading-state">
+                    Chargement des créneaux disponibles...
+                  </div>
+
+                } @else if (slots.length === 0) {
+
+                  <div class="empty-state">
+                    Aucun créneau disponible pour cette date.
+                    Essayez une autre date.
+                  </div>
+
+                } @else {
+
+                  <div class="slots-grid">
+
+                    @for (
+                      slot of slots;
+                      track slot.startTime
+                    ) {
+                      <button
+                        type="button"
+                        class="slot-button"
+                        [class.slot-selected]="selectedSlot === slot"
+                        (click)="selectSlot(slot)"
+                      >
+                        {{ formatTime(slot.startTime) }}
+                      </button>
+                    }
+
+                  </div>
+
+                }
+
+              </div>
+
+            }
+
+            @if (selectedSlot) {
+
+              <div class="booking-section client-section">
+
+                <div class="section-heading">
+                  <span class="step-number">4</span>
+
+                  <div>
+                    <h3>Vos informations</h3>
+                    <p>
+                      Ces informations permettront au salon
+                      de vous contacter.
+                    </p>
+                  </div>
+                </div>
+
+                <div class="form-grid">
+
+                  <div class="form-group">
+                    <label
+                      for="clientName"
+                      class="field-label"
+                    >
+                      Nom complet *
+                    </label>
+
+                    <input
+                      id="clientName"
+                      name="clientName"
+                      type="text"
+                      [(ngModel)]="clientName"
+                      maxlength="100"
+                      placeholder="Votre nom complet"
+                      class="form-control"
+                    />
+                  </div>
+
+                  <div class="form-group">
+                    <label
+                      for="clientPhone"
+                      class="field-label"
+                    >
+                      Téléphone *
+                    </label>
+
+                    <input
+                      id="clientPhone"
+                      name="clientPhone"
+                      type="tel"
+                      [(ngModel)]="clientPhone"
+                      maxlength="10"
+                      inputmode="numeric"
+                      placeholder="0612345678"
+                      class="form-control"
+                    />
+                  </div>
+
+                  <div class="form-group form-group-full">
+                    <label
+                      for="clientEmail"
+                      class="field-label"
+                    >
+                      Email
+                    </label>
+
+                    <input
+                      id="clientEmail"
+                      name="clientEmail"
+                      type="email"
+                      [(ngModel)]="clientEmail"
+                      placeholder="exemple@email.com"
+                      class="form-control"
+                    />
+                  </div>
+
+                  <div class="form-group form-group-full">
+                    <label
+                      for="notes"
+                      class="field-label"
+                    >
+                      Notes
+                      <span class="optional">
+                        (facultatif)
+                      </span>
+                    </label>
+
+                    <textarea
+                      id="notes"
+                      name="notes"
+                      rows="4"
+                      [(ngModel)]="notes"
+                      maxlength="500"
+                      placeholder="Ajoutez une information pour le salon..."
+                      class="form-control textarea"
+                    ></textarea>
+
+                    <div class="character-count">
+                      {{ notes.length }}/500
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+
+            }
+
+          }
+
+        </main>
+
+        <aside class="summary-card">
+
+          <div class="summary-header">
+            <span class="eyebrow">
+              Récapitulatif
+            </span>
+
+            <h2>Votre réservation</h2>
+          </div>
+
+          @if (salon) {
+
+            <div class="summary-salon">
+
+              @if (getSalonLogoUrl(); as logoUrl) {
+                <img
+                  [src]="logoUrl"
+                  [alt]="salon.name"
+                />
+              } @else {
+                <div class="summary-logo-fallback">
+                  {{ salon.name.charAt(0).toUpperCase() }}
+                </div>
+              }
+
+              <div>
+                <strong>{{ salon.name }}</strong>
+
+                @if (salon.city) {
+                  <span>{{ salon.city }}</span>
+                }
+              </div>
+
+            </div>
+
+          }
+
+          <div class="summary-details">
+
+            <div class="summary-row">
+              <span>Service</span>
+
+              <strong>
+                @if (getSelectedService(); as service) {
+                  {{ service.name }}
+                } @else {
+                  —
+                }
+              </strong>
+            </div>
+
+            <div class="summary-row">
+              <span>Date</span>
+              <strong>{{ selectedDate || '—' }}</strong>
+            </div>
+
+            <div class="summary-row">
+              <span>Heure</span>
+
+              <strong>
+                @if (selectedSlot) {
+                  {{ formatTime(selectedSlot.startTime) }}
+                } @else {
+                  —
+                }
+              </strong>
+            </div>
+
+            @if (getSelectedService(); as service) {
+
+              <div class="summary-row">
+                <span>Durée</span>
+                <strong>
+                  {{ service.durationMinutes }} min
+                </strong>
+              </div>
+
+              <div class="summary-total">
+                <span>Prix</span>
+                <strong>{{ service.price }} MAD</strong>
+              </div>
+
+            }
+
+          </div>
+
+          @if (selectedSlot) {
+
+            <button
+              type="button"
+              class="submit-button"
+              [disabled]="isSubmitting"
+              (click)="submitBooking()"
+            >
+              @if (isSubmitting) {
+                Réservation en cours...
+              } @else {
+                Envoyer la demande
+              }
+            </button>
+
+            <p class="confirmation-note">
+              Le salon devra confirmer votre rendez-vous.
+            </p>
+
+          } @else {
+
+            <p class="summary-hint">
+              Choisissez un service, une date et un créneau
+              pour continuer.
+            </p>
+
+          }
+
+        </aside>
+
+      </div>
+
+    } @else {
+
+      <section class="success-card">
+
+        <div class="success-icon">
+          ✓
+        </div>
+
+        <span class="eyebrow">
+          Demande envoyée
+        </span>
+
+        <h1>Votre réservation est enregistrée</h1>
+
+        <p>
+          Votre demande a bien été envoyée au salon.
+          Le salon doit encore confirmer votre rendez-vous.
+        </p>
+
+        @if (getSelectedService(); as service) {
+
+          <div class="success-summary">
+
+            <div>
+              <span>Salon</span>
+              <strong>{{ salon?.name || '—' }}</strong>
+            </div>
+
+            <div>
+              <span>Service</span>
+              <strong>{{ service.name }}</strong>
+            </div>
+
+            <div>
+              <span>Date</span>
+              <strong>{{ selectedDate }}</strong>
+            </div>
+
+            <div>
+              <span>Heure</span>
+              <strong>
+                {{ formatTime(selectedSlot?.startTime || '') }}
+              </strong>
+            </div>
+
+          </div>
+
+        }
+
+        <a
+          routerLink="/"
+          class="home-button"
+        >
+          Retour à l'accueil
+        </a>
+
+      </section>
 
     }
 
   </div>
 
-  }
-
-</section>
+</div>
