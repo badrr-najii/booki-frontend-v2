@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component
+} from '@angular/core';
 import {
   FormBuilder,
   ReactiveFormsModule,
@@ -31,7 +34,8 @@ export class Login {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {
     this.loginForm = this.fb.nonNullable.group({
       email: ['', [
@@ -73,8 +77,9 @@ export class Login {
       password: form.password
     })
       .subscribe({
-        next: response => {
+        next: () => {
           this.isLoading = false;
+          this.cdr.detectChanges();
 
           this.router.navigate(['/dashboard']);
         },
@@ -86,6 +91,8 @@ export class Login {
             error.status === 400 || error.status === 401
               ? 'Email ou mot de passe incorrect, ou compte non confirmé.'
               : 'Une erreur est survenue lors de la connexion.';
+
+          this.cdr.detectChanges();
         }
       });
   }
