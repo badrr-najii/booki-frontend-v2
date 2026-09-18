@@ -46,7 +46,8 @@ export class Register {
       ]],
 
       phoneNumber: ['', [
-        Validators.required
+        Validators.required,
+        Validators.pattern(/^[0-9]{10}$/)
       ]],
 
       password: ['', [

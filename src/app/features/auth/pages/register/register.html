@@ -71,14 +71,20 @@
                 Téléphone
             </label>
 
-            <input id="phoneNumber" type="tel" formControlName="phoneNumber" autocomplete="tel" placeholder="06XXXXXXXX"
+            <input id="phoneNumber" type="tel" formControlName="phoneNumber" autocomplete="tel" placeholder="0612345678"
                 class="w-full rounded-xl border border-gray-300
-               px-4 py-3 outline-none transition
-               focus:border-black focus:ring-1 focus:ring-black">
+                  px-4 py-3 outline-none transition
+                  focus:border-black focus:ring-1 focus:ring-black">
 
             @if (phoneNumber.touched && phoneNumber.hasError('required')) {
             <p class="text-sm text-red-600 mt-1">
                 Le numéro de téléphone est obligatoire.
+            </p>
+            }
+
+            @if (phoneNumber.touched && phoneNumber.hasError('pattern')) {
+            <p class="text-sm text-red-600 mt-1">
+                Entrez un numéro de téléphone valide à 10 chiffres.
             </p>
             }
         </div>
