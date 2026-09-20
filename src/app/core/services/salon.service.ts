@@ -19,6 +19,20 @@ export interface CreateSalonRequest {
   longitude?: number | null;
 }
 
+export interface UpdateSalonRequest {
+  name: string;
+  description?: string | null;
+  address?: string | null;
+  city?: string | null;
+  phoneNumber?: string | null;
+  email?: string | null;
+  logoUrl?: string | null;
+  latitude?: number | null;
+  longitude?: number | null;
+  isActive: boolean;
+}
+
+
 export interface SalonResponse {
   id: string;
   name: string;
@@ -89,6 +103,16 @@ export class SalonService {
   ): Observable<PublicSalonResponse> {
     return this.http.get<PublicSalonResponse>(
       `${this.apiUrl}/slug/${encodeURIComponent(slug)}`
+    );
+  }
+
+  update(
+    id: string,
+    request: UpdateSalonRequest
+  ): Observable<void> {
+    return this.http.put<void>(
+      `${this.apiUrl}/${id}`,
+      request
     );
   }
 

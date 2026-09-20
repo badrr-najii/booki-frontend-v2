@@ -1,0 +1,199 @@
+<div class="page-shell">
+
+  <div class="page-container">
+
+    <a
+      [routerLink]="['/dashboard/salons', salonId]"
+      class="back-link"
+    >
+      ← Retour au salon
+    </a>
+
+    <header class="page-header">
+      <p class="eyebrow">Gestion du salon</p>
+      <h1>Modifier le salon</h1>
+      <p>
+        Mettez à jour les informations visibles
+        de votre établissement.
+      </p>
+    </header>
+
+    @if (isLoading) {
+
+      <div class="state-card">
+        Chargement...
+      </div>
+
+    } @else if (errorMessage && !salon) {
+
+      <div class="alert-error">
+        {{ errorMessage }}
+      </div>
+
+    } @else if (salon) {
+
+      <form
+        [formGroup]="salonForm"
+        (ngSubmit)="onSubmit()"
+        class="form-card"
+      >
+
+        @if (errorMessage) {
+          <div class="alert-error">
+            {{ errorMessage }}
+          </div>
+        }
+
+        <div class="form-grid">
+
+          <div class="form-group form-group-full">
+            <label for="name">
+              Nom du salon *
+            </label>
+
+            <input
+              id="name"
+              type="text"
+              formControlName="name"
+              maxlength="100"
+            >
+
+            @if (
+              salonForm.controls.name.touched &&
+              salonForm.controls.name.invalid
+            ) {
+              <p class="field-error">
+                Le nom du salon est obligatoire.
+              </p>
+            }
+          </div>
+
+          <div class="form-group form-group-full">
+            <label for="description">
+              Description
+            </label>
+
+            <textarea
+              id="description"
+              rows="4"
+              formControlName="description"
+            ></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="city">Ville</label>
+
+            <input
+              id="city"
+              type="text"
+              formControlName="city"
+              maxlength="50"
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="phoneNumber">
+              Téléphone
+            </label>
+
+            <input
+              id="phoneNumber"
+              type="tel"
+              inputmode="numeric"
+              maxlength="10"
+              placeholder="0612345678"
+              formControlName="phoneNumber"
+            >
+
+            @if (
+              salonForm.controls.phoneNumber.touched &&
+              salonForm.controls.phoneNumber.hasError('pattern')
+            ) {
+              <p class="field-error">
+                Entrez un numéro valide à 10 chiffres.
+              </p>
+            }
+          </div>
+
+          <div class="form-group form-group-full">
+            <label for="address">Adresse</label>
+
+            <input
+              id="address"
+              type="text"
+              maxlength="200"
+              formControlName="address"
+            >
+          </div>
+
+          <div class="form-group form-group-full">
+            <label for="email">Email</label>
+
+            <input
+              id="email"
+              type="email"
+              formControlName="email"
+            >
+
+            @if (
+              salonForm.controls.email.touched &&
+              salonForm.controls.email.hasError('email')
+            ) {
+              <p class="field-error">
+                Entrez une adresse email valide.
+              </p>
+            }
+          </div>
+
+          <div class="form-group form-group-full">
+            <label class="status-control">
+              <input
+                type="checkbox"
+                formControlName="isActive"
+              >
+
+              <span>
+                <strong>Salon actif</strong>
+                <small>
+                  Un salon inactif n'est plus visible
+                  dans la liste publique.
+                </small>
+              </span>
+            </label>
+          </div>
+
+        </div>
+
+        <div class="form-actions">
+
+          <a
+            [routerLink]="[
+              '/dashboard/salons',
+              salonId
+            ]"
+            class="btn"
+          >
+            Annuler
+          </a>
+
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="isSaving"
+          >
+            @if (isSaving) {
+              Enregistrement...
+            } @else {
+              Enregistrer
+            }
+          </button>
+
+        </div>
+
+      </form>
+
+    }
+
+  </div>
+
+</div>
