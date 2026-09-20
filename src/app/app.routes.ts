@@ -19,6 +19,7 @@ import { SalonBookings } from './features/salons/pages/salon-bookings/salon-book
 import { SalonWorkingHours } from './features/salons/pages/salon-working-hours/salon-working-hours';
 import { PublicBooking } from './features/bookings/pages/public-booking/public-booking';
 import { EditBooking } from './features/salons/pages/edit-booking/edit-booking';
+import { EditSalon } from './features/salons/pages/edit-salon/edit-salon';
 export const routes: Routes = [
     {
         path: '',
@@ -55,6 +56,10 @@ export const routes: Routes = [
             {
                 path: 'dashboard/salons/:id',
                 component: SalonDetails
+            },
+            {
+                path: 'dashboard/salons/:id/edit',
+                component: EditSalon
             },
             {
                 path: 'dashboard/salons/:id/services/new',

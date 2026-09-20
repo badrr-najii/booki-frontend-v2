@@ -37,34 +37,42 @@
     <div class="header-actions">
 
         <a [routerLink]="[
-                '/dashboard/salons',
-                salon.id,
-                'bookings'
-            ]" class="btn btn-primary">
+            '/dashboard/salons',
+            salon.id,
+            'edit'
+        ]" class="btn">
+            Modifier
+        </a>
+
+        <a [routerLink]="[
+            '/dashboard/salons',
+            salon.id,
+            'bookings'
+        ]" class="btn btn-primary">
             Réservations
         </a>
 
         <a [routerLink]="[
-                '/dashboard/salons',
-                salon.id,
-                'services'
-            ]" class="btn">
+            '/dashboard/salons',
+            salon.id,
+            'services'
+        ]" class="btn">
             Services
         </a>
 
         <a [routerLink]="[
-                '/dashboard/salons',
-                salon.id,
-                'employees'
-            ]" class="btn">
+            '/dashboard/salons',
+            salon.id,
+            'employees'
+        ]" class="btn">
             Employés
         </a>
 
         <a [routerLink]="[
-                '/dashboard/salons',
-                salon.id,
-                'working-hours'
-            ]" class="btn">
+            '/dashboard/salons',
+            salon.id,
+            'working-hours'
+        ]" class="btn">
             Horaires
         </a>
 
