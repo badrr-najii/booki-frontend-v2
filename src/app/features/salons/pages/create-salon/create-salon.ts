@@ -12,6 +12,7 @@ import {
 } from '@angular/router';
 
 import {
+  SalonAudience,
   SalonService
 } from '../../../../core/services/salon.service';
 
@@ -26,6 +27,7 @@ import {
 })
 export class CreateSalon {
 
+  readonly SalonAudience = SalonAudience;
   isLoading = false;
   errorMessage = '';
   selectedLogo: File | null = null;
@@ -72,7 +74,10 @@ export class CreateSalon {
 
         email: ['', [
           Validators.email
-        ]]
+        ]],
+        audience: [SalonAudience.Mixed, [
+          Validators.required
+        ]],
       });
   }
 
@@ -170,6 +175,7 @@ export class CreateSalon {
         form.phoneNumber.trim() || null,
       email:
         form.email.trim() || null,
+        audience: form.audience,
       logoUrl: null,
       latitude: null,
       longitude: null

@@ -6,6 +6,12 @@ import {
   SalonServiceItem
 } from './service.service';
 
+export enum SalonAudience {
+  Men = 1,
+  Women = 2,
+  Mixed = 3
+}
+
 export interface CreateSalonRequest {
   name: string;
   slug: string;
@@ -15,6 +21,7 @@ export interface CreateSalonRequest {
   phoneNumber?: string | null;
   email?: string | null;
   logoUrl?: string | null;
+  audience: SalonAudience;
   latitude?: number | null;
   longitude?: number | null;
 }
@@ -27,6 +34,7 @@ export interface UpdateSalonRequest {
   phoneNumber?: string | null;
   email?: string | null;
   logoUrl?: string | null;
+  audience: SalonAudience;
   latitude?: number | null;
   longitude?: number | null;
   isActive: boolean;
@@ -43,6 +51,7 @@ export interface SalonResponse {
   phoneNumber?: string | null;
   email?: string | null;
   logoUrl?: string | null;
+  audience: SalonAudience;
   latitude?: number | null;
   longitude?: number | null;
   ownerId: string;
@@ -61,6 +70,7 @@ export interface PublicSalonResponse {
   phoneNumber?: string | null;
   email?: string | null;
   logoUrl?: string | null;
+  audience: SalonAudience;
   latitude?: number | null;
   longitude?: number | null;
   services: SalonServiceItem[];
@@ -159,6 +169,7 @@ export class SalonService {
         request.longitude.toString()
       );
     }
+    formData.append('Audience', request.audience.toString());
 
     formData.append('LogoImage', logoImage);
 
