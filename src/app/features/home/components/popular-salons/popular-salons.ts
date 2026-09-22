@@ -10,6 +10,7 @@ import {
 
 import {
   PublicSalonResponse,
+  SalonAudience,
   SalonService
 } from '../../../../core/services/salon.service';
 
@@ -26,6 +27,11 @@ import {
 export class PopularSalons implements OnInit {
 
   salons: PublicSalonResponse[] = [];
+
+  readonly SalonAudience = SalonAudience;
+
+  selectedAudience: SalonAudience | null = null;
+
   isLoading = true;
   errorMessage = '';
 
@@ -39,7 +45,7 @@ export class PopularSalons implements OnInit {
       .getAllPublic()
       .subscribe({
         next: salons => {
-          this.salons = salons.slice(0, 6);
+          this.salons = salons;
           this.isLoading = false;
           this.cdr.detectChanges();
         },
@@ -50,6 +56,22 @@ export class PopularSalons implements OnInit {
           this.cdr.detectChanges();
         }
       });
+  }
+
+  get filteredSalons(): PublicSalonResponse[] {
+    const salons = this.selectedAudience === null
+      ? this.salons
+      : this.salons.filter(
+          salon => salon.audience === this.selectedAudience
+        );
+
+    return salons.slice(0, 6);
+  }
+
+  selectAudience(
+    audience: SalonAudience | null
+  ): void {
+    this.selectedAudience = audience;
   }
 
   getStartingPrice(
@@ -65,7 +87,9 @@ export class PopularSalons implements OnInit {
       : null;
   }
 
-  getLogoUrl(salon: PublicSalonResponse): string | null {
+  getLogoUrl(
+    salon: PublicSalonResponse
+  ): string | null {
     return resolveApiAssetUrl(salon.logoUrl);
   }
 }
