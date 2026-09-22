@@ -20,10 +20,21 @@ import { SalonWorkingHours } from './features/salons/pages/salon-working-hours/s
 import { PublicBooking } from './features/bookings/pages/public-booking/public-booking';
 import { EditBooking } from './features/salons/pages/edit-booking/edit-booking';
 import { EditSalon } from './features/salons/pages/edit-salon/edit-salon';
+import { PublicLayout } from './core/layout/public-layout/public-layout';
 export const routes: Routes = [
     {
         path: '',
-        component: Home
+        component: PublicLayout,
+        children: [
+            {
+                path: '',
+                component: Home
+            },
+            {
+                path: 'salons/:id/book',
+                component: PublicBooking
+            }
+        ]
     },
     {
         path: '',
@@ -100,12 +111,6 @@ export const routes: Routes = [
             },
         ]
     },
-
-    {
-        path: 'salons/:id/book',
-        component: PublicBooking
-    },
-
     {
         path: '**',
         redirectTo: ''

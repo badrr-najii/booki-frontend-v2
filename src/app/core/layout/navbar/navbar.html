@@ -1,23 +1,47 @@
-<header class="sticky top-0 z-50 border-b border-gray-200 bg-white/95 backdrop-blur">
+<header
+  class="sticky top-0 z-50 border-b border-zinc-200/80
+         bg-white/90 backdrop-blur-xl"
+>
   <div
-    class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6"
+    class="mx-auto flex h-[72px] max-w-7xl items-center
+           justify-between gap-4 px-6 lg:px-8"
   >
+    <!-- Brand -->
     <a
       routerLink="/"
-      class="shrink-0 text-2xl font-bold tracking-tight text-gray-950"
+      class="group inline-flex shrink-0 items-center gap-2.5"
+      aria-label="Booki - Accueil"
     >
-      Booki
+      <span
+        class="flex h-9 w-9 items-center justify-center
+               rounded-xl bg-zinc-950 text-sm font-bold
+               text-white transition
+               group-hover:bg-zinc-800"
+      >
+        B
+      </span>
+
+      <span
+        class="text-xl font-bold tracking-[-0.03em]
+               text-zinc-950"
+      >
+        Booki
+      </span>
     </a>
 
+    <!-- Navigation -->
     <nav
       aria-label="Navigation principale"
-      class="flex items-center gap-2 text-sm font-medium sm:gap-4"
+      class="flex items-center gap-2 text-sm font-medium"
     >
       <a
         routerLink="/"
-        routerLinkActive="text-black"
+        routerLinkActive="text-zinc-950"
         [routerLinkActiveOptions]="{ exact: true }"
-        class="hidden text-gray-600 transition hover:text-gray-950 md:inline-flex"
+        class="hidden rounded-lg px-3 py-2
+               text-zinc-500 transition
+               hover:bg-zinc-50 hover:text-zinc-950
+               md:inline-flex"
       >
         Accueil
       </a>
@@ -26,8 +50,10 @@
 
         <a
           routerLink="/dashboard"
-          routerLinkActive="bg-gray-100 text-black"
-          class="rounded-lg px-3 py-2 text-gray-700 transition hover:bg-gray-100 hover:text-gray-950"
+          routerLinkActive="bg-zinc-100 text-zinc-950"
+          class="rounded-xl px-3 py-2 text-zinc-600
+                 transition hover:bg-zinc-100
+                 hover:text-zinc-950 sm:px-4"
         >
           Dashboard
         </a>
@@ -36,14 +62,29 @@
           type="button"
           (click)="logout()"
           [disabled]="isLoggingOut"
-          class="rounded-lg border border-gray-300 px-3 py-2 text-gray-800 transition hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50 sm:px-4"
+          class="rounded-xl border border-zinc-200
+                 bg-white px-3 py-2 text-zinc-700
+                 transition hover:bg-zinc-50
+                 hover:text-zinc-950
+                 disabled:cursor-not-allowed
+                 disabled:opacity-50 sm:px-4"
         >
           @if (isLoggingOut) {
-            <span class="hidden sm:inline">Déconnexion...</span>
-            <span class="sm:hidden">...</span>
+            <span class="hidden sm:inline">
+              Déconnexion...
+            </span>
+
+            <span class="sm:hidden">
+              ...
+            </span>
           } @else {
-            <span class="hidden sm:inline">Se déconnecter</span>
-            <span class="sm:hidden">Quitter</span>
+            <span class="hidden sm:inline">
+              Se déconnecter
+            </span>
+
+            <span class="sm:hidden">
+              Quitter
+            </span>
           }
         </button>
 
@@ -51,18 +92,30 @@
 
         <a
           routerLink="/login"
-          routerLinkActive="text-black"
-          class="hidden text-gray-600 transition hover:text-gray-950 sm:inline-flex"
+          routerLinkActive="text-zinc-950"
+          class="hidden rounded-lg px-3 py-2
+                 text-zinc-500 transition
+                 hover:bg-zinc-50 hover:text-zinc-950
+                 sm:inline-flex"
         >
           Se connecter
         </a>
 
         <a
           routerLink="/register"
-          class="rounded-lg bg-black px-3 py-2 text-white transition hover:bg-gray-800 sm:px-4"
+          class="inline-flex items-center justify-center
+                 rounded-xl bg-zinc-950 px-4 py-2.5
+                 text-white transition hover:bg-zinc-800
+                 focus:outline-none focus:ring-2
+                 focus:ring-zinc-950 focus:ring-offset-2"
         >
-          <span class="hidden sm:inline">Créer mon salon</span>
-          <span class="sm:hidden">S'inscrire</span>
+          <span class="hidden sm:inline">
+            Créer mon salon
+          </span>
+
+          <span class="sm:hidden">
+            S'inscrire
+          </span>
         </a>
 
       }
