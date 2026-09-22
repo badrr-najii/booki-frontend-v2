@@ -1,157 +1,309 @@
-<section id="salons" class="scroll-mt-24 py-16 sm:py-20">
-  <div class="mx-auto max-w-6xl px-4 sm:px-6">
+<section
+  id="salons"
+  class="scroll-mt-24 bg-white py-16 sm:py-20"
+>
+  <div class="mx-auto max-w-7xl px-6 lg:px-8">
 
-    <div class="mb-10">
-      <p class="mb-2 text-sm font-medium text-gray-500">
-        À découvrir
-      </p>
+    <!-- Header -->
+    <div
+      class="flex flex-col justify-between gap-6
+             lg:flex-row lg:items-end"
+    >
+      <div>
+        <p
+          class="text-sm font-semibold uppercase tracking-[0.14em]
+                 text-zinc-400"
+        >
+          À découvrir
+        </p>
 
-      <h2 class="text-3xl font-bold tracking-tight text-black sm:text-4xl">
-        Découvrez nos salons
-      </h2>
+        <h2
+          class="mt-3 text-3xl font-bold tracking-tight
+                 text-zinc-950 sm:text-4xl"
+        >
+          Découvrez nos salons
+        </h2>
 
-      <p class="mt-3 max-w-2xl text-gray-500">
-        Trouvez un salon et réservez votre prochain rendez-vous en quelques clics.
-      </p>
-    </div>
-
-    <div class="mt-6 flex flex-wrap gap-2">
-      <button type="button" (click)="selectAudience(null)" [class.bg-black]="selectedAudience === null"
-        [class.text-white]="selectedAudience === null"
-        class="rounded-full border border-gray-200 px-4 py-2 text-sm font-medium transition hover:border-black">
-        Tous
-      </button>
-
-      <button type="button" (click)="selectAudience(SalonAudience.Women)"
-        [class.bg-black]="selectedAudience === SalonAudience.Women"
-        [class.text-white]="selectedAudience === SalonAudience.Women"
-        class="rounded-full border border-gray-200 px-4 py-2 text-sm font-medium transition hover:border-black">
-        Femmes
-      </button>
-
-      <button type="button" (click)="selectAudience(SalonAudience.Men)"
-        [class.bg-black]="selectedAudience === SalonAudience.Men"
-        [class.text-white]="selectedAudience === SalonAudience.Men"
-        class="rounded-full border border-gray-200 px-4 py-2 text-sm font-medium transition hover:border-black">
-        Hommes
-      </button>
-
-      <button type="button" (click)="selectAudience(SalonAudience.Mixed)"
-        [class.bg-black]="selectedAudience === SalonAudience.Mixed"
-        [class.text-white]="selectedAudience === SalonAudience.Mixed"
-        class="rounded-full border border-gray-200 px-4 py-2 text-sm font-medium transition hover:border-black">
-        Mixte
-      </button>
-    </div>
-
-    @if (isLoading) {
-
-    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-      @for (item of [1, 2, 3]; track item) {
-      <div class="h-80 animate-pulse rounded-3xl border border-gray-200 bg-gray-100">
+        <p class="mt-3 max-w-2xl leading-7 text-zinc-500">
+          Trouvez un salon selon vos préférences et réservez
+          votre prochain rendez-vous en quelques clics.
+        </p>
       </div>
-      }
+
+      <!-- Audience filters -->
+      <div
+        class="flex w-fit flex-wrap gap-2 rounded-2xl
+               border border-zinc-200 bg-zinc-50 p-1.5"
+      >
+        <button
+          type="button"
+          (click)="selectAudience(null)"
+          [class.bg-zinc-950]="selectedAudience === null"
+          [class.text-white]="selectedAudience === null"
+          [class.shadow-sm]="selectedAudience === null"
+          class="rounded-xl px-4 py-2 text-sm font-medium
+                 text-zinc-600 transition hover:text-zinc-950"
+        >
+          Tous
+        </button>
+
+        <button
+          type="button"
+          (click)="selectAudience(SalonAudience.Women)"
+          [class.bg-zinc-950]="selectedAudience === SalonAudience.Women"
+          [class.text-white]="selectedAudience === SalonAudience.Women"
+          [class.shadow-sm]="selectedAudience === SalonAudience.Women"
+          class="rounded-xl px-4 py-2 text-sm font-medium
+                 text-zinc-600 transition hover:text-zinc-950"
+        >
+          Femmes
+        </button>
+
+        <button
+          type="button"
+          (click)="selectAudience(SalonAudience.Men)"
+          [class.bg-zinc-950]="selectedAudience === SalonAudience.Men"
+          [class.text-white]="selectedAudience === SalonAudience.Men"
+          [class.shadow-sm]="selectedAudience === SalonAudience.Men"
+          class="rounded-xl px-4 py-2 text-sm font-medium
+                 text-zinc-600 transition hover:text-zinc-950"
+        >
+          Hommes
+        </button>
+
+        <button
+          type="button"
+          (click)="selectAudience(SalonAudience.Mixed)"
+          [class.bg-zinc-950]="selectedAudience === SalonAudience.Mixed"
+          [class.text-white]="selectedAudience === SalonAudience.Mixed"
+          [class.shadow-sm]="selectedAudience === SalonAudience.Mixed"
+          class="rounded-xl px-4 py-2 text-sm font-medium
+                 text-zinc-600 transition hover:text-zinc-950"
+        >
+          Mixte
+        </button>
+      </div>
     </div>
 
-    } @else if (errorMessage) {
+    <!-- Content -->
+    <div class="mt-10">
+      @if (isLoading) {
 
-    <div class="rounded-2xl border border-red-200 bg-red-50 px-5 py-4 text-sm text-red-700">
-      {{ errorMessage }}
-    </div>
+        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          @for (item of [1, 2, 3]; track item) {
+            <div
+              class="overflow-hidden rounded-3xl
+                     border border-zinc-200 bg-white"
+            >
+              <div
+                class="h-52 animate-pulse bg-zinc-100"
+              ></div>
 
-    } @else if (filteredSalons.length === 0) {
+              <div class="p-6">
+                <div
+                  class="h-5 w-2/3 animate-pulse
+                         rounded-full bg-zinc-100"
+                ></div>
 
-    <div class="rounded-3xl border border-dashed border-gray-300 bg-gray-50 px-6 py-12 text-center">
+                <div
+                  class="mt-3 h-3 w-1/3 animate-pulse
+                         rounded-full bg-zinc-100"
+                ></div>
 
-      <h3 class="text-lg font-semibold text-gray-950">
-        Aucun salon disponible
-      </h3>
-
-      <p class="mt-2 text-sm text-gray-500">
-        De nouveaux salons seront bientôt disponibles.
-      </p>
-    </div>
-
-    } @else {
-
-    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-
-      @for (salon of filteredSalons; track salon.id) {
-
-      <article
-        class="group flex overflow-hidden rounded-3xl border border-gray-200 bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl">
-
-        <div class="flex w-full flex-col">
-
-          @if (getLogoUrl(salon); as logoUrl) {
-          <img [src]="logoUrl" [alt]="'Logo de ' + salon.name" class="h-48 w-full bg-gray-100 object-cover"
-            loading="lazy">
-          } @else {
-          <div class="flex h-48 items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200">
-
-            <span class="text-3xl font-bold text-gray-400">
-              {{ salon.name.charAt(0).toUpperCase() }}
-            </span>
-          </div>
-          }
-
-          <div class="flex flex-1 flex-col p-6">
-
-            <h3 class="text-xl font-bold text-black">
-              {{ salon.name }}
-            </h3>
-
-            <p class="mt-1 text-sm text-gray-500">
-              {{ salon.city || 'Localisation non renseignée' }}
-            </p>
-
-            @if (salon.description) {
-            <p class="mt-4 line-clamp-2 text-sm leading-6 text-gray-500">
-              {{ salon.description }}
-            </p>
-            }
-
-            <div class="mt-5 flex flex-wrap gap-2">
-              @for (
-              service of salon.services.slice(0, 3);
-              track service.id
-              ) {
-              @if (service.isActive) {
-              <span class="rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-700">
-                {{ service.name }}
-              </span>
-              }
-              }
-            </div>
-
-            <div class="mt-auto pt-6">
-
-              @if (getStartingPrice(salon); as price) {
-              <div class="mb-4">
-                <p class="text-xs text-gray-400">
-                  À partir de
-                </p>
-
-                <p class="text-lg font-bold text-black">
-                  {{ price }} MAD
-                </p>
+                <div
+                  class="mt-7 h-11 animate-pulse
+                         rounded-xl bg-zinc-100"
+                ></div>
               </div>
-              }
-
-              <a [routerLink]="['/salons', salon.id, 'book']"
-                class="inline-flex w-full items-center justify-center rounded-2xl bg-black px-4 py-3 font-semibold text-white transition hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2">
-
-                Réserver
-              </a>
-
             </div>
-          </div>
+          }
         </div>
-      </article>
+
+      } @else if (errorMessage) {
+
+        <div
+          class="rounded-3xl border border-red-200
+                 bg-red-50 px-6 py-5 text-sm text-red-700"
+        >
+          {{ errorMessage }}
+        </div>
+
+      } @else if (filteredSalons.length === 0) {
+
+        <div
+          class="rounded-3xl border border-dashed border-zinc-300
+                 bg-zinc-50 px-6 py-14 text-center"
+        >
+          <div
+            class="mx-auto flex h-12 w-12 items-center
+                   justify-center rounded-2xl bg-white
+                   text-xl shadow-sm"
+          >
+            ✦
+          </div>
+
+          <h3 class="mt-5 text-lg font-semibold text-zinc-950">
+            Aucun salon disponible
+          </h3>
+
+          <p class="mt-2 text-sm text-zinc-500">
+            Aucun salon ne correspond à ce filtre pour le moment.
+          </p>
+        </div>
+
+      } @else {
+
+        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          @for (salon of filteredSalons; track salon.id) {
+
+            <article
+              class="group flex overflow-hidden rounded-3xl
+                     border border-zinc-200 bg-white
+                     transition duration-300
+                     hover:-translate-y-1
+                     hover:border-zinc-300 hover:shadow-xl"
+            >
+              <div class="flex w-full flex-col">
+
+                <!-- Salon visual -->
+                <div class="relative overflow-hidden">
+                  @if (getLogoUrl(salon); as logoUrl) {
+                    <img
+                      [src]="logoUrl"
+                      [alt]="'Logo de ' + salon.name"
+                      class="h-52 w-full bg-zinc-100 object-cover
+                             transition duration-500
+                             group-hover:scale-[1.03]"
+                      loading="lazy"
+                    >
+                  } @else {
+                    <div
+                      class="flex h-52 items-center justify-center
+                             bg-gradient-to-br from-zinc-100
+                             via-zinc-50 to-zinc-200"
+                    >
+                      <span
+                        class="flex h-16 w-16 items-center
+                               justify-center rounded-2xl bg-white
+                               text-2xl font-bold text-zinc-500
+                               shadow-sm"
+                      >
+                        {{ salon.name.charAt(0).toUpperCase() }}
+                      </span>
+                    </div>
+                  }
+
+                  <!-- Audience badge -->
+                  <div
+                    class="absolute left-4 top-4 rounded-full
+                           border border-white/60 bg-white/90
+                           px-3 py-1.5 text-xs font-semibold
+                           text-zinc-700 shadow-sm backdrop-blur"
+                  >
+                    @switch (salon.audience) {
+                      @case (SalonAudience.Women) {
+                        Femmes
+                      }
+                      @case (SalonAudience.Men) {
+                        Hommes
+                      }
+                      @default {
+                        Mixte
+                      }
+                    }
+                  </div>
+                </div>
+
+                <!-- Content -->
+                <div class="flex flex-1 flex-col p-6">
+                  <div>
+                    <h3
+                      class="text-xl font-bold tracking-tight
+                             text-zinc-950"
+                    >
+                      {{ salon.name }}
+                    </h3>
+
+                    <p
+                      class="mt-1 flex items-center gap-1.5
+                             text-sm text-zinc-500"
+                    >
+                      <span aria-hidden="true">⌖</span>
+
+                      {{ salon.city || 'Localisation non renseignée' }}
+                    </p>
+                  </div>
+
+                  @if (salon.description) {
+                    <p
+                      class="mt-4 line-clamp-2 text-sm
+                             leading-6 text-zinc-500"
+                    >
+                      {{ salon.description }}
+                    </p>
+                  }
+
+                  <!-- Services -->
+                  <div class="mt-5 flex flex-wrap gap-2">
+                    @for (
+                      service of salon.services.slice(0, 3);
+                      track service.id
+                    ) {
+                      @if (service.isActive) {
+                        <span
+                          class="rounded-full bg-zinc-100
+                                 px-3 py-1.5 text-xs
+                                 font-medium text-zinc-600"
+                        >
+                          {{ service.name }}
+                        </span>
+                      }
+                    }
+                  </div>
+
+                  <!-- Footer -->
+                  <div
+                    class="mt-auto flex items-end justify-between
+                           gap-4 border-t border-zinc-100 pt-6"
+                  >
+                    <div>
+                      @if (getStartingPrice(salon); as price) {
+                        <p class="text-xs text-zinc-400">
+                          À partir de
+                        </p>
+
+                        <p
+                          class="mt-0.5 text-lg font-bold
+                                 text-zinc-950"
+                        >
+                          {{ price }} MAD
+                        </p>
+                      } @else {
+                        <p class="text-sm text-zinc-400">
+                          Voir les prestations
+                        </p>
+                      }
+                    </div>
+
+                    <a
+                      [routerLink]="['/salons', salon.id, 'book']"
+                      class="inline-flex items-center justify-center
+                             rounded-xl bg-zinc-950 px-5 py-3
+                             text-sm font-semibold text-white
+                             transition hover:bg-zinc-800
+                             focus:outline-none focus:ring-2
+                             focus:ring-zinc-950
+                             focus:ring-offset-2"
+                    >
+                      Réserver
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </article>
+          }
+        </div>
       }
-
     </div>
-    }
-
   </div>
 </section>
