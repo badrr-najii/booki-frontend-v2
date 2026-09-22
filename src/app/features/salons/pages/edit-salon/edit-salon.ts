@@ -17,6 +17,7 @@ import {
 } from '@angular/router';
 
 import {
+  SalonAudience,
   SalonResponse,
   SalonService,
   UpdateSalonRequest
@@ -32,6 +33,8 @@ import {
   styleUrl: './edit-salon.css',
 })
 export class EditSalon implements OnInit {
+
+  readonly SalonAudience = SalonAudience;
 
   salonId = '';
   salon: SalonResponse | null = null;
@@ -67,6 +70,11 @@ export class EditSalon implements OnInit {
       email: ['', [
         Validators.email
       ]],
+
+      audience: [SalonAudience.Mixed, [
+        Validators.required
+      ]],
+
       isActive: [true]
     });
   }
@@ -96,6 +104,7 @@ export class EditSalon implements OnInit {
           city: salon.city ?? '',
           phoneNumber: salon.phoneNumber ?? '',
           email: salon.email ?? '',
+          audience: salon.audience,
           isActive: salon.isActive
         });
 
@@ -140,6 +149,7 @@ export class EditSalon implements OnInit {
 
       // Preserve fields that are not edited by this form.
       logoUrl: this.salon.logoUrl ?? null,
+      audience: form.audience,
       latitude: this.salon.latitude ?? null,
       longitude: this.salon.longitude ?? null,
 

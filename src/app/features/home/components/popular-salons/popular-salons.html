@@ -15,6 +15,35 @@
       </p>
     </div>
 
+    <div class="mt-6 flex flex-wrap gap-2">
+      <button type="button" (click)="selectAudience(null)" [class.bg-black]="selectedAudience === null"
+        [class.text-white]="selectedAudience === null"
+        class="rounded-full border border-gray-200 px-4 py-2 text-sm font-medium transition hover:border-black">
+        Tous
+      </button>
+
+      <button type="button" (click)="selectAudience(SalonAudience.Women)"
+        [class.bg-black]="selectedAudience === SalonAudience.Women"
+        [class.text-white]="selectedAudience === SalonAudience.Women"
+        class="rounded-full border border-gray-200 px-4 py-2 text-sm font-medium transition hover:border-black">
+        Femmes
+      </button>
+
+      <button type="button" (click)="selectAudience(SalonAudience.Men)"
+        [class.bg-black]="selectedAudience === SalonAudience.Men"
+        [class.text-white]="selectedAudience === SalonAudience.Men"
+        class="rounded-full border border-gray-200 px-4 py-2 text-sm font-medium transition hover:border-black">
+        Hommes
+      </button>
+
+      <button type="button" (click)="selectAudience(SalonAudience.Mixed)"
+        [class.bg-black]="selectedAudience === SalonAudience.Mixed"
+        [class.text-white]="selectedAudience === SalonAudience.Mixed"
+        class="rounded-full border border-gray-200 px-4 py-2 text-sm font-medium transition hover:border-black">
+        Mixte
+      </button>
+    </div>
+
     @if (isLoading) {
 
     <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -30,7 +59,7 @@
       {{ errorMessage }}
     </div>
 
-    } @else if (salons.length === 0) {
+    } @else if (filteredSalons.length === 0) {
 
     <div class="rounded-3xl border border-dashed border-gray-300 bg-gray-50 px-6 py-12 text-center">
 
@@ -47,7 +76,7 @@
 
     <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
 
-      @for (salon of salons; track salon.id) {
+      @for (salon of filteredSalons; track salon.id) {
 
       <article
         class="group flex overflow-hidden rounded-3xl border border-gray-200 bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl">

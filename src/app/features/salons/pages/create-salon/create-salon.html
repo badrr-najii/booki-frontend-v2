@@ -136,6 +136,28 @@
             </p>
           }
         </div>
+
+        <div>
+  <label
+    class="mb-2 block
+           text-sm font-medium"
+  >
+    Type de clientèle *
+  </label>
+
+  <select
+    formControlName="audience"
+    class="w-full rounded-xl
+           border border-gray-300
+           px-4 py-3
+           outline-none
+           focus:border-black"
+  >
+    <option [ngValue]="SalonAudience.Mixed">Mixte</option>
+    <option [ngValue]="SalonAudience.Women">Femmes</option>
+    <option [ngValue]="SalonAudience.Men">Hommes</option>
+  </select>
+</div>
         <div>
 
           <label
