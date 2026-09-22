@@ -5,6 +5,12 @@ import {
 } from '@angular/router';
 
 import {
+  catchError,
+  map,
+  of
+} from 'rxjs';
+
+import {
   AuthService
 } from '../services/auth.service';
 
@@ -23,7 +29,19 @@ export const authGuard: CanActivateFn =
       return true;
     }
 
-    return router.createUrlTree([
-      '/login'
-    ]);
+    return authService
+      .refreshToken()
+      .pipe(
+        map(() => true),
+
+        catchError(() => {
+          authService.clearSession();
+
+          return of(
+            router.createUrlTree([
+              '/login'
+            ])
+          );
+        })
+      );
   };
