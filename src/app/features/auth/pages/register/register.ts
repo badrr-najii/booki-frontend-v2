@@ -109,8 +109,7 @@ export class Register {
       fullName: form.fullName,
       email: form.email,
       phoneNumber: form.phoneNumber,
-      password: form.password,
-      role: 0
+      password: form.password
     })
       .subscribe({
         next: () => {
