@@ -45,20 +45,32 @@ export class AdminService {
   ) {}
 
   getUsers(
-    page = 1,
-    pageSize = 20
-  ): Observable<AdminUsersPage> {
+  page = 1,
+  pageSize = 20,
+  search = '',
+  role = ''
+): Observable<AdminUsersPage> {
 
-    return this.http.get<AdminUsersPage>(
-      `${this.apiUrl}/users`,
-      {
-        params: {
-          page,
-          pageSize
-        }
-      }
-    );
+  const params: Record<string, string | number> = {
+    page,
+    pageSize
+  };
+
+  const normalizedSearch = search.trim();
+
+  if (normalizedSearch) {
+    params['search'] = normalizedSearch;
   }
+
+  if (role) {
+    params['role'] = role;
+  }
+
+  return this.http.get<AdminUsersPage>(
+    `${this.apiUrl}/users`,
+    { params }
+  );
+}
 
   getStats(): Observable<AdminStats> {
   return this.http.get<AdminStats>(

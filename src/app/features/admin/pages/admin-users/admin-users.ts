@@ -3,7 +3,9 @@ import {
   Component,
   OnInit
 } from '@angular/core';
+
 import { DatePipe } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 import {
   AdminService,
@@ -13,7 +15,8 @@ import {
 @Component({
   selector: 'app-admin-users',
   imports: [
-    DatePipe
+    DatePipe,
+    FormsModule
   ],
   templateUrl: './admin-users.html',
 })
@@ -25,6 +28,9 @@ export class AdminUsers implements OnInit {
   pageSize = 20;
   totalCount = 0;
   totalPages = 0;
+
+  search = '';
+  selectedRole = '';
 
   isLoading = false;
   errorMessage = '';
@@ -55,7 +61,12 @@ export class AdminUsers implements OnInit {
     this.errorMessage = '';
 
     this.adminService
-      .getUsers(page, this.pageSize)
+      .getUsers(
+        page,
+        this.pageSize,
+        this.search,
+        this.selectedRole
+      )
       .subscribe({
         next: response => {
           this.users = response.items;
@@ -75,6 +86,18 @@ export class AdminUsers implements OnInit {
           this.cdr.detectChanges();
         }
       });
+  }
+
+  applyFilters(): void {
+    this.page = 1;
+    this.loadUsers(1);
+  }
+
+  clearFilters(): void {
+    this.search = '';
+    this.selectedRole = '';
+    this.page = 1;
+    this.loadUsers(1);
   }
 
   previousPage(): void {
