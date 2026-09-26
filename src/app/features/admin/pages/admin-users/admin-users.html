@@ -1,0 +1,187 @@
+<section
+  class="mx-auto max-w-7xl px-6 py-10 lg:px-8"
+>
+  <div
+    class="mb-8 flex flex-col gap-2
+           sm:flex-row sm:items-end
+           sm:justify-between"
+  >
+    <div>
+      <p
+        class="text-sm font-medium text-zinc-500"
+      >
+        Administration
+      </p>
+
+      <h1
+        class="mt-1 text-3xl font-bold
+               tracking-[-0.03em] text-zinc-950"
+      >
+        Utilisateurs
+      </h1>
+
+      <p class="mt-2 text-sm text-zinc-500">
+        {{ totalCount }} utilisateur(s)
+      </p>
+    </div>
+  </div>
+
+  @if (errorMessage) {
+    <div
+      class="mb-6 rounded-xl border
+             border-red-200 bg-red-50
+             px-4 py-3 text-sm text-red-700"
+    >
+      {{ errorMessage }}
+    </div>
+  }
+
+  <div
+    class="overflow-hidden rounded-2xl
+           border border-zinc-200 bg-white"
+  >
+    @if (isLoading) {
+      <div
+        class="px-6 py-12 text-center
+               text-sm text-zinc-500"
+      >
+        Chargement...
+      </div>
+    } @else if (users.length === 0) {
+      <div
+        class="px-6 py-12 text-center
+               text-sm text-zinc-500"
+      >
+        Aucun utilisateur.
+      </div>
+    } @else {
+      <div class="overflow-x-auto">
+        <table
+          class="min-w-full divide-y
+                 divide-zinc-200 text-sm"
+        >
+          <thead class="bg-zinc-50">
+            <tr>
+              <th
+                class="px-6 py-3 text-left
+                       font-semibold text-zinc-600"
+              >
+                Utilisateur
+              </th>
+
+              <th
+                class="px-6 py-3 text-left
+                       font-semibold text-zinc-600"
+              >
+                Role
+              </th>
+
+              <th
+                class="px-6 py-3 text-left
+                       font-semibold text-zinc-600"
+              >
+                Email confirme
+              </th>
+
+              <th
+                class="px-6 py-3 text-left
+                       font-semibold text-zinc-600"
+              >
+                Creation
+              </th>
+            </tr>
+          </thead>
+
+          <tbody class="divide-y divide-zinc-100">
+            @for (user of users; track user.id) {
+              <tr class="hover:bg-zinc-50/70">
+                <td class="px-6 py-4">
+                  <p
+                    class="font-medium text-zinc-950"
+                  >
+                    {{ user.fullName || 'Sans nom' }}
+                  </p>
+
+                  <p
+                    class="mt-1 text-xs text-zinc-500"
+                  >
+                    {{ user.email || 'Sans email' }}
+                  </p>
+
+                  @if (user.phoneNumber) {
+                    <p
+                      class="mt-1 text-xs text-zinc-400"
+                    >
+                      {{ user.phoneNumber }}
+                    </p>
+                  }
+                </td>
+
+                <td
+                  class="px-6 py-4 text-zinc-700"
+                >
+                  {{ user.role }}
+                </td>
+
+                <td
+                  class="px-6 py-4 text-zinc-700"
+                >
+                  {{ user.isEmailConfirmed
+                    ? 'Oui'
+                    : 'Non' }}
+                </td>
+
+                <td
+                  class="whitespace-nowrap
+                         px-6 py-4 text-zinc-500"
+                >
+                  {{ user.createdAt
+                    | date:'dd/MM/yyyy HH:mm' }}
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </div>
+
+  @if (!isLoading && totalPages > 1) {
+    <div
+      class="mt-6 flex items-center
+             justify-between gap-4"
+    >
+      <button
+        type="button"
+        (click)="previousPage()"
+        [disabled]="page <= 1"
+        class="rounded-xl border border-zinc-200
+               bg-white px-4 py-2 text-sm
+               font-medium text-zinc-700
+               transition hover:bg-zinc-50
+               disabled:cursor-not-allowed
+               disabled:opacity-40"
+      >
+        Precedent
+      </button>
+
+      <span class="text-sm text-zinc-500">
+        Page {{ page }} / {{ totalPages }}
+      </span>
+
+      <button
+        type="button"
+        (click)="nextPage()"
+        [disabled]="page >= totalPages"
+        class="rounded-xl border border-zinc-200
+               bg-white px-4 py-2 text-sm
+               font-medium text-zinc-700
+               transition hover:bg-zinc-50
+               disabled:cursor-not-allowed
+               disabled:opacity-40"
+      >
+        Suivant
+      </button>
+    </div>
+  }
+</section>
