@@ -21,6 +21,8 @@ import { PublicBooking } from './features/bookings/pages/public-booking/public-b
 import { EditBooking } from './features/salons/pages/edit-booking/edit-booking';
 import { EditSalon } from './features/salons/pages/edit-salon/edit-salon';
 import { PublicLayout } from './core/layout/public-layout/public-layout';
+import { ownerGuard } from './core/guards/owner.guard';
+
 export const routes: Routes = [
     {
         path: '',
@@ -54,7 +56,7 @@ export const routes: Routes = [
     {
         path: '',
         component: DashboardLayout,
-        canActivate: [authGuard],
+        canActivate: [authGuard, ownerGuard],
         children: [
             {
                 path: 'dashboard',

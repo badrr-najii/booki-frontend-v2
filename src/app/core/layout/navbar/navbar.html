@@ -48,15 +48,17 @@
 
       @if (authService.isAuthenticated()) {
 
-        <a
-          routerLink="/dashboard"
-          routerLinkActive="bg-zinc-100 text-zinc-950"
-          class="rounded-xl px-3 py-2 text-zinc-600
-                 transition hover:bg-zinc-100
-                 hover:text-zinc-950 sm:px-4"
-        >
-          Dashboard
-        </a>
+        @if (authService.isOwner()) {
+          <a
+            routerLink="/dashboard"
+            routerLinkActive="bg-zinc-100 text-zinc-950"
+            class="rounded-xl px-3 py-2 text-zinc-600
+                   transition hover:bg-zinc-100
+                   hover:text-zinc-950 sm:px-4"
+          >
+            Dashboard
+          </a>
+        }
 
         <button
           type="button"
