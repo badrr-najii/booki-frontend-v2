@@ -141,6 +141,11 @@ export class AuthService {
       this.getRole() === 'Owner';
   }
 
+  isAdmin(): boolean {
+  return this.isAuthenticated() &&
+    this.getRole() === 'Admin';
+}
+
   logout(): Observable<{ message: string }> {
 
     return this.http

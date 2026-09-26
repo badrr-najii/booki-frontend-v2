@@ -81,7 +81,20 @@ export class Login {
           this.isLoading = false;
           this.cdr.detectChanges();
 
-          this.router.navigate(['/dashboard']);
+          const role =
+            this.authService.getRole();
+
+          if (role === 'Admin') {
+            this.router.navigate(['/admin']);
+            return;
+          }
+
+          if (role === 'Owner') {
+            this.router.navigate(['/dashboard']);
+            return;
+          }
+
+          this.router.navigate(['/']);
         },
 
         error: error => {

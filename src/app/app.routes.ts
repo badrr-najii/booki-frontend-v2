@@ -22,6 +22,9 @@ import { EditBooking } from './features/salons/pages/edit-booking/edit-booking';
 import { EditSalon } from './features/salons/pages/edit-salon/edit-salon';
 import { PublicLayout } from './core/layout/public-layout/public-layout';
 import { ownerGuard } from './core/guards/owner.guard';
+import { adminGuard } from './core/guards/admin.guard';
+import { AdminLayout } from './core/layout/admin-layout/admin-layout';
+import { AdminUsers } from './features/admin/pages/admin-users/admin-users';
 
 export const routes: Routes = [
     {
@@ -113,6 +116,20 @@ export const routes: Routes = [
             },
         ]
     },
+
+    {
+        path: '',
+        component: AdminLayout,
+        canActivate: [authGuard, adminGuard],
+        children: [
+            {
+                path: 'admin',
+                component: AdminUsers
+            }
+        ]
+    },
+
+
     {
         path: '**',
         redirectTo: ''
