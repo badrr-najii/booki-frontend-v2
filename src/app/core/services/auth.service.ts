@@ -107,34 +107,29 @@ export class AuthService {
   }
 
   getRole(): string | null {
-    const token = this.getAccessToken();
+  const token = this.getAccessToken();
 
-    if (!token) {
-      return null;
-    }
-
-    try {
-      const parts = token.split('.');
-
-      if (parts.length !== 3) {
-        return null;
-      }
-
-      const base64Url = parts[1];
-      const base64 = base64Url
-        .replace(/-/g, '+')
-        .replace(/_/g, '/')
-        .padEnd(Math.ceil(base64Url.length / 4) * 4, '=');
-
-      const payload = JSON.parse(atob(base64));
-
-      return typeof payload.role === 'string'
-        ? payload.role
-        : null;
-    } catch {
-      return null;
-    }
+  if (!token) {
+    return null;
   }
+
+  try {
+    const payload = JSON.parse(
+      atob(
+        token
+          .split('.')[1]
+          .replace(/-/g, '+')
+          .replace(/_/g, '/')
+      )
+    );
+
+    return payload[
+      'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
+    ] ?? payload.role ?? null;
+  } catch {
+    return null;
+  }
+}
 
   isOwner(): boolean {
     return this.isAuthenticated() &&
