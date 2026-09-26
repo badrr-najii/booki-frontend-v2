@@ -22,6 +22,16 @@ export interface AdminUsersPage {
   totalPages: number;
 }
 
+export interface AdminStats {
+  totalUsers: number;
+  totalOwners: number;
+  totalAdmins: number;
+  confirmedUsers: number;
+  totalSalons: number;
+  activeSalons: number;
+  totalBookings: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -49,4 +59,10 @@ export class AdminService {
       }
     );
   }
+
+  getStats(): Observable<AdminStats> {
+  return this.http.get<AdminStats>(
+    `${this.apiUrl}/stats`
+  );
+}
 }
