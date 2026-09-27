@@ -1,58 +1,110 @@
 import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  OnInit,
-  inject
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    OnInit,
+    inject
 } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 
 import {
-  AdminService,
-  AdminUserDetails
+    AdminService,
+    AdminUserDetails,
+    AdminUserRole
 } from '../../../../core/services/admin.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-admin-user-details',
-  imports: [DatePipe, RouterLink],
-  templateUrl: './admin-user-details.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-admin-user-details',
+    imports: [DatePipe, RouterLink, FormsModule],
+    templateUrl: './admin-user-details.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AdminUserDetailsComponent implements OnInit {
-  private readonly route = inject(ActivatedRoute);
-  private readonly adminService = inject(AdminService);
-  private readonly cdr = inject(ChangeDetectorRef);
+    private readonly route = inject(ActivatedRoute);
+    private readonly adminService = inject(AdminService);
+    private readonly cdr = inject(ChangeDetectorRef);
 
-  user: AdminUserDetails | null = null;
-  loading = true;
-  error = '';
+    user: AdminUserDetails | null = null;
+    loading = true;
+    error = '';
 
-  ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
+    selectedRole: AdminUserRole = 'Owner';
+    savingRole = false;
+    roleError = '';
+    roleSuccess = '';
 
-    if (!id) {
-      this.loading = false;
-      this.error = 'Utilisateur introuvable.';
-      return;
+    ngOnInit(): void {
+        const id = this.route.snapshot.paramMap.get('id');
+
+        if (!id) {
+            this.loading = false;
+            this.error = 'Utilisateur introuvable.';
+            return;
+        }
+
+        this.adminService.getUserById(id).subscribe({
+            next: (user) => {
+                this.user = user;
+                this.selectedRole = user.role;
+                this.loading = false;
+                this.cdr.markForCheck();
+            },
+            error: (error) => {
+                this.loading = false;
+
+                this.error =
+                    error.status === 404
+                        ? 'Utilisateur introuvable.'
+                        : 'Impossible de charger cet utilisateur.';
+
+                this.cdr.markForCheck();
+            }
+        });
     }
 
-    this.adminService.getUserById(id).subscribe({
-      next: (user) => {
-        this.user = user;
-        this.loading = false;
-        this.cdr.markForCheck();
-      },
-      error: (error) => {
-        this.loading = false;
+    updateRole(): void {
+        if (
+            !this.user ||
+            this.savingRole ||
+            this.selectedRole === this.user.role
+        ) {
+            return;
+        }
 
-        this.error =
-          error.status === 404
-            ? 'Utilisateur introuvable.'
-            : 'Impossible de charger cet utilisateur.';
+        this.savingRole = true;
+        this.roleError = '';
+        this.roleSuccess = '';
 
-        this.cdr.markForCheck();
-      }
-    });
-  }
+        this.adminService
+            .updateUserRole(
+                this.user.id,
+                this.selectedRole
+            )
+            .subscribe({
+                next: user => {
+                    this.user = user;
+                    this.selectedRole = user.role;
+                    this.savingRole = false;
+                    this.roleSuccess =
+                        'Role mis a jour.';
+                    this.cdr.markForCheck();
+                },
+
+                error: error => {
+                    this.savingRole = false;
+
+                    this.roleError =
+                        error.status === 400
+                            ? 'Modification du role refusee.'
+                            : 'Impossible de modifier le role.';
+
+                    this.selectedRole =
+                        this.user!.role;
+
+                    this.cdr.markForCheck();
+                }
+            });
+    }
 }

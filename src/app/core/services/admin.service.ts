@@ -9,7 +9,7 @@ export interface AdminUser {
   fullName: string | null;
   email: string | null;
   phoneNumber: string | null;
-  role: 'Owner' | 'Admin' | 'Client';
+  role: AdminUserRole;
   isEmailConfirmed: boolean;
   createdAt: string;
 }
@@ -37,10 +37,12 @@ export interface AdminUserDetails {
   fullName: string | null;
   email: string | null;
   phoneNumber: string | null;
-  role: 'Owner' | 'Admin' | 'Client';
+  role: AdminUserRole;
   isEmailConfirmed: boolean;
   createdAt: string;
 }
+
+export type AdminUserRole = 'Owner' | 'Admin' | 'Client';
 
 @Injectable({
   providedIn: 'root'
@@ -52,45 +54,63 @@ export class AdminService {
 
   constructor(
     private http: HttpClient
-  ) {}
+  ) { }
 
   getUsers(
-  page = 1,
-  pageSize = 20,
-  search = '',
-  role = ''
-): Observable<AdminUsersPage> {
+    page = 1,
+    pageSize = 20,
+    search = '',
+    role = ''
+  ): Observable<AdminUsersPage> {
 
-  const params: Record<string, string | number> = {
-    page,
-    pageSize
-  };
+    const params: Record<string, string | number> = {
+      page,
+      pageSize
+    };
 
-  const normalizedSearch = search.trim();
+    const normalizedSearch = search.trim();
 
-  if (normalizedSearch) {
-    params['search'] = normalizedSearch;
+    if (normalizedSearch) {
+      params['search'] = normalizedSearch;
+    }
+
+    if (role) {
+      params['role'] = role;
+    }
+
+    return this.http.get<AdminUsersPage>(
+      `${this.apiUrl}/users`,
+      { params }
+    );
   }
-
-  if (role) {
-    params['role'] = role;
-  }
-
-  return this.http.get<AdminUsersPage>(
-    `${this.apiUrl}/users`,
-    { params }
-  );
-}
 
   getStats(): Observable<AdminStats> {
-  return this.http.get<AdminStats>(
-    `${this.apiUrl}/stats`
-  );
-}
+    return this.http.get<AdminStats>(
+      `${this.apiUrl}/stats`
+    );
+  }
 
-getUserById(id: string): Observable<AdminUserDetails> {
-  return this.http.get<AdminUserDetails>(
-    `${this.apiUrl}/users/${id}`
-  );
+  getUserById(id: string): Observable<AdminUserDetails> {
+    return this.http.get<AdminUserDetails>(
+      `${this.apiUrl}/users/${id}`
+    );
+  }
+
+  updateUserRole(
+    id: string,
+    role: AdminUserRole
+): Observable<AdminUserDetails> {
+    const roleValue: Record<AdminUserRole, number> = {
+        Owner: 0,
+        Admin: 1,
+        Client: 2
+    };
+
+    return this.http.put<AdminUserDetails>(
+        `${this.apiUrl}/users/${id}/role`,
+        {
+            role: roleValue[role]
+        }
+    );
 }
 }
