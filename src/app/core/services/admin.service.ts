@@ -32,6 +32,16 @@ export interface AdminStats {
   totalBookings: number;
 }
 
+export interface AdminUserDetails {
+  id: string;
+  fullName: string | null;
+  email: string | null;
+  phoneNumber: string | null;
+  role: 'Owner' | 'Admin' | 'Client';
+  isEmailConfirmed: boolean;
+  createdAt: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -75,6 +85,12 @@ export class AdminService {
   getStats(): Observable<AdminStats> {
   return this.http.get<AdminStats>(
     `${this.apiUrl}/stats`
+  );
+}
+
+getUserById(id: string): Observable<AdminUserDetails> {
+  return this.http.get<AdminUserDetails>(
+    `${this.apiUrl}/users/${id}`
   );
 }
 }
