@@ -26,7 +26,7 @@ import { adminGuard } from './core/guards/admin.guard';
 import { AdminLayout } from './core/layout/admin-layout/admin-layout';
 import { AdminUsers } from './features/admin/pages/admin-users/admin-users';
 import { AdminDashboard } from './features/admin/pages/admin-dashboard/admin-dashboard';
-
+import { AdminUserDetailsComponent } from './features/admin/pages/admin-user-details/admin-user-details';
 export const routes: Routes = [
     {
         path: '',
@@ -123,15 +123,20 @@ export const routes: Routes = [
         component: AdminLayout,
         canActivate: [authGuard, adminGuard],
         children: [
-    {
-        path: 'admin',
-        component: AdminDashboard
-    },
-    {
-        path: 'admin/users',
-        component: AdminUsers
-    }
-]
+            {
+                path: 'admin',
+                component: AdminDashboard
+            },
+            {
+                path: 'admin/users',
+                component: AdminUsers
+            },
+            {
+                path: 'admin/users/:id',
+                component: AdminUserDetailsComponent
+            }
+
+        ]
     },
 
 

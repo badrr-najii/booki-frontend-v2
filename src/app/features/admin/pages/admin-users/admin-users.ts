@@ -12,11 +12,13 @@ import {
   AdminUser
 } from '../../../../core/services/admin.service';
 
+import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-admin-users',
   imports: [
     DatePipe,
-    FormsModule
+    FormsModule,
+    RouterLink
   ],
   templateUrl: './admin-users.html',
 })
