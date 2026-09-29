@@ -78,6 +78,16 @@
           </dd>
         </div>
 
+        <div class="border-b border-gray-100 p-6 md:border-r">
+          <dt class="text-sm text-gray-500">
+            Statut du compte
+          </dt>
+
+          <dd class="mt-2 font-medium">
+            {{ user.isActive ? 'Actif' : 'Desactive' }}
+          </dd>
+        </div>
+
         <div class="p-6">
           <dt class="text-sm text-gray-500">
             Creation
@@ -167,6 +177,65 @@
             }}
           </button>
         </div>
+      </div>
+    </div>
+
+    <!-- Gestion du statut -->
+    <div
+      class="rounded-2xl border border-gray-200
+             bg-white p-6"
+    >
+      <div class="max-w-xl">
+        <h2 class="text-lg font-semibold">
+          Statut du compte
+        </h2>
+
+        <p class="mt-1 text-sm text-gray-500">
+          Un compte desactive ne peut plus se connecter
+          ni renouveler sa session.
+        </p>
+
+        @if (statusError) {
+          <div
+            class="mt-4 rounded-xl border border-red-200
+                   bg-red-50 px-4 py-3 text-sm
+                   text-red-700"
+          >
+            {{ statusError }}
+          </div>
+        }
+
+        @if (statusSuccess) {
+          <div
+            class="mt-4 rounded-xl border border-green-200
+                   bg-green-50 px-4 py-3 text-sm
+                   text-green-700"
+          >
+            {{ statusSuccess }}
+          </div>
+        }
+
+        <button
+          type="button"
+          (click)="updateStatus()"
+          [disabled]="savingStatus"
+          class="mt-5 rounded-xl px-5 py-2.5
+                 text-sm font-medium text-white transition
+                 disabled:cursor-not-allowed
+                 disabled:opacity-40"
+          [class.bg-red-600]="user.isActive"
+          [class.hover:bg-red-700]="user.isActive"
+          [class.bg-black]="!user.isActive"
+          [class.hover:bg-zinc-800]="!user.isActive"
+        >
+          @if (savingStatus) {
+            Enregistrement...
+          } @else if (user.isActive) {
+            Desactiver le compte
+          } @else {
+            Activer le compte
+          }
+        </button>
       </div>
     </div>
   }

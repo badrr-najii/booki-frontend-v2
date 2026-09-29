@@ -34,6 +34,9 @@ export class AdminUserDetailsComponent implements OnInit {
     savingRole = false;
     roleError = '';
     roleSuccess = '';
+    savingStatus = false;
+    statusError = '';
+    statusSuccess = '';
 
     ngOnInit(): void {
         const id = this.route.snapshot.paramMap.get('id');
@@ -102,6 +105,45 @@ export class AdminUserDetailsComponent implements OnInit {
 
                     this.selectedRole =
                         this.user!.role;
+
+                    this.cdr.markForCheck();
+                }
+            });
+    }
+    updateStatus(): void {
+        if (!this.user || this.savingStatus) {
+            return;
+        }
+
+        const nextStatus = !this.user.isActive;
+
+        this.savingStatus = true;
+        this.statusError = '';
+        this.statusSuccess = '';
+
+        this.adminService
+            .updateUserStatus(
+                this.user.id,
+                nextStatus
+            )
+            .subscribe({
+                next: user => {
+                    this.user = user;
+                    this.selectedRole = user.role;
+                    this.savingStatus = false;
+                    this.statusSuccess = user.isActive
+                        ? 'Compte active.'
+                        : 'Compte desactive.';
+                    this.cdr.markForCheck();
+                },
+
+                error: error => {
+                    this.savingStatus = false;
+
+                    this.statusError =
+                        error.status === 400
+                            ? 'Vous ne pouvez pas desactiver votre propre compte.'
+                            : 'Impossible de modifier le statut du compte.';
 
                     this.cdr.markForCheck();
                 }
