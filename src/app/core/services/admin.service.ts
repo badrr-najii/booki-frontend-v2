@@ -11,6 +11,7 @@ export interface AdminUser {
   phoneNumber: string | null;
   role: AdminUserRole;
   isEmailConfirmed: boolean;
+  isActive: boolean;
   createdAt: string;
 }
 
@@ -39,6 +40,7 @@ export interface AdminUserDetails {
   phoneNumber: string | null;
   role: AdminUserRole;
   isEmailConfirmed: boolean;
+  isActive: boolean;
   createdAt: string;
 }
 
@@ -113,4 +115,16 @@ export class AdminService {
         }
     );
 }
+
+  updateUserStatus(
+    id: string,
+    isActive: boolean
+  ): Observable<AdminUserDetails> {
+    return this.http.put<AdminUserDetails>(
+      `${this.apiUrl}/users/${id}/status`,
+      {
+        isActive
+      }
+    );
+  }
 }
