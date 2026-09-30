@@ -1,0 +1,410 @@
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+.salon-page {
+  min-height: 100vh;
+  padding: 36px 24px 64px;
+  color: #111827;
+  background: #f8fafc;
+}
+
+.salon-shell {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 24px;
+  color: #64748b;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.back-link:hover {
+  color: #111827;
+}
+
+.salon-hero,
+.services-card,
+.contact-card,
+.loading-card,
+.error-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 8px 30px rgba(15, 23, 42, 0.05);
+}
+
+.salon-hero {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  padding: 26px;
+  margin-bottom: 28px;
+  border-radius: 24px;
+}
+
+.salon-photo {
+  flex: 0 0 260px;
+  width: 260px;
+  height: 195px;
+  overflow: hidden;
+  background: #f1f5f9;
+  border-radius: 18px;
+}
+
+.salon-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.salon-photo-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: #475569;
+  font-size: 54px;
+  font-weight: 700;
+}
+
+.salon-info {
+  min-width: 0;
+}
+
+.salon-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.audience-badge {
+  padding: 6px 11px;
+  color: #ffffff;
+  background: #111827;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.city {
+  color: #64748b;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.salon-info h1 {
+  margin: 14px 0 0;
+  color: #0f172a;
+  font-size: clamp(30px, 5vw, 44px);
+  line-height: 1.1;
+}
+
+.salon-location {
+  margin: 12px 0 0;
+  color: #475569;
+  font-size: 14px;
+}
+
+.salon-description {
+  max-width: 700px;
+  margin: 14px 0 0;
+  color: #64748b;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.primary-button,
+.secondary-button,
+.service-book-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  background: #111827;
+  border-radius: 11px;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  transition:
+    transform 0.15s ease,
+    opacity 0.15s ease;
+}
+
+.primary-button {
+  min-height: 46px;
+  padding: 0 20px;
+  margin-top: 22px;
+}
+
+.primary-button:hover,
+.secondary-button:hover,
+.service-book-button:hover {
+  transform: translateY(-1px);
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 330px;
+  gap: 28px;
+  align-items: start;
+}
+
+.services-card {
+  padding: 32px;
+  border-radius: 22px;
+}
+
+.section-heading {
+  padding-bottom: 24px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.eyebrow {
+  display: block;
+  margin-bottom: 7px;
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.section-heading h2,
+.contact-card h2 {
+  margin: 0;
+  color: #0f172a;
+}
+
+.section-heading h2 {
+  font-size: 27px;
+}
+
+.section-heading p {
+  margin: 9px 0 0;
+  color: #64748b;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.services-list {
+  display: grid;
+}
+
+.service-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 24px 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.service-item:last-child {
+  border-bottom: 0;
+}
+
+.service-content {
+  min-width: 0;
+}
+
+.service-content h3 {
+  margin: 0;
+  color: #111827;
+  font-size: 16px;
+}
+
+.service-content p {
+  max-width: 580px;
+  margin: 7px 0 0;
+  color: #64748b;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.duration {
+  display: inline-block;
+  margin-top: 9px;
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.service-action {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 18px;
+}
+
+.service-action strong {
+  color: #0f172a;
+  font-size: 17px;
+  white-space: nowrap;
+}
+
+.service-book-button {
+  min-height: 40px;
+  padding: 0 16px;
+}
+
+.contact-card {
+  position: sticky;
+  top: 24px;
+  padding: 26px;
+  border-radius: 20px;
+}
+
+.contact-card h2 {
+  font-size: 20px;
+}
+
+.contact-list {
+  margin-top: 20px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.contact-list > div {
+  padding: 14px 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.contact-list span,
+.contact-list strong {
+  display: block;
+}
+
+.contact-list span {
+  margin-bottom: 4px;
+  color: #64748b;
+  font-size: 11px;
+}
+
+.contact-list strong {
+  overflow-wrap: anywhere;
+  color: #1e293b;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.full-width {
+  display: flex;
+  width: 100%;
+}
+
+.loading-card,
+.error-card,
+.empty-state {
+  padding: 48px 24px;
+  text-align: center;
+}
+
+.loading-card {
+  color: #64748b;
+  border-radius: 22px;
+}
+
+.error-card {
+  border-radius: 22px;
+}
+
+.error-card h1 {
+  margin: 0;
+  font-size: 26px;
+}
+
+.error-card p {
+  margin: 12px 0 0;
+  color: #64748b;
+}
+
+.secondary-button {
+  min-height: 44px;
+  padding: 0 18px;
+  margin-top: 22px;
+}
+
+.empty-state {
+  margin-top: 24px;
+  color: #64748b;
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  font-size: 13px;
+}
+
+@media (max-width: 900px) {
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-card {
+    position: static;
+  }
+}
+
+@media (max-width: 640px) {
+  .salon-page {
+    padding: 22px 14px 44px;
+  }
+
+  .salon-hero {
+    align-items: flex-start;
+    gap: 18px;
+    padding: 16px;
+  }
+
+  .salon-photo {
+    flex-basis: 120px;
+    width: 120px;
+    height: 120px;
+  }
+
+  .salon-info h1 {
+    font-size: 25px;
+  }
+
+  .services-card,
+  .contact-card {
+    padding: 20px;
+  }
+
+  .section-heading h2 {
+    font-size: 23px;
+  }
+
+  .service-item {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .service-action {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 430px) {
+  .salon-hero {
+    flex-direction: column;
+  }
+
+  .salon-photo {
+    width: 100%;
+    height: 190px;
+  }
+
+  .primary-button {
+    width: 100%;
+  }
+}
