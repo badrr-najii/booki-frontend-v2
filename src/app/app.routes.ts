@@ -27,6 +27,8 @@ import { AdminLayout } from './core/layout/admin-layout/admin-layout';
 import { AdminUsers } from './features/admin/pages/admin-users/admin-users';
 import { AdminDashboard } from './features/admin/pages/admin-dashboard/admin-dashboard';
 import { AdminUserDetailsComponent } from './features/admin/pages/admin-user-details/admin-user-details';
+import { PublicSalonDetails } from './features/salons/pages/public-salon-details/public-salon-details';
+
 export const routes: Routes = [
     {
         path: '',
@@ -35,6 +37,10 @@ export const routes: Routes = [
             {
                 path: '',
                 component: Home
+            },
+            {
+                path: 'salons/:slug',
+                component: PublicSalonDetails
             },
             {
                 path: 'salons/:id/book',

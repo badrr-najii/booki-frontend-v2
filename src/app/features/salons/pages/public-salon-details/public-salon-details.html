@@ -1,0 +1,219 @@
+<div class="salon-page">
+  <div class="salon-shell">
+
+    <a routerLink="/" class="back-link">
+      <span>←</span>
+      Retour aux salons
+    </a>
+
+    @if (isLoading) {
+
+      <section class="loading-card">
+        Chargement du salon...
+      </section>
+
+    } @else if (errorMessage) {
+
+      <section class="error-card">
+        <h1>Salon indisponible</h1>
+        <p>{{ errorMessage }}</p>
+
+        <a routerLink="/" class="secondary-button">
+          Retour à l'accueil
+        </a>
+      </section>
+
+    } @else if (salon) {
+
+      <section class="salon-hero">
+
+        <div class="salon-photo">
+          @if (getLogoUrl(); as logoUrl) {
+            <img
+              [src]="logoUrl"
+              [alt]="salon.name"
+            />
+          } @else {
+            <div class="salon-photo-fallback">
+              {{ salon.name.charAt(0).toUpperCase() }}
+            </div>
+          }
+        </div>
+
+        <div class="salon-info">
+
+          <div class="salon-meta">
+            <span class="audience-badge">
+              {{ getAudienceLabel() }}
+            </span>
+
+            @if (salon.city) {
+              <span class="city">
+                {{ salon.city }}
+              </span>
+            }
+          </div>
+
+          <h1>{{ salon.name }}</h1>
+
+          @if (salon.address || salon.city) {
+            <p class="salon-location">
+              @if (
+                salon.address &&
+                salon.address.toLowerCase() !==
+                  salon.city?.toLowerCase()
+              ) {
+                {{ salon.address }}
+
+                @if (salon.city) {
+                  ·
+                }
+              }
+
+              @if (salon.city) {
+                {{ salon.city }}
+              }
+            </p>
+          }
+
+          @if (salon.description) {
+            <p class="salon-description">
+              {{ salon.description }}
+            </p>
+          }
+
+          <a
+            [routerLink]="['/salons', salon.id, 'book']"
+            class="primary-button"
+          >
+            Prendre rendez-vous
+          </a>
+
+        </div>
+
+      </section>
+
+      <div class="content-grid">
+
+        <main class="services-card">
+
+          <div class="section-heading">
+            <span class="eyebrow">Prestations</span>
+            <h2>Services disponibles</h2>
+
+            <p>
+              Choisissez la prestation qui vous convient,
+              puis réservez votre rendez-vous.
+            </p>
+          </div>
+
+          @if (salon.services.length === 0) {
+
+            <div class="empty-state">
+              Aucun service disponible pour le moment.
+            </div>
+
+          } @else {
+
+            <div class="services-list">
+
+              @for (service of salon.services; track service.id) {
+
+                <article class="service-item">
+
+                  <div class="service-content">
+
+                    <h3>{{ service.name }}</h3>
+
+                    @if (service.description) {
+                      <p>{{ service.description }}</p>
+                    }
+
+                    <span class="duration">
+                      {{ service.durationMinutes }} min
+                    </span>
+
+                  </div>
+
+                  <div class="service-action">
+
+                    <strong>
+                      {{ service.price }} MAD
+                    </strong>
+
+                    <a
+                      [routerLink]="['/salons', salon.id, 'book']"
+                      class="service-book-button"
+                    >
+                      Réserver
+                    </a>
+
+                  </div>
+
+                </article>
+
+              }
+
+            </div>
+
+          }
+
+        </main>
+
+        <aside class="contact-card">
+
+          <span class="eyebrow">Informations</span>
+          <h2>Le salon</h2>
+
+          <div class="contact-list">
+
+            @if (salon.address) {
+              <div>
+                <span>Adresse</span>
+                <strong>{{ salon.address }}</strong>
+              </div>
+            }
+
+            @if (salon.city) {
+              <div>
+                <span>Ville</span>
+                <strong>{{ salon.city }}</strong>
+              </div>
+            }
+
+            @if (salon.phoneNumber) {
+              <div>
+                <span>Téléphone</span>
+                <strong>{{ salon.phoneNumber }}</strong>
+              </div>
+            }
+
+            @if (salon.email) {
+              <div>
+                <span>Email</span>
+                <strong>{{ salon.email }}</strong>
+              </div>
+            }
+
+            <div>
+              <span>Public</span>
+              <strong>{{ getAudienceLabel() }}</strong>
+            </div>
+
+          </div>
+
+          <a
+            [routerLink]="['/salons', salon.id, 'book']"
+            class="primary-button full-width"
+          >
+            Réserver maintenant
+          </a>
+
+        </aside>
+
+      </div>
+
+    }
+
+  </div>
+</div>
