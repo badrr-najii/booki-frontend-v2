@@ -28,6 +28,7 @@ import { AdminUsers } from './features/admin/pages/admin-users/admin-users';
 import { AdminDashboard } from './features/admin/pages/admin-dashboard/admin-dashboard';
 import { AdminUserDetailsComponent } from './features/admin/pages/admin-user-details/admin-user-details';
 import { PublicSalonDetails } from './features/salons/pages/public-salon-details/public-salon-details';
+import { SalonReviews } from './features/salons/pages/salon-reviews/salon-reviews';
 
 export const routes: Routes = [
     {
@@ -116,6 +117,10 @@ export const routes: Routes = [
             {
                 path: 'dashboard/salons/:id/working-hours',
                 component: SalonWorkingHours
+            },
+            {
+                path: 'dashboard/salons/:id/reviews',
+                component: SalonReviews
             },
             {
                 path: 'dashboard/salons/:id/bookings/:bookingId/edit',
