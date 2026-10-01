@@ -53,6 +53,14 @@
         </a>
 
         <a [routerLink]="[
+             '/dashboard/salons',
+              salon.id,
+              'reviews'
+            ]" class="btn">
+            Avis clients
+        </a>
+
+        <a [routerLink]="[
             '/dashboard/salons',
             salon.id,
             'services'

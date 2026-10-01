@@ -1,69 +1,122 @@
 import {
-  Injectable
+    Injectable
 } from '@angular/core';
 
 import {
-  HttpClient
+    HttpClient
 } from '@angular/common/http';
 
 import {
-  Observable
+    Observable
 } from 'rxjs';
 
 import {
-  API_BASE_URL
+    API_BASE_URL
 } from '../config/api.config';
 
 export interface PublicReview {
-  id: string;
-  salonId: string;
-  salonName: string;
-  clientName: string;
-  rating: number;
-  comment: string | null;
-  response: string | null;
-  responseDate: string | null;
-  isVerified: boolean;
-  createdAt: string;
+    id: string;
+    salonId: string;
+    salonName: string;
+    clientName: string;
+    rating: number;
+    comment: string | null;
+    response: string | null;
+    responseDate: string | null;
+    isVerified: boolean;
+    createdAt: string;
 }
 
 export interface SalonRating {
-  salonId: string;
-  salonName: string;
-  averageRating: number;
-  totalReviews: number;
-  rating5Count: number;
-  rating4Count: number;
-  rating3Count: number;
-  rating2Count: number;
-  rating1Count: number;
+    salonId: string;
+    salonName: string;
+    averageRating: number;
+    totalReviews: number;
+    rating5Count: number;
+    rating4Count: number;
+    rating3Count: number;
+    rating2Count: number;
+    rating1Count: number;
+}
+
+export interface OwnerReview {
+    id: string;
+    salonId: string;
+    salonName: string;
+    bookingId: string | null;
+    clientName: string;
+    clientEmail: string;
+    rating: number;
+    comment: string | null;
+    response: string | null;
+    responseDate: string | null;
+    isApproved: boolean;
+    isVerified: boolean;
+    createdAt: string;
+    updatedAt: string | null;
 }
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class ReviewService {
 
-  private readonly baseUrl =
-    `${API_BASE_URL}/Reviews`;
+    private readonly baseUrl =
+        `${API_BASE_URL}/Reviews`;
 
-  constructor(
-    private http: HttpClient
-  ) {}
+    constructor(
+        private http: HttpClient
+    ) { }
 
-  getPublicBySalon(
-    salonId: string
-  ): Observable<PublicReview[]> {
-    return this.http.get<PublicReview[]>(
-      `${this.baseUrl}/salon/${salonId}`
-    );
-  }
+    getPublicBySalon(
+        salonId: string
+    ): Observable<PublicReview[]> {
+        return this.http.get<PublicReview[]>(
+            `${this.baseUrl}/salon/${salonId}`
+        );
+    }
 
-  getSalonRating(
-    salonId: string
-  ): Observable<SalonRating> {
-    return this.http.get<SalonRating>(
-      `${this.baseUrl}/salon/${salonId}/rating`
-    );
-  }
+    getSalonRating(
+        salonId: string
+    ): Observable<SalonRating> {
+        return this.http.get<SalonRating>(
+            `${this.baseUrl}/salon/${salonId}/rating`
+        );
+    }
+
+    getForOwner(
+        salonId: string
+    ): Observable<OwnerReview[]> {
+        return this.http.get<OwnerReview[]>(
+            `${this.baseUrl}/salon/${salonId}/manage`
+        );
+    }
+
+    approve(
+        reviewId: string
+    ): Observable<OwnerReview> {
+        return this.http.patch<OwnerReview>(
+            `${this.baseUrl}/${reviewId}/approve`,
+            {}
+        );
+    }
+
+    reject(
+        reviewId: string
+    ): Observable<OwnerReview> {
+        return this.http.patch<OwnerReview>(
+            `${this.baseUrl}/${reviewId}/reject`,
+            {}
+        );
+    }
+
+    respond(
+        reviewId: string,
+        response: string
+    ): Observable<OwnerReview> {
+        return this.http.post<OwnerReview>(
+            `${this.baseUrl}/${reviewId}/respond`,
+            { response }
+        );
+    }
 }

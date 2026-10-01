@@ -1,0 +1,224 @@
+<section class="reviews-page">
+
+  <header class="page-header">
+    <div>
+      <a
+        [routerLink]="['/dashboard/salons', salonId]"
+        class="back-link"
+      >
+        ← Retour au salon
+      </a>
+
+      <span class="eyebrow">Réputation</span>
+      <h1>Avis clients</h1>
+
+      <p>
+        Gérez les avis publiés et répondez à vos clients.
+      </p>
+    </div>
+  </header>
+
+  @if (successMessage) {
+    <div class="message success-message">
+      {{ successMessage }}
+    </div>
+  }
+
+  @if (errorMessage) {
+    <div class="message error-message">
+      {{ errorMessage }}
+    </div>
+  }
+
+  @if (isLoading) {
+
+    <div class="state-card">
+      Chargement des avis...
+    </div>
+
+  } @else {
+
+    <section class="review-section">
+
+      <div class="section-title">
+        <div>
+          <span class="eyebrow">Modération</span>
+          <h2>En attente</h2>
+        </div>
+
+        <span class="count-badge">
+          {{ pendingReviews.length }}
+        </span>
+      </div>
+
+      @if (pendingReviews.length === 0) {
+
+        <div class="state-card">
+          Aucun avis en attente.
+        </div>
+
+      } @else {
+
+        <div class="review-list">
+
+          @for (review of pendingReviews; track review.id) {
+
+            <article class="review-card">
+
+              <div class="review-header">
+                <div>
+                  <strong>{{ review.clientName }}</strong>
+
+                  @if (review.isVerified) {
+                    <span class="verified-badge">
+                      Avis vérifié
+                    </span>
+                  }
+
+                  <p>{{ review.clientEmail }}</p>
+                </div>
+
+                <span class="stars">
+                  {{ getStars(review.rating) }}
+                </span>
+              </div>
+
+              @if (review.comment) {
+                <p class="comment">
+                  {{ review.comment }}
+                </p>
+              }
+
+              <div class="actions">
+                <button
+                  type="button"
+                  class="primary-button"
+                  [disabled]="processingReviewId !== null"
+                  (click)="approve(review)"
+                >
+                  @if (processingReviewId === review.id) {
+                    Traitement...
+                  } @else {
+                    Approuver
+                  }
+                </button>
+              </div>
+
+            </article>
+
+          }
+
+        </div>
+
+      }
+
+    </section>
+
+    <section class="review-section">
+
+      <div class="section-title">
+        <div>
+          <span class="eyebrow">Publics</span>
+          <h2>Avis publiés</h2>
+        </div>
+
+        <span class="count-badge">
+          {{ approvedReviews.length }}
+        </span>
+      </div>
+
+      @if (approvedReviews.length === 0) {
+
+        <div class="state-card">
+          Aucun avis publié.
+        </div>
+
+      } @else {
+
+        <div class="review-list">
+
+          @for (review of approvedReviews; track review.id) {
+
+            <article class="review-card">
+
+              <div class="review-header">
+                <div>
+                  <strong>{{ review.clientName }}</strong>
+
+                  @if (review.isVerified) {
+                    <span class="verified-badge">
+                      Avis vérifié
+                    </span>
+                  }
+
+                  <p>{{ review.clientEmail }}</p>
+                </div>
+
+                <span class="stars">
+                  {{ getStars(review.rating) }}
+                </span>
+              </div>
+
+              @if (review.comment) {
+                <p class="comment">
+                  {{ review.comment }}
+                </p>
+              }
+
+              <div class="response-box">
+                <label [for]="'response-' + review.id">
+                  Réponse du salon
+                </label>
+
+                <textarea
+                  [id]="'response-' + review.id"
+                  rows="3"
+                  maxlength="1000"
+                  [(ngModel)]="responseDrafts[review.id]"
+                  placeholder="Répondre au client..."
+                ></textarea>
+
+                <div class="response-actions">
+                  <button
+                    type="button"
+                    class="secondary-button"
+                    [disabled]="respondingReviewId !== null"
+                    (click)="saveResponse(review)"
+                  >
+                    @if (respondingReviewId === review.id) {
+                      Enregistrement...
+                    } @else {
+                      Enregistrer la réponse
+                    }
+                  </button>
+                </div>
+              </div>
+
+              <div class="actions">
+                <button
+                  type="button"
+                  class="danger-button"
+                  [disabled]="processingReviewId !== null"
+                  (click)="reject(review)"
+                >
+                  @if (processingReviewId === review.id) {
+                    Traitement...
+                  } @else {
+                    Retirer de la publication
+                  }
+                </button>
+              </div>
+
+            </article>
+
+          }
+
+        </div>
+
+      }
+
+    </section>
+
+  }
+
+</section>
