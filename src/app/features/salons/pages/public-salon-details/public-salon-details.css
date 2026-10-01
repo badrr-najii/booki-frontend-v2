@@ -36,6 +36,7 @@
 .services-card,
 .contact-card,
 .loading-card,
+.reviews-card,
 .error-card {
   background: #ffffff;
   border: 1px solid #e5e7eb;
@@ -274,7 +275,7 @@
   border-top: 1px solid #e5e7eb;
 }
 
-.contact-list > div {
+.contact-list>div {
   padding: 14px 0;
   border-bottom: 1px solid #e5e7eb;
 }
@@ -343,6 +344,114 @@
   font-size: 13px;
 }
 
+.reviews-card {
+  padding: 32px;
+  margin-top: 28px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 22px;
+  box-shadow: 0 8px 30px rgba(15, 23, 42, 0.05);
+}
+
+.rating-summary {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 18px;
+}
+
+.rating-summary>strong {
+  color: #0f172a;
+  font-size: 36px;
+  line-height: 1;
+}
+
+.rating-summary p {
+  margin: 4px 0 0;
+  color: #64748b;
+  font-size: 12px;
+}
+
+.rating-stars,
+.review-stars {
+  color: #111827;
+  letter-spacing: 2px;
+}
+
+.reviews-list {
+  display: grid;
+}
+
+.review-item {
+  padding: 24px 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.review-item:last-child {
+  border-bottom: 0;
+}
+
+.review-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.review-header>div {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.review-header strong {
+  color: #111827;
+  font-size: 14px;
+}
+
+.verified-badge {
+  padding: 4px 8px;
+  color: #475569;
+  background: #f1f5f9;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.review-comment {
+  margin: 12px 0 0;
+  color: #475569;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.review-response {
+  padding: 14px 16px;
+  margin-top: 16px;
+  background: #f8fafc;
+  border-radius: 12px;
+}
+
+.review-response strong {
+  color: #334155;
+  font-size: 11px;
+}
+
+.review-response p {
+  margin: 5px 0 0;
+  color: #64748b;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.reviews-state {
+  padding: 36px 0 12px;
+  color: #64748b;
+  font-size: 13px;
+  text-align: center;
+}
+
 @media (max-width: 900px) {
   .content-grid {
     grid-template-columns: 1fr;
@@ -375,7 +484,8 @@
   }
 
   .services-card,
-  .contact-card {
+  .contact-card,
+  .reviews-card {
     padding: 20px;
   }
 

@@ -215,5 +215,95 @@
 
     }
 
+      <section class="reviews-card">
+
+        <div class="section-heading">
+          <span class="eyebrow">Avis clients</span>
+          <h2>Ce que pensent les clients</h2>
+
+          @if (rating && rating.totalReviews > 0) {
+            <div class="rating-summary">
+              <strong>{{ rating.averageRating }}</strong>
+
+              <div>
+                <span class="rating-stars">
+                  {{ getStars(rating.averageRating) }}
+                </span>
+
+                <p>
+                  {{ rating.totalReviews }} avis
+                </p>
+              </div>
+            </div>
+          }
+        </div>
+
+        @if (reviewsLoading) {
+
+          <div class="reviews-state">
+            Chargement des avis...
+          </div>
+
+        } @else if (reviewsLoadFailed) {
+
+          <div class="reviews-state">
+            Impossible de charger les avis pour le moment.
+          </div>
+
+        } @else if (reviews.length === 0) {
+
+          <div class="reviews-state">
+            Aucun avis publié pour le moment.
+          </div>
+
+        } @else {
+
+          <div class="reviews-list">
+
+            @for (review of reviews; track review.id) {
+
+              <article class="review-item">
+
+                <div class="review-header">
+
+                  <div>
+                    <strong>{{ review.clientName }}</strong>
+
+                    @if (review.isVerified) {
+                      <span class="verified-badge">
+                        Avis vérifié
+                      </span>
+                    }
+                  </div>
+
+                  <span class="review-stars">
+                    {{ getStars(review.rating) }}
+                  </span>
+
+                </div>
+
+                @if (review.comment) {
+                  <p class="review-comment">
+                    {{ review.comment }}
+                  </p>
+                }
+
+                @if (review.response) {
+                  <div class="review-response">
+                    <strong>Réponse du salon</strong>
+                    <p>{{ review.response }}</p>
+                  </div>
+                }
+
+              </article>
+
+            }
+
+          </div>
+
+        }
+
+      </section>
+
   </div>
 </div>
