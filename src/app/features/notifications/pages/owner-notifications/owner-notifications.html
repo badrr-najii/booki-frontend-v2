@@ -1,0 +1,180 @@
+<section class="notifications-page">
+
+  <header class="page-header">
+    <div>
+      <span class="eyebrow">
+        Centre de notifications
+      </span>
+
+      <h1>Notifications</h1>
+
+      <p>
+        Suivez les réservations, paiements, avis et
+        événements importants de votre activité.
+      </p>
+    </div>
+
+    @if (!isLoading && notifications.length > 0) {
+      <div class="header-actions">
+        <button
+          type="button"
+          class="secondary-button"
+          (click)="markAllAsRead()"
+          [disabled]="
+            unreadCount === 0 ||
+            isProcessingAll ||
+            processingId !== null
+          "
+        >
+          Tout marquer comme lu
+        </button>
+
+        <button
+          type="button"
+          class="danger-button"
+          (click)="deleteAll()"
+          [disabled]="
+            isProcessingAll ||
+            processingId !== null
+          "
+        >
+          Tout supprimer
+        </button>
+      </div>
+    }
+  </header>
+
+  @if (successMessage) {
+    <div class="message success-message">
+      {{ successMessage }}
+    </div>
+  }
+
+  @if (errorMessage) {
+    <div class="message error-message">
+      {{ errorMessage }}
+    </div>
+  }
+
+  @if (isLoading) {
+
+    <div class="state-card">
+      Chargement des notifications...
+    </div>
+
+  } @else if (notifications.length === 0) {
+
+    <div class="state-card empty-state">
+      <div class="empty-icon">
+        ✓
+      </div>
+
+      <h2>Aucune notification</h2>
+
+      <p>
+        Vous êtes à jour. Les nouvelles notifications
+        apparaîtront ici.
+      </p>
+    </div>
+
+  } @else {
+
+    <div class="summary">
+      <span>
+        {{ notifications.length }}
+        notification(s)
+      </span>
+
+      <strong>
+        {{ unreadCount }}
+        non lue(s)
+      </strong>
+    </div>
+
+    <div class="notification-list">
+
+      @for (
+        notification of notifications;
+        track notification.id
+      ) {
+
+        <article
+          class="notification-card"
+          [class.unread]="!notification.isRead"
+        >
+          <button
+            type="button"
+            class="notification-content"
+            (click)="openNotification(notification)"
+            [disabled]="
+              processingId === notification.id ||
+              isProcessingAll
+            "
+          >
+            <div class="notification-icon">
+              @if (notification.icon) {
+                {{ notification.icon }}
+              } @else {
+                ●
+              }
+            </div>
+
+            <div class="notification-body">
+              <div class="notification-meta">
+                <span class="type-badge">
+                  {{ getTypeLabel(notification.type) }}
+                </span>
+
+                @if (!notification.isRead) {
+                  <span class="unread-badge">
+                    Non lue
+                  </span>
+                }
+              </div>
+
+              <h2>
+                {{ notification.title }}
+              </h2>
+
+              <p>
+                {{ notification.message }}
+              </p>
+
+              <time>
+                {{ notification.createdAt | date:'dd/MM/yyyy HH:mm' }}
+              </time>
+            </div>
+          </button>
+
+          <div class="notification-actions">
+            @if (!notification.isRead) {
+              <button
+                type="button"
+                class="text-button"
+                (click)="markAsRead(notification)"
+                [disabled]="
+                  processingId === notification.id ||
+                  isProcessingAll
+                "
+              >
+                Marquer comme lue
+              </button>
+            }
+
+            <button
+              type="button"
+              class="delete-button"
+              (click)="deleteNotification(notification)"
+              [disabled]="
+                processingId === notification.id ||
+                isProcessingAll
+              "
+            >
+              Supprimer
+            </button>
+          </div>
+        </article>
+      }
+    </div>
+  }
+</section>

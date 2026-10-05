@@ -1,4 +1,9 @@
-import { Component } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  OnInit
+} from '@angular/core';
+
 import {
   Router,
   RouterLink,
@@ -9,6 +14,10 @@ import {
   AuthService
 } from '../../services/auth.service';
 
+import {
+  NotificationService
+} from '../../services/notification.service';
+
 @Component({
   selector: 'app-navbar',
   imports: [
@@ -18,14 +27,38 @@ import {
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
 })
-export class Navbar {
+export class Navbar implements OnInit {
 
   isLoggingOut = false;
+  unreadCount = 0;
 
   constructor(
     public authService: AuthService,
-    private router: Router
+    private notificationService: NotificationService,
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {}
+
+  ngOnInit(): void {
+    if (!this.authService.isOwner()) {
+      return;
+    }
+
+    this.notificationService
+      .unreadCount$
+      .subscribe(count => {
+        this.unreadCount = count;
+        this.cdr.detectChanges();
+      });
+
+    this.notificationService
+      .getUnreadCount()
+      .subscribe({
+        error: () => {
+          // Counter failure must not block navigation.
+        }
+      });
+  }
 
   logout(): void {
 
@@ -39,22 +72,23 @@ export class Navbar {
       .logout()
       .subscribe({
         next: () => {
-          this.isLoggingOut = false;
-
-          this.router.navigate([
-            '/login'
-          ]);
+          this.finishLogout();
         },
 
         error: () => {
-          this.isLoggingOut = false;
-
           // AuthService already clears
           // the local session in finalize()
-          this.router.navigate([
-            '/login'
-          ]);
+          this.finishLogout();
         }
       });
+  }
+
+  private finishLogout(): void {
+    this.isLoggingOut = false;
+    this.notificationService.clearUnreadCount();
+
+    this.router.navigate([
+      '/login'
+    ]);
   }
 }
