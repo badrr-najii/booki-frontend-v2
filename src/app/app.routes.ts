@@ -29,6 +29,7 @@ import { AdminDashboard } from './features/admin/pages/admin-dashboard/admin-das
 import { AdminUserDetailsComponent } from './features/admin/pages/admin-user-details/admin-user-details';
 import { PublicSalonDetails } from './features/salons/pages/public-salon-details/public-salon-details';
 import { SalonReviews } from './features/salons/pages/salon-reviews/salon-reviews';
+import { OwnerNotifications } from './features/notifications/pages/owner-notifications/owner-notifications';
 
 export const routes: Routes = [
     {
@@ -63,7 +64,6 @@ export const routes: Routes = [
             }
         ]
     },
-
     {
         path: '',
         component: DashboardLayout,
@@ -72,6 +72,10 @@ export const routes: Routes = [
             {
                 path: 'dashboard',
                 component: Dashboard
+            },
+            {
+                path: 'dashboard/notifications',
+                component: OwnerNotifications
             },
             {
                 path: 'dashboard/salons/new',
@@ -101,7 +105,6 @@ export const routes: Routes = [
                 path: 'dashboard/salons/:id/employees',
                 component: SalonEmployees
             },
-
             {
                 path: 'dashboard/salons/:id/employees/new',
                 component: CreateEmployee
@@ -125,10 +128,9 @@ export const routes: Routes = [
             {
                 path: 'dashboard/salons/:id/bookings/:bookingId/edit',
                 component: EditBooking
-            },
+            }
         ]
     },
-
     {
         path: '',
         component: AdminLayout,
@@ -146,11 +148,8 @@ export const routes: Routes = [
                 path: 'admin/users/:id',
                 component: AdminUserDetailsComponent
             }
-
         ]
     },
-
-
     {
         path: '**',
         redirectTo: ''
