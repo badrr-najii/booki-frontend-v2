@@ -1,0 +1,232 @@
+@if (isLoading) {
+  <p>Chargement des paiements...</p>
+} @else {
+  <section class="payments-page">
+    <div class="page-header">
+      <div>
+        <p class="eyebrow">
+          Gestion du salon
+        </p>
+
+        <h1>Paiements</h1>
+
+        @if (salon) {
+          <p class="subtitle">
+            {{ salon.name }}
+          </p>
+        }
+      </div>
+
+      @if (salon) {
+        <a
+          [routerLink]="[
+            '/dashboard/salons',
+            salon.id
+          ]"
+          class="btn"
+        >
+          Retour au salon
+        </a>
+      }
+    </div>
+
+    @if (errorMessage) {
+      <div class="message error-message">
+        {{ errorMessage }}
+      </div>
+    }
+
+    @if (successMessage) {
+      <div class="message success-message">
+        {{ successMessage }}
+      </div>
+    }
+
+    <section class="panel">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">
+            Stripe
+          </p>
+
+          <h2>
+            Réservations à encaisser
+          </h2>
+        </div>
+      </div>
+
+      @if (confirmedBookings.length === 0) {
+        <div class="empty-state">
+          Aucune réservation confirmée
+          à encaisser.
+        </div>
+      } @else {
+        <div class="booking-list">
+          @for (
+            booking of confirmedBookings;
+            track booking.id
+          ) {
+            <article class="booking-card">
+              <div>
+                <strong>
+                  {{ booking.clientName }}
+                </strong>
+
+                <p>
+                  {{ booking.serviceName }}
+                </p>
+
+                <span>
+                  {{ booking.bookingDate.substring(0, 10) }}
+                  à
+                  {{ booking.startTime.substring(0, 5) }}
+                </span>
+              </div>
+
+              <div class="booking-payment">
+                <strong>
+                  {{ booking.servicePrice }} MAD
+                </strong>
+
+                @if (canCreateCheckout(booking)) {
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    [disabled]="creatingBookingId !== null"
+                    (click)="createCheckout(booking)"
+                  >
+                    @if (
+                      creatingBookingId === booking.id
+                    ) {
+                      Création...
+                    } @else {
+                      Payer par carte
+                    }
+                  </button>
+                } @else {
+                  <span class="payment-blocked">
+                    Paiement déjà en cours
+                    ou effectué
+                  </span>
+                }
+              </div>
+            </article>
+          }
+        </div>
+      }
+    </section>
+
+    <section class="panel">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">
+            Historique
+          </p>
+
+          <h2>
+            Paiements du salon
+          </h2>
+        </div>
+      </div>
+
+      @if (payments.length === 0) {
+        <div class="empty-state">
+          Aucun paiement pour le moment.
+        </div>
+      } @else {
+        <div class="payments-list">
+          @for (
+            payment of payments;
+            track payment.paymentId
+          ) {
+            <article class="payment-card">
+              <div class="payment-main">
+                @if (
+                  getBooking(payment.bookingId);
+                  as booking
+                ) {
+                  <strong>
+                    {{ booking.clientName }}
+                  </strong>
+
+                  <span>
+                    {{ booking.serviceName }}
+                  </span>
+                } @else {
+                  <strong>
+                    Réservation
+                    #{{ payment.bookingId.substring(0, 8) }}
+                  </strong>
+                }
+
+                <span>
+                  Créé le
+                  {{ payment.createdAt.substring(0, 10) }}
+                </span>
+
+                @if (payment.paidAt) {
+                  <span>
+                    Payé le
+                    {{ payment.paidAt.substring(0, 10) }}
+                  </span>
+                }
+
+                @if (payment.refundedAt) {
+                  <span>
+                    Remboursé le
+                    {{ payment.refundedAt.substring(0, 10) }}
+                  </span>
+                }
+              </div>
+
+              <div class="payment-actions">
+                <strong class="amount">
+                  {{ payment.amount }}
+                  {{ payment.currency }}
+                </strong>
+
+                <span
+                  class="status-badge"
+                  [class]="
+                    getPaymentStatusClass(
+                      payment.status
+                    )
+                  "
+                >
+                  {{
+                    getPaymentStatusLabel(
+                      payment.status
+                    )
+                  }}
+                </span>
+
+                @if (
+                  payment.status ===
+                  PaymentStatus.Paid
+                ) {
+                  <button
+                    type="button"
+                    class="btn btn-danger"
+                    [disabled]="
+                      refundingPaymentId !== null
+                    "
+                    (click)="refund(payment)"
+                  >
+                    @if (
+                      refundingPaymentId ===
+                      payment.paymentId
+                    ) {
+                      Remboursement...
+                    } @else {
+                      Rembourser
+                    }
+                  </button>
+                }
+              </div>
+            </article>
+          }
+        </div>
+      }
+    </section>
+  </section>
+}
