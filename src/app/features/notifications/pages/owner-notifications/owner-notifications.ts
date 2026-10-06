@@ -4,7 +4,7 @@ import {
   OnInit
 } from '@angular/core';
 
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { DatePipe } from '@angular/common';
 
 import {
@@ -15,7 +15,7 @@ import {
 
 @Component({
   selector: 'app-owner-notifications',
-  imports: [DatePipe],
+  imports: [DatePipe,RouterLink],
   templateUrl: './owner-notifications.html',
   styleUrl: './owner-notifications.css'
 })

@@ -38,7 +38,8 @@ import {
 @Component({
   selector: 'app-public-booking',
   imports: [
-    FormsModule
+    FormsModule,
+    RouterLink
   ],
   templateUrl: './public-booking.html',
   styleUrl: './public-booking.css',
