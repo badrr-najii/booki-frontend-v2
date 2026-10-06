@@ -1,0 +1,320 @@
+@if (isLoading) {
+<section class="loading-state">
+  <div class="loading-spinner"></div>
+  <p>Chargement de votre abonnement...</p>
+</section>
+} @else {
+
+<div class="subscription-page">
+
+  <header class="page-header">
+    <div class="header-copy">
+      <a
+        [routerLink]="['/dashboard/salons', salon?.id]"
+        class="back-link">
+        <span aria-hidden="true">←</span>
+        Retour au salon
+      </a>
+
+      <div class="title-row">
+        <div>
+          <p class="eyebrow">Abonnement & facturation</p>
+          <h1>Gérez votre formule</h1>
+          <p class="subtitle">
+            {{ salon?.name }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  @if (errorMessage) {
+  <div class="alert alert-error">
+    <div class="alert-icon">!</div>
+    <span>{{ errorMessage }}</span>
+  </div>
+  }
+
+  @if (successMessage) {
+  <div class="alert alert-success">
+    <div class="alert-icon">✓</div>
+    <span>{{ successMessage }}</span>
+  </div>
+  }
+
+  @if (subscription) {
+
+  <section class="current-plan">
+    <div class="current-plan-main">
+      <div class="current-plan-heading">
+        <div class="plan-symbol">
+          {{ subscription.planName.charAt(0) }}
+        </div>
+
+        <div>
+          <div class="current-title-line">
+            <span class="section-label">
+              Formule actuelle
+            </span>
+
+            <span
+              class="status-badge"
+              [class.active]="subscription.isActive">
+              {{ subscription.statusName }}
+            </span>
+          </div>
+
+          <h2>{{ subscription.planName }}</h2>
+
+          <p>
+            Votre formule actuelle pour
+            <strong>{{ salon?.name }}</strong>
+          </p>
+        </div>
+      </div>
+
+      <div class="current-price">
+        <strong>{{ subscription.price }}</strong>
+        <div>
+          <span>{{ subscription.currency }}</span>
+          <small>/ mois</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="usage-grid">
+      <article class="usage-item">
+        <div class="usage-top">
+          <span>Réservations</span>
+          <strong>
+            @if (remainingBookings !== null) {
+              {{ remainingBookings }}
+            } @else {
+              -
+            }
+          </strong>
+        </div>
+
+        <p>
+          restantes sur
+          {{ subscription.limits.maxBookingsPerMonth }}
+          ce mois
+        </p>
+      </article>
+
+      <article class="usage-item">
+        <div class="usage-top">
+          <span>Employés</span>
+
+          @if (canAddEmployee === true) {
+          <span class="availability available">
+            Disponible
+          </span>
+          } @else if (canAddEmployee === false) {
+          <span class="availability unavailable">
+            Limite atteinte
+          </span>
+          } @else {
+          <strong>-</strong>
+          }
+        </div>
+
+        <p>
+          Jusqu'à
+          {{ subscription.limits.maxEmployees }}
+          employés
+        </p>
+      </article>
+
+      <article class="usage-item">
+        <div class="usage-top">
+          <span>Salons</span>
+          <strong>
+            {{ subscription.limits.maxSalons }}
+          </strong>
+        </div>
+
+        <p>
+          autorisé(s) avec cette formule
+        </p>
+      </article>
+    </div>
+  </section>
+
+  } @else {
+
+  <section class="activation-banner">
+    <div class="activation-content">
+      <div class="activation-icon">B</div>
+
+      <div>
+        <span class="section-label">
+          Aucun abonnement actif
+        </span>
+
+        <h2>Commencez gratuitement avec Booki</h2>
+
+        <p>
+          Activez la formule gratuite et profitez des
+          fonctionnalités essentielles pour gérer votre salon.
+        </p>
+      </div>
+    </div>
+
+    <button
+      type="button"
+      class="primary-button activation-button"
+      [disabled]="isCreatingFree"
+      (click)="createFreeSubscription()">
+      {{ isCreatingFree
+        ? 'Activation...'
+        : 'Activer gratuitement' }}
+    </button>
+  </section>
+
+  }
+
+  <section class="plans-section">
+    <div class="plans-heading">
+      <div>
+        <span class="section-label">
+          Nos formules
+        </span>
+
+        <h2>Une formule pour chaque étape</h2>
+
+        <p>
+          Commencez gratuitement. Les formules avancées
+          seront disponibles prochainement.
+        </p>
+      </div>
+
+      <div class="currency-note">
+        Prix en MAD
+      </div>
+    </div>
+
+    <div class="plans-grid">
+      @for (plan of plans; track plan.plan) {
+
+      <article
+        class="plan-card"
+        [class.featured]="plan.isPopular"
+        [class.current]="isCurrentPlan(plan)">
+
+        @if (plan.isPopular) {
+        <div class="popular-label">
+          Recommandé
+        </div>
+        }
+
+        <div class="plan-card-header">
+          <div class="plan-name-row">
+            <h3>{{ plan.name }}</h3>
+
+            @if (isCurrentPlan(plan)) {
+            <span class="current-badge">
+              Actuel
+            </span>
+            }
+          </div>
+
+          <div class="price">
+            <strong>{{ plan.price }}</strong>
+
+            <div>
+              <span>{{ plan.currency }}</span>
+              <small>/ mois</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="key-limits">
+          <div class="limit">
+            <span class="limit-icon">✓</span>
+            <span>
+              <strong>{{ plan.maxSalons }}</strong>
+              salon(s)
+            </span>
+          </div>
+
+          <div class="limit">
+            <span class="limit-icon">✓</span>
+            <span>
+              <strong>{{ plan.maxEmployees }}</strong>
+              employé(s)
+            </span>
+          </div>
+
+          <div class="limit">
+            <span class="limit-icon">✓</span>
+            <span>
+              <strong>{{ plan.maxBookingsPerMonth }}</strong>
+              réservations / mois
+            </span>
+          </div>
+        </div>
+
+        @if (plan.features.length > 3) {
+        <div class="extra-features">
+          @for (
+            feature of plan.features.slice(3);
+            track feature
+          ) {
+          <div class="feature">
+            <span class="feature-check">✓</span>
+            <span>{{ feature }}</span>
+          </div>
+          }
+        </div>
+        }
+
+        <div class="plan-action">
+          @if (isCurrentPlan(plan)) {
+          <button
+            type="button"
+            class="current-button"
+            disabled>
+            Formule actuelle
+          </button>
+
+          } @else if (isPaidPlan(plan)) {
+
+          <button
+            type="button"
+            class="coming-button"
+            disabled>
+            Bientôt disponible
+          </button>
+
+          } @else if (!subscription) {
+
+          <button
+            type="button"
+            class="primary-button full-width"
+            [disabled]="isCreatingFree"
+            (click)="createFreeSubscription()">
+            {{ isCreatingFree
+              ? 'Activation...'
+              : 'Commencer gratuitement' }}
+          </button>
+          }
+        </div>
+      </article>
+      }
+    </div>
+  </section>
+
+  <footer class="billing-note">
+    <div class="note-icon">i</div>
+
+    <p>
+      Aucun paiement n'est requis pour la formule gratuite.
+      Les abonnements payants seront proposés prochainement.
+    </p>
+  </footer>
+
+</div>
+}
