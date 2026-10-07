@@ -1,12 +1,21 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap, finalize } from 'rxjs';
+import { Observable, finalize, tap } from 'rxjs';
+
 import { API_BASE_URL } from '../config/api.config';
 
 import {
   AuthResponse,
+  ChangePasswordRequest,
+  ConfirmEmailRequest,
+  CurrentUser,
+  ForgotPasswordRequest,
   LoginRequest,
-  RegisterRequest
+  MessageResponse,
+  PasswordActionResponse,
+  RegisterRequest,
+  ResendConfirmationRequest,
+  ResetPasswordRequest
 } from '../models/auth.models';
 
 @Injectable({
@@ -21,12 +30,11 @@ export class AuthService {
 
   constructor(
     private http: HttpClient
-  ) { }
+  ) {}
 
   register(
     request: RegisterRequest
   ): Observable<AuthResponse> {
-
     return this.http.post<AuthResponse>(
       `${this.apiUrl}/register`,
       request
@@ -36,7 +44,6 @@ export class AuthService {
   login(
     request: LoginRequest
   ): Observable<AuthResponse> {
-
     return this.http
       .post<AuthResponse>(
         `${this.apiUrl}/login`,
@@ -52,10 +59,60 @@ export class AuthService {
       );
   }
 
+  forgotPassword(
+    request: ForgotPasswordRequest
+  ): Observable<MessageResponse> {
+    return this.http.post<MessageResponse>(
+      `${this.apiUrl}/forgot-password`,
+      request
+    );
+  }
+
+  resetPassword(
+    request: ResetPasswordRequest
+  ): Observable<PasswordActionResponse> {
+    return this.http.post<PasswordActionResponse>(
+      `${this.apiUrl}/reset-password`,
+      request
+    );
+  }
+
+  changePassword(
+    request: ChangePasswordRequest
+  ): Observable<PasswordActionResponse> {
+    return this.http.post<PasswordActionResponse>(
+      `${this.apiUrl}/change-password`,
+      request
+    );
+  }
+
+  confirmEmail(
+    request: ConfirmEmailRequest
+  ): Observable<MessageResponse> {
+    return this.http.post<MessageResponse>(
+      `${this.apiUrl}/confirm-email`,
+      request
+    );
+  }
+
+  resendConfirmation(
+    request: ResendConfirmationRequest
+  ): Observable<MessageResponse> {
+    return this.http.post<MessageResponse>(
+      `${this.apiUrl}/resend-confirmation`,
+      request
+    );
+  }
+
+  getCurrentUser(): Observable<CurrentUser> {
+    return this.http.get<CurrentUser>(
+      `${this.apiUrl}/me`
+    );
+  }
+
   private saveSession(
     response: AuthResponse
   ): void {
-
     localStorage.setItem(
       this.accessTokenKey,
       response.accessToken
@@ -67,7 +124,6 @@ export class AuthService {
       this.accessTokenKey
     );
   }
-
 
   isAuthenticated(): boolean {
     const token = this.getAccessToken();
@@ -88,13 +144,21 @@ export class AuthService {
       const base64 = base64Url
         .replace(/-/g, '+')
         .replace(/_/g, '/')
-        .padEnd(Math.ceil(base64Url.length / 4) * 4, '=');
+        .padEnd(
+          Math.ceil(base64Url.length / 4) * 4,
+          '='
+        );
 
-      const payload = JSON.parse(atob(base64));
+      const payload =
+        JSON.parse(atob(base64));
 
-      const expirationTime = Number(payload.exp) * 1000;
+      const expirationTime =
+        Number(payload.exp) * 1000;
 
-      if (!Number.isFinite(expirationTime) || Date.now() >= expirationTime) {
+      if (
+        !Number.isFinite(expirationTime) ||
+        Date.now() >= expirationTime
+      ) {
         this.clearSession();
         return false;
       }
@@ -107,29 +171,38 @@ export class AuthService {
   }
 
   getRole(): string | null {
-  const token = this.getAccessToken();
+    const token = this.getAccessToken();
 
-  if (!token) {
-    return null;
+    if (!token) {
+      return null;
+    }
+
+    try {
+      const parts = token.split('.');
+
+      if (parts.length !== 3) {
+        return null;
+      }
+
+      const base64Url = parts[1];
+      const base64 = base64Url
+        .replace(/-/g, '+')
+        .replace(/_/g, '/')
+        .padEnd(
+          Math.ceil(base64Url.length / 4) * 4,
+          '='
+        );
+
+      const payload =
+        JSON.parse(atob(base64));
+
+      return payload[
+        'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
+      ] ?? payload.role ?? null;
+    } catch {
+      return null;
+    }
   }
-
-  try {
-    const payload = JSON.parse(
-      atob(
-        token
-          .split('.')[1]
-          .replace(/-/g, '+')
-          .replace(/_/g, '/')
-      )
-    );
-
-    return payload[
-      'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
-    ] ?? payload.role ?? null;
-  } catch {
-    return null;
-  }
-}
 
   isOwner(): boolean {
     return this.isAuthenticated() &&
@@ -137,14 +210,13 @@ export class AuthService {
   }
 
   isAdmin(): boolean {
-  return this.isAuthenticated() &&
-    this.getRole() === 'Admin';
-}
+    return this.isAuthenticated() &&
+      this.getRole() === 'Admin';
+  }
 
-  logout(): Observable<{ message: string }> {
-
+  logout(): Observable<MessageResponse> {
     return this.http
-      .post<{ message: string }>(
+      .post<MessageResponse>(
         `${this.apiUrl}/logout`,
         {},
         {
@@ -159,14 +231,12 @@ export class AuthService {
   }
 
   clearSession(): void {
-
     localStorage.removeItem(
       this.accessTokenKey
     );
   }
 
   refreshToken(): Observable<AuthResponse> {
-
     return this.http
       .post<AuthResponse>(
         `${this.apiUrl}/refresh-token`,

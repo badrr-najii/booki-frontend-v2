@@ -1,0 +1,90 @@
+<div>
+  <div class="mb-9">
+    <span class="text-sm text-gray-500">
+      Confirmation de l'adresse e-mail
+    </span>
+
+    <h2 class="mt-2 text-3xl font-bold text-black">
+      Confirmez votre compte
+    </h2>
+  </div>
+
+  @if (isLoading) {
+    <div class="rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-700">
+      Traitement en cours...
+    </div>
+  }
+
+  @if (isConfirmed) {
+    <div class="mb-5 rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700">
+      Votre adresse e-mail a été confirmée avec succès.
+    </div>
+
+    <a
+      routerLink="/login"
+      class="inline-flex w-full items-center justify-center rounded-xl bg-black px-5 py-3.5 font-semibold text-white transition hover:bg-gray-800"
+    >
+      Se connecter
+    </a>
+  }
+
+  @if (!isConfirmed && !isLoading) {
+    @if (errorMessage) {
+      <div class="mb-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+        {{ errorMessage }}
+      </div>
+    }
+
+    @if (resendMessage) {
+      <div class="mb-5 rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700">
+        {{ resendMessage }}
+      </div>
+    }
+
+    <form
+      [formGroup]="resendForm"
+      (ngSubmit)="resend()"
+      class="space-y-5"
+    >
+      <div>
+        <label
+          for="resendEmail"
+          class="mb-2 block text-sm font-medium text-gray-800"
+        >
+          Adresse e-mail
+        </label>
+
+        <input
+          id="resendEmail"
+          type="email"
+          formControlName="email"
+          autocomplete="email"
+          class="w-full rounded-xl border border-gray-300 px-4 py-3.5 outline-none transition focus:border-black focus:ring-1 focus:ring-black"
+        >
+
+        @if (resendEmail.touched && resendEmail.invalid) {
+          <p class="mt-2 text-sm text-red-600">
+            Entrez une adresse e-mail valide.
+          </p>
+        }
+      </div>
+
+      <button
+        type="submit"
+        [disabled]="isLoading"
+        class="w-full cursor-pointer rounded-xl bg-black px-5 py-3.5 font-semibold text-white transition hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-50"
+      >
+        Renvoyer l'e-mail de confirmation
+      </button>
+    </form>
+
+    <p class="mt-7 text-center text-sm text-gray-500">
+      <a
+        routerLink="/login"
+        class="font-semibold text-black hover:underline"
+      >
+        Retour à la connexion
+      </a>
+    </p>
+  }
+</div>

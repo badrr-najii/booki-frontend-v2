@@ -13,6 +13,13 @@
         </p>
     </div>
 
+@if (successMessage) {
+<div class="mb-5 rounded-xl
+       bg-green-50 border border-green-200
+       px-4 py-3 text-sm text-green-700">
+    {{ successMessage }}
+</div>
+}
 
     @if (errorMessage) {
     <div class="mb-5 rounded-xl
@@ -79,6 +86,15 @@
                 Le mot de passe ne doit pas dépasser 72 caractères.
             </p>
             }
+        </div>
+
+        <!-- Forgot password -->
+        <div class="text-right">
+            <a
+                routerLink="/forgot-password"
+                class="text-sm font-semibold text-black hover:underline">
+                Mot de passe oublié ?
+            </a>
         </div>
 
         <!-- Submit -->

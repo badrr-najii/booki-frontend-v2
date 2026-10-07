@@ -304,4 +304,81 @@ describe('authInterceptor', () => {
     expect(next2)
       .toHaveBeenCalledTimes(2);
   });
+
+  it('should not refresh public password reset requests after a 401', async () => {
+
+    authService.getAccessToken
+      .mockReturnValue('stale-token');
+
+    const request =
+      new HttpRequest(
+        'POST',
+        '/api/auth/reset-password',
+        {}
+      );
+
+    const next = vi.fn(
+      (_req: HttpRequest<unknown>) =>
+        throwError(
+          () => new HttpErrorResponse({
+            status: 401
+          })
+        )
+    );
+    await expect(
+      firstValueFrom(
+        TestBed.runInInjectionContext(
+          () => authInterceptor(request, next)
+        )
+      )
+    ).rejects.toBeTruthy();
+
+    expect(authService.refreshToken)
+      .not.toHaveBeenCalled();
+
+    expect(next)
+      .toHaveBeenCalledTimes(1);
+
+    const forwardedRequest =
+      next.mock.calls[0]?.[0];
+
+    expect(forwardedRequest)
+      .toBeDefined();
+
+    expect(
+      forwardedRequest!.headers.has('Authorization')
+    ).toBe(false);
+  });
+
+  it('should attach the access token to logout requests', async () => {
+
+    authService.getAccessToken
+      .mockReturnValue('access-token');
+
+    const request =
+      new HttpRequest(
+        'POST',
+        '/api/auth/logout',
+        {}
+      );
+
+    const next = vi.fn((req: HttpRequest<unknown>) =>
+      of(
+        new HttpResponse({
+          status: 200,
+          body: req.headers.get('Authorization')
+        })
+      )
+    );
+
+    const response =
+      await firstValueFrom(
+        TestBed.runInInjectionContext(
+          () => authInterceptor(request, next)
+        )
+      ) as HttpResponse<string>;
+
+    expect(response.body)
+      .toBe('Bearer access-token');
+  });
 });

@@ -9,6 +9,7 @@ import {
 } from '@angular/forms';
 
 import {
+  ActivatedRoute,
   Router,
   RouterLink
 } from '@angular/router';
@@ -30,11 +31,13 @@ export class Login {
   errorMessage = '';
 
   loginForm;
+  successMessage = '';
 
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
+    private route: ActivatedRoute,
     private cdr: ChangeDetectorRef
   ) {
     this.loginForm = this.fb.nonNullable.group({
@@ -49,6 +52,12 @@ export class Login {
         Validators.maxLength(72)
       ]],
     });
+    if (
+      this.route.snapshot.queryParamMap.get('passwordChanged') === 'true'
+    ) {
+      this.successMessage =
+        'Votre mot de passe a été modifié. Connectez-vous avec votre nouveau mot de passe.';
+    }
   }
 
   get email() {
