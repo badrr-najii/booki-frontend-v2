@@ -32,6 +32,7 @@ import { SalonReviews } from './features/salons/pages/salon-reviews/salon-review
 import { OwnerNotifications } from './features/notifications/pages/owner-notifications/owner-notifications';
 import { OwnerSubscription } from './features/subscriptions/pages/owner-subscription/owner-subscription';
 import { OwnerPayments } from './features/payments/pages/owner-payments/owner-payments';
+import { OwnerExport } from './features/export/pages/owner-export/owner-export';
 
 export const routes: Routes = [
     {
@@ -134,6 +135,10 @@ export const routes: Routes = [
             {
                 path: 'dashboard/salons/:id/payments',
                 component: OwnerPayments
+            },
+            {
+                path: 'dashboard/salons/:id/export',
+                component: OwnerExport
             },
             {
                 path: 'dashboard/salons/:id/bookings/:bookingId/edit',

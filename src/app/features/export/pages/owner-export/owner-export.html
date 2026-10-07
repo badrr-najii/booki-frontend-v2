@@ -1,0 +1,137 @@
+@if (isLoading) {
+  <p>Chargement...</p>
+} @else {
+  <section class="export-page">
+    <div class="page-header">
+      <div>
+        <p class="eyebrow">
+          Gestion du salon
+        </p>
+
+        <h1>Exports</h1>
+
+        @if (salon) {
+          <p class="subtitle">
+            {{ salon.name }}
+          </p>
+        }
+      </div>
+
+      @if (salon) {
+        <a
+          [routerLink]="[
+            '/dashboard/salons',
+            salon.id
+          ]"
+          class="btn"
+        >
+          Retour au salon
+        </a>
+      }
+    </div>
+
+    @if (errorMessage) {
+      <div class="message error-message">
+        {{ errorMessage }}
+      </div>
+    }
+
+    @if (successMessage) {
+      <div class="message success-message">
+        {{ successMessage }}
+      </div>
+    }
+
+    <section class="panel filters">
+      <div>
+        <p class="eyebrow">Format</p>
+        <h2>Options d'export</h2>
+      </div>
+
+      <div class="format-options">
+        <label>
+          <input
+            type="radio"
+            name="format"
+            value="excel"
+            [(ngModel)]="format"
+          >
+          Excel
+        </label>
+
+        <label>
+          <input
+            type="radio"
+            name="format"
+            value="pdf"
+            [(ngModel)]="format"
+          >
+          PDF
+        </label>
+      </div>
+
+      <div class="date-grid">
+        <label>
+          Date de début
+          <input
+            type="date"
+            [(ngModel)]="startDate"
+          >
+        </label>
+
+        <label>
+          Date de fin
+          <input
+            type="date"
+            [(ngModel)]="endDate"
+          >
+        </label>
+      </div>
+
+      <p class="date-note">
+        Les dates s'appliquent uniquement
+        aux réservations et aux paiements.
+      </p>
+    </section>
+
+    <section class="export-grid">
+      @for (
+        option of options;
+        track option.type
+      ) {
+        <article class="export-card">
+          <div>
+            <h2>{{ option.title }}</h2>
+            <p>{{ option.description }}</p>
+
+            @if (option.supportsDates) {
+              <span class="filter-badge">
+                Filtre par dates
+              </span>
+            }
+          </div>
+
+          <button
+            type="button"
+            class="btn btn-primary"
+            [disabled]="exportingType !== null"
+            (click)="exportData(option)"
+          >
+            @if (
+              exportingType === option.type
+            ) {
+              Génération...
+            } @else {
+              Télécharger
+            }
+          </button>
+        </article>
+      }
+    </section>
+
+    <p class="limit-note">
+      Un export est limité à 5 000 lignes.
+      Réduisez la période si nécessaire.
+    </p>
+  </section>
+}

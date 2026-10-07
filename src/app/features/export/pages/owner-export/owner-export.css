@@ -1,0 +1,162 @@
+:host {
+  display: block;
+}
+
+.export-page {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.page-header h1,
+.panel h2,
+.export-card h2 {
+  margin: 0;
+}
+
+.eyebrow {
+  margin: 0 0 0.35rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.65;
+}
+
+.subtitle {
+  margin: 0.35rem 0 0;
+  opacity: 0.7;
+}
+
+.panel,
+.export-card {
+  padding: 1.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 1rem;
+  background: var(--surface, #fff);
+}
+
+.filters {
+  display: grid;
+  gap: 1rem;
+}
+
+.format-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.format-options label {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  cursor: pointer;
+}
+
+.date-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.date-grid label {
+  display: grid;
+  gap: 0.4rem;
+  font-weight: 600;
+}
+
+.date-grid input {
+  padding: 0.7rem;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 0.6rem;
+}
+
+.date-note,
+.limit-note {
+  margin: 0;
+  font-size: 0.875rem;
+  opacity: 0.7;
+}
+
+.export-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.export-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.export-card p {
+  margin: 0.5rem 0;
+  opacity: 0.75;
+}
+
+.filter-badge {
+  display: inline-flex;
+  padding: 0.3rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.06);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.65rem 1rem;
+  border: 0;
+  border-radius: 0.65rem;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn-primary {
+  background: #111827;
+  color: #fff;
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.message {
+  padding: 1rem;
+  border-radius: 0.75rem;
+}
+
+.error-message {
+  background: #fde2e2;
+}
+
+.success-message {
+  background: #d8f3dc;
+}
+
+@media (max-width: 700px) {
+  .page-header,
+  .export-card {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .date-grid,
+  .export-grid {
+    grid-template-columns: 1fr;
+  }
+}
