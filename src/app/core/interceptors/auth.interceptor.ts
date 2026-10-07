@@ -40,13 +40,16 @@ export const authInterceptor: HttpInterceptorFn =
     const router =
       inject(Router);
 
-    const isAuthEndpoint =
-      req.url.includes('/api/auth/login') ||
-      req.url.includes('/api/auth/register') ||
-      req.url.includes('/api/auth/logout') ||
-      req.url.includes('/api/auth/refresh-token');
+    const isPublicAuthEndpoint =
+      req.url.includes("/api/auth/login") ||
+      req.url.includes("/api/auth/register") ||
+      req.url.includes("/api/auth/refresh-token") ||
+      req.url.includes("/api/auth/forgot-password") ||
+      req.url.includes("/api/auth/reset-password") ||
+      req.url.includes("/api/auth/confirm-email") ||
+      req.url.includes("/api/auth/resend-confirmation");
 
-    if (isAuthEndpoint) {
+    if (isPublicAuthEndpoint) {
       return next(req);
     }
 

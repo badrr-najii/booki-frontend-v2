@@ -33,6 +33,10 @@ import { OwnerNotifications } from './features/notifications/pages/owner-notific
 import { OwnerSubscription } from './features/subscriptions/pages/owner-subscription/owner-subscription';
 import { OwnerPayments } from './features/payments/pages/owner-payments/owner-payments';
 import { OwnerExport } from './features/export/pages/owner-export/owner-export';
+import { ForgotPassword } from './features/auth/pages/forgot-password/forgot-password';
+import { ResetPassword } from './features/auth/pages/reset-password/reset-password';
+import { ConfirmEmail } from './features/auth/pages/confirm-email/confirm-email';
+import { Account } from './features/auth/pages/account/account';
 
 export const routes: Routes = [
     {
@@ -64,6 +68,30 @@ export const routes: Routes = [
             {
                 path: 'register',
                 component: Register
+            },
+            {
+                path: 'forgot-password',
+                component: ForgotPassword
+            },
+            {
+                path: 'reset-password',
+                component: ResetPassword
+            },
+            {
+                path: 'confirm-email',
+                component: ConfirmEmail
+            }
+        ]
+    },
+
+    {
+        path: '',
+        component: DashboardLayout,
+        canActivate: [authGuard],
+        children: [
+            {
+                path: 'account',
+                component: Account
             }
         ]
     },
