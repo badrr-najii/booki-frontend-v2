@@ -256,9 +256,9 @@ export class SalonWorkingHours implements OnInit {
             this.cdr.detectChanges();
           },
 
-          error: error => {
+          error: () => {
             day.isSaving = false;
-            this.handleError(error);
+            this.handleError();
           }
 
         });
@@ -297,15 +297,15 @@ export class SalonWorkingHours implements OnInit {
           this.cdr.detectChanges();
         },
 
-        error: error => {
-          day.isSaving = false;
-          this.handleError(error);
-        }
+        error: () => {
+            day.isSaving = false;
+            this.handleError();
+          }
 
       });
   }
 
-  private handleError(error: any): void {
+  private handleError(): void {
 
     this.errorMessage =
       'Impossible de mettre à jour les horaires.';
