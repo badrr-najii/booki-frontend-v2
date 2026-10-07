@@ -119,9 +119,8 @@ export class SalonBookings implements OnInit {
           this.loadBookings();
         },
 
-        error: error => {
+        error: () => {
           this.handleActionError(
-            error,
             'Impossible de confirmer la réservation.'
           );
         }
@@ -149,9 +148,8 @@ export class SalonBookings implements OnInit {
           this.loadBookings();
         },
 
-        error: error => {
+        error: () => {
           this.handleActionError(
-            error,
             'Impossible d’annuler la réservation.'
           );
         }
@@ -179,9 +177,8 @@ export class SalonBookings implements OnInit {
           this.loadBookings();
         },
 
-        error: error => {
+        error: () => {
           this.handleActionError(
-            error,
             'Impossible de supprimer la réservation.'
           );
         }
@@ -201,9 +198,8 @@ export class SalonBookings implements OnInit {
           this.loadBookings();
         },
 
-        error: error => {
+        error: () => {
           this.handleActionError(
-            error,
             'Impossible de terminer la réservation.'
           );
         }
@@ -224,19 +220,15 @@ export class SalonBookings implements OnInit {
           this.loadBookings();
         },
 
-        error: error => {
+        error: () => {
           this.handleActionError(
-            error,
             'Impossible de marquer la réservation comme absente.'
           );
         }
 
       });
   }
-  private handleActionError(
-    error: any,
-    fallback: string
-  ): void {
+  private handleActionError(fallback: string): void {
 
     this.errorMessage = fallback;
 
