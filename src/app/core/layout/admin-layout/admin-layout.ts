@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+
+import { Component, signal } from '@angular/core';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 import { Navbar } from '../navbar/navbar';
 
@@ -7,8 +8,20 @@ import { Navbar } from '../navbar/navbar';
   selector: 'app-admin-layout',
   imports: [
     Navbar,
-    RouterOutlet
+    RouterOutlet,
+    RouterLink,
+    RouterLinkActive
   ],
   templateUrl: './admin-layout.html',
 })
-export class AdminLayout {}
+export class AdminLayout {
+  readonly isSidebarOpen = signal(false);
+
+  closeSidebar(): void {
+    this.isSidebarOpen.set(false);
+  }
+
+  toggleSidebar(): void {
+    this.isSidebarOpen.update(value => !value);
+  }
+}

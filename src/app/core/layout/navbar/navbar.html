@@ -6,27 +6,80 @@
     class="mx-auto flex h-[72px] max-w-7xl items-center
            justify-between gap-4 px-6 lg:px-8"
   >
-    <a
-      routerLink="/"
-      class="group inline-flex shrink-0 items-center gap-2.5"
-      aria-label="Booki - Accueil"
+
+<a
+  routerLink="/"
+  class="group inline-flex shrink-0 items-center gap-3"
+  aria-label="Booki - Accueil"
+>
+  <!-- Logo Booki: Calendar + B -->
+  <span
+    class="relative flex h-10 w-10 shrink-0 items-center
+           justify-center overflow-hidden rounded-xl
+           bg-gradient-to-br from-violet-500 via-violet-600
+           to-indigo-700 shadow-md shadow-violet-500/20
+           transition-all duration-300
+           group-hover:-translate-y-0.5
+           group-hover:shadow-lg
+           group-hover:shadow-violet-500/30"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 40 40"
+      fill="none"
+      class="h-8 w-8"
+      aria-hidden="true"
     >
-      <span
-        class="flex h-9 w-9 items-center justify-center
-               rounded-xl bg-zinc-950 text-sm font-bold
-               text-white transition
-               group-hover:bg-zinc-800"
+      <!-- Calendar body -->
+      <rect
+        x="7"
+        y="11"
+        width="26"
+        height="23"
+        rx="5"
+        fill="white"
+      />
+
+      <!-- Calendar top -->
+      <path
+        d="M7 17H33"
+        stroke="#DDD6FE"
+        stroke-width="2"
+      />
+
+      <!-- Calendar rings -->
+      <path
+        d="M14 7V13M26 7V13"
+        stroke="white"
+        stroke-width="3.5"
+        stroke-linecap="round"
+      />
+
+      <!-- Letter B -->
+      <text
+        x="20"
+        y="29"
+        text-anchor="middle"
+        font-size="15"
+        font-weight="800"
+        font-family="Arial, sans-serif"
+        fill="#5B21B6"
       >
         B
-      </span>
+      </text>
+    </svg>
+  </span>
 
-      <span
-        class="text-xl font-bold tracking-[-0.03em]
-               text-zinc-950"
-      >
-        Booki
-      </span>
-    </a>
+  <!-- Brand name -->
+  <span
+    class="text-[22px] font-extrabold tracking-[-0.045em]
+           text-slate-950 transition-colors
+           group-hover:text-violet-700"
+  >
+    Book<span class="text-violet-600">i</span>
+  </span>
+</a>
+
 
     <nav
       aria-label="Navigation principale"
