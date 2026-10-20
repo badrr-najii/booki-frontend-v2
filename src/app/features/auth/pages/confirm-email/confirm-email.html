@@ -1,42 +1,88 @@
+
 <div>
+  <!-- Header -->
   <div class="mb-9">
-    <span class="text-sm text-gray-500">
+    <span class="inline-flex items-center gap-2 text-sm font-medium text-violet-600">
+      <span class="h-2 w-2 rounded-full bg-violet-500"></span>
       Confirmation de l'adresse e-mail
     </span>
 
-    <h2 class="mt-2 text-3xl font-bold text-black">
+    <h2 class="mt-3 text-3xl font-extrabold tracking-tight text-slate-950">
       Confirmez votre compte
     </h2>
+
+    <p class="mt-3 text-sm leading-6 text-slate-500">
+      Vérifiez votre adresse e-mail pour accéder à votre espace Booki.
+    </p>
   </div>
 
+  <!-- Loading -->
   @if (isLoading) {
-    <div class="rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-700">
+    <div
+      role="status"
+      aria-live="polite"
+      class="mb-5 flex items-center gap-3 rounded-xl border border-violet-200 bg-violet-50 px-4 py-3 text-sm text-violet-700"
+    >
+      <svg
+        class="h-5 w-5 shrink-0 animate-spin"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+      >
+        <circle
+          class="opacity-25"
+          cx="12"
+          cy="12"
+          r="10"
+          stroke="currentColor"
+          stroke-width="4"
+        />
+        <path
+          class="opacity-75"
+          fill="currentColor"
+          d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+        />
+      </svg>
+
       Traitement en cours...
     </div>
   }
 
+  <!-- Confirmation success -->
   @if (isConfirmed) {
-    <div class="mb-5 rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700">
+    <div
+      role="status"
+      class="mb-5 rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700"
+    >
       Votre adresse e-mail a été confirmée avec succès.
     </div>
 
     <a
       routerLink="/login"
-      class="inline-flex w-full items-center justify-center rounded-xl bg-black px-5 py-3.5 font-semibold text-white transition hover:bg-gray-800"
+      class="inline-flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 px-5 py-3.5 font-semibold text-white shadow-lg shadow-violet-500/20 transition hover:from-violet-700 hover:to-indigo-700 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-violet-600"
     >
       Se connecter
     </a>
   }
 
+  <!-- Error / resend confirmation -->
   @if (!isConfirmed && !isLoading) {
+
     @if (errorMessage) {
-      <div class="mb-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+      <div
+        role="alert"
+        class="mb-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+      >
         {{ errorMessage }}
       </div>
     }
 
     @if (resendMessage) {
-      <div class="mb-5 rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700">
+      <div
+        role="status"
+        class="mb-5 rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700"
+      >
         {{ resendMessage }}
       </div>
     }
@@ -49,7 +95,7 @@
       <div>
         <label
           for="resendEmail"
-          class="mb-2 block text-sm font-medium text-gray-800"
+          class="mb-2 block text-sm font-medium text-slate-700"
         >
           Adresse e-mail
         </label>
@@ -59,8 +105,9 @@
           type="email"
           formControlName="email"
           autocomplete="email"
-          class="w-full rounded-xl border border-gray-300 px-4 py-3.5 outline-none transition focus:border-black focus:ring-1 focus:ring-black"
-        >
+          placeholder="vous@exemple.com"
+          class="w-full rounded-xl border border-slate-200 bg-slate-50/60 px-4 py-3.5 text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-violet-500 focus:bg-white focus:ring-2 focus:ring-violet-500/20"
+        />
 
         @if (resendEmail.touched && resendEmail.invalid) {
           <p class="mt-2 text-sm text-red-600">
@@ -72,16 +119,16 @@
       <button
         type="submit"
         [disabled]="isLoading"
-        class="w-full cursor-pointer rounded-xl bg-black px-5 py-3.5 font-semibold text-white transition hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-50"
+        class="w-full cursor-pointer rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 px-5 py-3.5 font-semibold text-white shadow-lg shadow-violet-500/20 transition hover:from-violet-700 hover:to-indigo-700 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-violet-600 disabled:cursor-not-allowed disabled:opacity-50"
       >
         Renvoyer l'e-mail de confirmation
       </button>
     </form>
 
-    <p class="mt-7 text-center text-sm text-gray-500">
+    <p class="mt-7 text-center text-sm text-slate-500">
       <a
         routerLink="/login"
-        class="font-semibold text-black hover:underline"
+        class="font-semibold text-violet-700 transition hover:text-violet-900 hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-violet-600"
       >
         Retour à la connexion
       </a>
