@@ -18,7 +18,7 @@
       >
         <span
           class="flex h-5 w-5 items-center justify-center
-                 rounded-full bg-zinc-950 text-[10px] text-white"
+                 rounded-full bg-violet-700 text-[10px] text-white"
         >
           ✦
         </span>
@@ -27,7 +27,7 @@
       </div>
 
       <h1
-        class="text-4xl font-bold tracking-[-0.04em] text-zinc-950
+        class="text-4xl font-bold tracking-[-0.04em] text-slate-950
                sm:text-5xl lg:text-6xl lg:leading-[1.06]"
       >
         Votre prochain
@@ -49,10 +49,10 @@
         <a
           href="#salons"
           class="inline-flex h-14 items-center justify-center
-                 rounded-xl bg-zinc-950 px-7 text-sm font-semibold
-                 text-white transition hover:bg-zinc-800
+                 rounded-xl bg-violet-700 px-7 text-sm font-semibold
+                 text-white transition hover:bg-violet-800
                  focus:outline-none focus:ring-2
-                 focus:ring-zinc-950 focus:ring-offset-2"
+                 focus:ring-violet-600 focus:ring-offset-2"
         >
           Découvrir les salons
 
@@ -66,7 +66,7 @@
           class="inline-flex h-14 items-center justify-center
                  rounded-xl border border-zinc-200 bg-white px-7
                  text-sm font-semibold text-zinc-800 transition
-                 hover:border-zinc-300 hover:bg-zinc-50"
+                 hover:border-violet-300 hover:bg-zinc-50"
         >
           Créer mon salon
         </a>
@@ -80,7 +80,7 @@
         <div class="flex items-center gap-2">
           <span
             class="flex h-5 w-5 items-center justify-center
-                   rounded-full bg-zinc-950 text-[10px] text-white"
+                   rounded-full bg-violet-700 text-[10px] text-white"
           >
             ✓
           </span>
@@ -91,7 +91,7 @@
         <div class="flex items-center gap-2">
           <span
             class="flex h-5 w-5 items-center justify-center
-                   rounded-full bg-zinc-950 text-[10px] text-white"
+                   rounded-full bg-violet-700 text-[10px] text-white"
           >
             ✓
           </span>
@@ -102,7 +102,7 @@
         <div class="flex items-center gap-2">
           <span
             class="flex h-5 w-5 items-center justify-center
-                   rounded-full bg-zinc-950 text-[10px] text-white"
+                   rounded-full bg-violet-700 text-[10px] text-white"
           >
             ✓
           </span>
@@ -162,7 +162,7 @@
 
             <h2
               class="mt-2 text-2xl font-bold tracking-tight
-                     text-zinc-950"
+                     text-slate-950"
             >
               Trouvez votre salon
             </h2>
@@ -191,7 +191,7 @@
                 placeholder="Nom, ville ou prestation..."
                 aria-label="Rechercher un salon"
                 class="min-w-0 flex-1 bg-transparent text-sm
-                       text-zinc-900 outline-none
+                       text-slate-900 outline-none
                        placeholder:text-zinc-400"
               />
             </div>
@@ -201,7 +201,7 @@
               <button
                 type="button"
                 (click)="selectAudience(null)"
-                [class.bg-zinc-950]="selectedAudience === null"
+                [class.bg-violet-700]="selectedAudience === null"
                 [class.text-white]="selectedAudience === null"
                 [class.border-zinc-200]="selectedAudience !== null"
                 [class.text-zinc-600]="selectedAudience !== null"
@@ -214,7 +214,7 @@
               <button
                 type="button"
                 (click)="selectAudience(SalonAudience.Women)"
-                [class.bg-zinc-950]="selectedAudience === SalonAudience.Women"
+                [class.bg-violet-700]="selectedAudience === SalonAudience.Women"
                 [class.text-white]="selectedAudience === SalonAudience.Women"
                 [class.border-zinc-200]="selectedAudience !== SalonAudience.Women"
                 [class.text-zinc-600]="selectedAudience !== SalonAudience.Women"
@@ -227,7 +227,7 @@
               <button
                 type="button"
                 (click)="selectAudience(SalonAudience.Men)"
-                [class.bg-zinc-950]="selectedAudience === SalonAudience.Men"
+                [class.bg-violet-700]="selectedAudience === SalonAudience.Men"
                 [class.text-white]="selectedAudience === SalonAudience.Men"
                 [class.border-zinc-200]="selectedAudience !== SalonAudience.Men"
                 [class.text-zinc-600]="selectedAudience !== SalonAudience.Men"
@@ -240,7 +240,7 @@
               <button
                 type="button"
                 (click)="selectAudience(SalonAudience.Mixed)"
-                [class.bg-zinc-950]="selectedAudience === SalonAudience.Mixed"
+                [class.bg-violet-700]="selectedAudience === SalonAudience.Mixed"
                 [class.text-white]="selectedAudience === SalonAudience.Mixed"
                 [class.border-zinc-200]="selectedAudience !== SalonAudience.Mixed"
                 [class.text-zinc-600]="selectedAudience !== SalonAudience.Mixed"
@@ -274,7 +274,7 @@
                     class="flex items-center gap-4 rounded-2xl
                            border border-zinc-200 bg-white p-4
                            shadow-sm transition
-                           hover:border-zinc-300 hover:shadow-md"
+                           hover:border-violet-300 hover:shadow-md"
                   >
                     @if (getLogoUrl(salon); as logoUrl) {
                       <img
@@ -294,7 +294,7 @@
 
                     <div class="min-w-0 flex-1">
                       <p
-                        class="truncate text-sm font-semibold text-zinc-900"
+                        class="truncate text-sm font-semibold text-slate-900"
                       >
                         {{ salon.name }}
                       </p>
@@ -325,9 +325,9 @@
             <a
               href="#salons"
               class="mt-6 inline-flex w-full items-center
-                     justify-center rounded-xl bg-zinc-950 py-3.5
+                     justify-center rounded-xl bg-violet-700 py-3.5
                      text-sm font-semibold text-white transition
-                     hover:bg-zinc-800"
+                     hover:bg-violet-800"
             >
               Voir les salons
             </a>
