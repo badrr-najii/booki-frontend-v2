@@ -19,7 +19,7 @@
 
         <h2
           class="mt-3 text-3xl font-bold tracking-tight
-                 text-zinc-950 sm:text-4xl"
+                 text-slate-950 sm:text-4xl"
         >
           Découvrez nos salons
         </h2>
@@ -38,11 +38,11 @@
         <button
           type="button"
           (click)="selectAudience(null)"
-          [class.bg-zinc-950]="selectedAudience === null"
+          [class.bg-violet-700]="selectedAudience === null"
           [class.text-white]="selectedAudience === null"
           [class.shadow-sm]="selectedAudience === null"
           class="rounded-xl px-4 py-2 text-sm font-medium
-                 text-zinc-600 transition hover:text-zinc-950"
+                 text-zinc-600 transition hover:text-slate-950"
         >
           Tous
         </button>
@@ -50,11 +50,11 @@
         <button
           type="button"
           (click)="selectAudience(SalonAudience.Women)"
-          [class.bg-zinc-950]="selectedAudience === SalonAudience.Women"
+          [class.bg-violet-700]="selectedAudience === SalonAudience.Women"
           [class.text-white]="selectedAudience === SalonAudience.Women"
           [class.shadow-sm]="selectedAudience === SalonAudience.Women"
           class="rounded-xl px-4 py-2 text-sm font-medium
-                 text-zinc-600 transition hover:text-zinc-950"
+                 text-zinc-600 transition hover:text-slate-950"
         >
           Femmes
         </button>
@@ -62,11 +62,11 @@
         <button
           type="button"
           (click)="selectAudience(SalonAudience.Men)"
-          [class.bg-zinc-950]="selectedAudience === SalonAudience.Men"
+          [class.bg-violet-700]="selectedAudience === SalonAudience.Men"
           [class.text-white]="selectedAudience === SalonAudience.Men"
           [class.shadow-sm]="selectedAudience === SalonAudience.Men"
           class="rounded-xl px-4 py-2 text-sm font-medium
-                 text-zinc-600 transition hover:text-zinc-950"
+                 text-zinc-600 transition hover:text-slate-950"
         >
           Hommes
         </button>
@@ -74,11 +74,11 @@
         <button
           type="button"
           (click)="selectAudience(SalonAudience.Mixed)"
-          [class.bg-zinc-950]="selectedAudience === SalonAudience.Mixed"
+          [class.bg-violet-700]="selectedAudience === SalonAudience.Mixed"
           [class.text-white]="selectedAudience === SalonAudience.Mixed"
           [class.shadow-sm]="selectedAudience === SalonAudience.Mixed"
           class="rounded-xl px-4 py-2 text-sm font-medium
-                 text-zinc-600 transition hover:text-zinc-950"
+                 text-zinc-600 transition hover:text-slate-950"
         >
           Mixte
         </button>
@@ -131,7 +131,7 @@
       } @else if (filteredSalons.length === 0) {
 
         <div
-          class="rounded-3xl border border-dashed border-zinc-300
+          class="rounded-3xl border border-dashed border-violet-200
                  bg-zinc-50 px-6 py-14 text-center"
         >
           <div
@@ -142,7 +142,7 @@
             ✦
           </div>
 
-          <h3 class="mt-5 text-lg font-semibold text-zinc-950">
+          <h3 class="mt-5 text-lg font-semibold text-slate-950">
             Aucun salon disponible
           </h3>
 
@@ -161,7 +161,7 @@
                      border border-zinc-200 bg-white
                      transition duration-300
                      hover:-translate-y-1
-                     hover:border-zinc-300 hover:shadow-xl"
+                     hover:border-violet-300 hover:shadow-xl"
             >
               <div class="flex w-full flex-col">
 
@@ -219,7 +219,7 @@
                   <div>
                     <h3
                       class="text-xl font-bold tracking-tight
-                             text-zinc-950"
+                             text-slate-950"
                     >
                       {{ salon.name }}
                     </h3>
@@ -274,7 +274,7 @@
 
                         <p
                           class="mt-0.5 text-lg font-bold
-                                 text-zinc-950"
+                                 text-slate-950"
                         >
                           {{ price }} MAD
                         </p>
@@ -288,11 +288,11 @@
                     <a
                       [routerLink]="['/salons', salon.slug]"
                       class="inline-flex items-center justify-center
-                             rounded-xl bg-zinc-950 px-5 py-3
+                             rounded-xl bg-violet-700 px-5 py-3
                              text-sm font-semibold text-white
-                             transition hover:bg-zinc-800
+                             transition hover:bg-violet-800
                              focus:outline-none focus:ring-2
-                             focus:ring-zinc-950
+                             focus:ring-violet-600
                              focus:ring-offset-2"
                     >
                       Voir le salon

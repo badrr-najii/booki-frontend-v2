@@ -15,6 +15,34 @@ export const routes: Routes = [
     {
         path: '',
         loadComponent: () =>
+            import('./core/layout/public-layout/public-layout')
+                .then(m => m.PublicLayout),
+        children: [
+            {
+                path: '',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./features/home/pages/home/home')
+                        .then(m => m.Home)
+            },
+            {
+                path: 'salons/:slug',
+                loadComponent: () =>
+                    import('./features/salons/pages/public-salon-details/public-salon-details')
+                        .then(m => m.PublicSalonDetails)
+            },
+            {
+                path: 'salons/:id/book',
+                loadComponent: () =>
+                    import('./features/bookings/pages/public-booking/public-booking')
+                        .then(m => m.PublicBooking)
+            }
+        ]
+    },
+
+    {
+        path: '',
+        loadComponent: () =>
             import('./core/layout/admin-layout/admin-layout')
                 .then(m => m.AdminLayout),
         canActivate: [authGuard, adminGuard],
