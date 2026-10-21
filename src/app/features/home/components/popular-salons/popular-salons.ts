@@ -1,17 +1,15 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  OnInit
-} from '@angular/core';
 
 import {
-  RouterLink
-} from '@angular/router';
+  Component,
+  Input
+} from '@angular/core';
+
+import { RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 import {
   PublicSalonResponse,
-  SalonAudience,
-  SalonService
+  SalonAudience
 } from '../../../../core/services/salon.service';
 
 import {
@@ -20,53 +18,55 @@ import {
 
 @Component({
   selector: 'app-popular-salons',
-  imports: [RouterLink],
+  imports: [RouterLink, FormsModule],
   templateUrl: './popular-salons.html',
   styleUrl: './popular-salons.css',
 })
-export class PopularSalons implements OnInit {
+export class PopularSalons {
 
-  salons: PublicSalonResponse[] = [];
+  @Input() salons: PublicSalonResponse[] = [];
+  @Input() isLoading = true;
+  @Input() loadFailed = false;
 
   readonly SalonAudience = SalonAudience;
 
   selectedAudience: SalonAudience | null = null;
+  searchTerm = '';
 
-  isLoading = true;
-  errorMessage = '';
-
-  constructor(
-    private salonService: SalonService,
-    private cdr: ChangeDetectorRef
-  ) { }
-
-  ngOnInit(): void {
-    this.salonService
-      .getAllPublic()
-      .subscribe({
-        next: salons => {
-          this.salons = salons;
-          this.isLoading = false;
-          this.cdr.detectChanges();
-        },
-        error: () => {
-          this.errorMessage =
-            'Impossible de charger les salons pour le moment.';
-          this.isLoading = false;
-          this.cdr.detectChanges();
-        }
-      });
+  get errorMessage(): string {
+    return this.loadFailed
+      ? 'Impossible de charger les salons pour le moment.'
+      : '';
   }
+get filteredSalons(): PublicSalonResponse[] {
+  const term = this.searchTerm.trim().toLocaleLowerCase();
 
-  get filteredSalons(): PublicSalonResponse[] {
-    const salons = this.selectedAudience === null
-      ? this.salons
-      : this.salons.filter(
-          salon => salon.audience === this.selectedAudience
-        );
+  return this.salons
+    .filter(salon => {
+      const matchesAudience =
+        this.selectedAudience === null ||
+        salon.audience === this.selectedAudience;
 
-    return salons.slice(0, 6);
-  }
+      if (!matchesAudience) {
+        return false;
+      }
+
+      if (!term) {
+        return true;
+      }
+
+      return (
+        salon.name.toLocaleLowerCase().includes(term) ||
+        (salon.city ?? '').toLocaleLowerCase().includes(term) ||
+        salon.services.some(service =>
+          service.isActive &&
+          service.name.toLocaleLowerCase().includes(term)
+        )
+      );
+    })
+    .slice(0, 6);
+}
+
 
   selectAudience(
     audience: SalonAudience | null
@@ -77,7 +77,6 @@ export class PopularSalons implements OnInit {
   getStartingPrice(
     salon: PublicSalonResponse
   ): number | null {
-
     const prices = salon.services
       .filter(service => service.isActive)
       .map(service => service.price);

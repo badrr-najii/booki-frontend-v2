@@ -1,7 +1,7 @@
+
 import {
-  ChangeDetectorRef,
   Component,
-  OnInit
+  Input
 } from '@angular/core';
 
 import {
@@ -14,8 +14,7 @@ import {
 
 import {
   PublicSalonResponse,
-  SalonAudience,
-  SalonService
+  SalonAudience
 } from '../../../../core/services/salon.service';
 
 import {
@@ -31,39 +30,16 @@ import {
   templateUrl: './hero.html',
   styleUrl: './hero.css',
 })
-export class Hero implements OnInit {
+export class Hero {
 
-  salons: PublicSalonResponse[] = [];
+  @Input() salons: PublicSalonResponse[] = [];
+  @Input() isLoading = true;
+  @Input() loadFailed = false;
 
   searchTerm = '';
   selectedAudience: SalonAudience | null = null;
 
-  isLoading = true;
-  loadFailed = false;
-
   readonly SalonAudience = SalonAudience;
-
-  constructor(
-    private salonService: SalonService,
-    private cdr: ChangeDetectorRef
-  ) {}
-
-  ngOnInit(): void {
-    this.salonService
-      .getAllPublic()
-      .subscribe({
-        next: salons => {
-          this.salons = salons;
-          this.isLoading = false;
-          this.cdr.detectChanges();
-        },
-        error: () => {
-          this.loadFailed = true;
-          this.isLoading = false;
-          this.cdr.detectChanges();
-        }
-      });
-  }
 
   get filteredSalons(): PublicSalonResponse[] {
     const term = this.normalize(this.searchTerm);
