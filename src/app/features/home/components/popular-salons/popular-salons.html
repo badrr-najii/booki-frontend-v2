@@ -30,7 +30,7 @@
         </p>
       </div>
 
-      <!-- Audience filters -->
+     <!-- Audience filters -->
       <div
         class="flex w-fit flex-wrap gap-2 rounded-2xl
                border border-zinc-200 bg-zinc-50 p-1.5"
@@ -40,9 +40,10 @@
           (click)="selectAudience(null)"
           [class.bg-violet-700]="selectedAudience === null"
           [class.text-white]="selectedAudience === null"
+          [class.text-zinc-600]="selectedAudience !== null"
           [class.shadow-sm]="selectedAudience === null"
           class="rounded-xl px-4 py-2 text-sm font-medium
-                 text-zinc-600 transition hover:text-slate-950"
+                 transition"
         >
           Tous
         </button>
@@ -52,9 +53,10 @@
           (click)="selectAudience(SalonAudience.Women)"
           [class.bg-violet-700]="selectedAudience === SalonAudience.Women"
           [class.text-white]="selectedAudience === SalonAudience.Women"
+          [class.text-zinc-600]="selectedAudience !== SalonAudience.Women"
           [class.shadow-sm]="selectedAudience === SalonAudience.Women"
           class="rounded-xl px-4 py-2 text-sm font-medium
-                 text-zinc-600 transition hover:text-slate-950"
+                 transition"
         >
           Femmes
         </button>
@@ -64,9 +66,10 @@
           (click)="selectAudience(SalonAudience.Men)"
           [class.bg-violet-700]="selectedAudience === SalonAudience.Men"
           [class.text-white]="selectedAudience === SalonAudience.Men"
+          [class.text-zinc-600]="selectedAudience !== SalonAudience.Men"
           [class.shadow-sm]="selectedAudience === SalonAudience.Men"
           class="rounded-xl px-4 py-2 text-sm font-medium
-                 text-zinc-600 transition hover:text-slate-950"
+                 transition"
         >
           Hommes
         </button>
@@ -76,9 +79,10 @@
           (click)="selectAudience(SalonAudience.Mixed)"
           [class.bg-violet-700]="selectedAudience === SalonAudience.Mixed"
           [class.text-white]="selectedAudience === SalonAudience.Mixed"
+          [class.text-zinc-600]="selectedAudience !== SalonAudience.Mixed"
           [class.shadow-sm]="selectedAudience === SalonAudience.Mixed"
           class="rounded-xl px-4 py-2 text-sm font-medium
-                 text-zinc-600 transition hover:text-slate-950"
+                 transition"
         >
           Mixte
         </button>
