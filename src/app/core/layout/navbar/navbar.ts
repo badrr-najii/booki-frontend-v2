@@ -1,3 +1,4 @@
+
 import {
   ChangeDetectorRef,
   Component,
@@ -32,6 +33,9 @@ export class Navbar implements OnInit {
   isLoggingOut = false;
   unreadCount = 0;
 
+  // Mobile navigation
+  isMobileMenuOpen = false;
+
   constructor(
     public authService: AuthService,
     private notificationService: NotificationService,
@@ -60,8 +64,17 @@ export class Navbar implements OnInit {
       });
   }
 
-  logout(): void {
+  // Open or close mobile menu
+  toggleMobileMenu(): void {
+    this.isMobileMenuOpen = !this.isMobileMenuOpen;
+  }
 
+  // Close mobile menu
+  closeMobileMenu(): void {
+    this.isMobileMenuOpen = false;
+  }
+
+  logout(): void {
     if (this.isLoggingOut) {
       return;
     }
@@ -86,6 +99,9 @@ export class Navbar implements OnInit {
   private finishLogout(): void {
     this.isLoggingOut = false;
     this.notificationService.clearUnreadCount();
+
+    // Close mobile menu after logout
+    this.closeMobileMenu();
 
     this.router.navigate([
       '/login'
