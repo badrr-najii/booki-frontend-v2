@@ -19,20 +19,20 @@
   </header>
 
   @if (successMessage) {
-    <div class="message success-message">
+    <div role="status" class="message success-message">
       {{ successMessage }}
     </div>
   }
 
   @if (errorMessage) {
-    <div class="message error-message">
+    <div role="alert" class="message error-message">
       {{ errorMessage }}
     </div>
   }
 
   @if (isLoading) {
 
-    <div class="state-card">
+    <div role="status" class="state-card">
       Chargement des avis...
     </div>
 
@@ -172,6 +172,7 @@
 
                 <textarea
                   [id]="'response-' + review.id"
+                  [attr.aria-label]="'Réponse à l’avis de '+ review.clientName"
                   rows="3"
                   maxlength="1000"
                   [(ngModel)]="responseDrafts[review.id]"

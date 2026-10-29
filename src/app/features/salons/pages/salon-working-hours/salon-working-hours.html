@@ -26,6 +26,7 @@
   @if (errorMessage) {
 
     <div
+      role="alert"
       class="mt-6 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700"
     >
       {{ errorMessage }}
@@ -36,6 +37,7 @@
   @if (successMessage) {
 
     <div
+      role="status"
       class="mt-6 rounded-lg border border-green-200 p-4 text-sm text-green-700"
     >
       {{ successMessage }}
@@ -45,7 +47,7 @@
 
   @if (isLoading) {
 
-    <div class="mt-8">
+    <div role="status" class="mt-8">
       Chargement des horaires...
     </div>
 
@@ -85,6 +87,7 @@
                 type="checkbox"
                 [(ngModel)]="day.isClosed"
                 [name]="'closed-' + day.day"
+                [attr.aria-label]="day.label + ': fermé'"
               />
 
               <span class="text-sm">
@@ -107,6 +110,7 @@
                   type="time"
                   [(ngModel)]="day.openTime"
                   [name]="'open-' + day.day"
+                  [attr.aria-label]="day.label + ': heure ouverture'"
                   [disabled]="day.isClosed"
                   class="rounded-lg border border-gray-300 px-3 py-2 text-sm disabled:bg-gray-100"
                 />
@@ -129,6 +133,7 @@
                   type="time"
                   [(ngModel)]="day.closeTime"
                   [name]="'close-' + day.day"
+                  [attr.aria-label]="day.label + ': heure de fermeture'"
                   [disabled]="day.isClosed"
                   class="rounded-lg border border-gray-300 px-3 py-2 text-sm disabled:bg-gray-100"
                 />
@@ -140,6 +145,7 @@
             <button
               type="button"
               (click)="save(day)"
+              [attr.aria-label]="'Enregistrer les horaires de '+ day.label"
               [disabled]="day.isSaving"
               class="rounded-lg bg-black px-4 py-2 text-sm text-white hover:bg-gray-800 disabled:opacity-50"
             >
