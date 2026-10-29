@@ -72,7 +72,7 @@
     }
 
     @if (errorMessage) {
-      <div class="alert alert-error">
+      <div role="alert" class="alert alert-error">
         {{ errorMessage }}
       </div>
     }
@@ -222,6 +222,7 @@
                         type="button"
                         class="slot-button"
                         [class.slot-selected]="selectedSlot === slot"
+                        [attr.aria-pressed]="selectedSlot === slot"
                         (click)="selectSlot(slot)"
                       >
                         {{ formatTime(slot.startTime) }}

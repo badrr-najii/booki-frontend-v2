@@ -3,6 +3,8 @@ import {
   ChangeDetectorRef,
   Component,
   HostListener,
+  ElementRef,
+  ViewChild,
   OnInit
 } from '@angular/core';
 
@@ -36,6 +38,7 @@ export class Navbar implements OnInit {
 
   // Mobile navigation
   isMobileMenuOpen = false;
+  @ViewChild('mobileMenuToggle') mobileMenuToggle?: ElementRef<HTMLButtonElement>;
 
   constructor(
     public authService: AuthService,
@@ -80,6 +83,7 @@ export class Navbar implements OnInit {
   onEscape(): void {
     if (this.isMobileMenuOpen) {
       this.closeMobileMenu();
+      this.mobileMenuToggle?.nativeElement.focus();
     }
   }
 

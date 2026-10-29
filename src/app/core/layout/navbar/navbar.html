@@ -261,6 +261,7 @@
     <button
   type="button"
   (click)="toggleMobileMenu()"
+  #mobileMenuToggle
   [attr.aria-expanded]="isMobileMenuOpen"
   aria-controls="mobile-navigation"
   [attr.aria-label]="isMobileMenuOpen ? 'Fermer le menu' : 'Ouvrir le menu'"

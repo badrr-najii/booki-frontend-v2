@@ -13,6 +13,7 @@
     <button
       type="button"
       (click)="toggleSidebar()"
+      #sidebarToggle
       [attr.aria-expanded]="isSidebarOpen()"
       aria-controls="admin-sidebar"
       aria-label="Afficher ou masquer le menu"
@@ -47,6 +48,7 @@
            bg-slate-950 text-white
            transition-transform duration-200
            lg:translate-x-0"
+    [attr.inert]="isSidebarOpen() || isDesktop ? null : ''"
     [class.translate-x-0]="isSidebarOpen()"
     [class.-translate-x-full]="!isSidebarOpen()"
   >
@@ -73,6 +75,7 @@
         <a
           routerLink="/admin"
           routerLinkActive="!bg-violet-600 !text-white"
+          ariaCurrentWhenActive="page"
           [routerLinkActiveOptions]="{ exact: true }"
           (click)="closeSidebar()"
           class="flex items-center gap-3 rounded-xl
@@ -94,6 +97,7 @@
         <a
           routerLink="/admin/users"
           routerLinkActive="!bg-violet-600 !text-white"
+          ariaCurrentWhenActive="page"
           (click)="closeSidebar()"
           class="flex items-center gap-3 rounded-xl
                  px-3 py-3 text-sm font-medium

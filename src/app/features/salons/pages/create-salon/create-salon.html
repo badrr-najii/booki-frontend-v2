@@ -59,6 +59,7 @@
 
           <input
             type="text"
+            aria-label="Nom du salon"
             formControlName="name"
             (input)="onNameChange()"
             placeholder="Ex: Beauty Studio"
@@ -82,6 +83,7 @@
 
           <input
             type="text"
+            aria-label="Identifiant URL du salon"
             formControlName="slug"
             placeholder="beauty-studio"
             class="w-full rounded-xl
@@ -146,6 +148,7 @@
   </label>
 
   <select
+    aria-label="Type de clientèle"
     formControlName="audience"
     class="w-full rounded-xl
            border border-gray-300
@@ -168,6 +171,7 @@
           </label>
 
           <textarea
+            aria-label="Description"
             formControlName="description"
             rows="4"
             placeholder="Présentez votre salon..."
@@ -193,7 +197,8 @@
 
             <input
               type="text"
-              formControlName="city"
+              aria-label="Ville"
+            formControlName="city"
               placeholder="Casablanca"
               class="w-full rounded-xl
                      border border-gray-300
@@ -215,7 +220,8 @@
 
             <input
               type="text"
-              formControlName="phoneNumber"
+              aria-label="Téléphone"
+            formControlName="phoneNumber"
               placeholder="0612345678"
               class="w-full rounded-xl
                      border border-gray-300
@@ -239,6 +245,7 @@
 
           <input
             type="text"
+            aria-label="Adresse"
             formControlName="address"
             placeholder="Adresse du salon"
             class="w-full rounded-xl
@@ -261,6 +268,7 @@
 
           <input
             type="email"
+            aria-label="Adresse e-mail"
             formControlName="email"
             placeholder="contact@salon.com"
             class="w-full rounded-xl
