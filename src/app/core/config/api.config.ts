@@ -3,7 +3,7 @@ import { environment } from '../../../environments/environment';
 export const API_BASE_URL = environment.apiBaseUrl;
 
 export const API_ORIGIN =
-  new URL(API_BASE_URL).origin;
+  new URL(API_BASE_URL, window.location.origin).origin;
 
 export function resolveApiAssetUrl(
   path: string | null | undefined

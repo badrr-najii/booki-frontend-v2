@@ -31,9 +31,13 @@ import {
   AuthService
 } from '../services/auth.service';
 
+import { API_BASE_URL } from '../config/api.config';
+
 import {
   authInterceptor
 } from './auth.interceptor';
+
+
 
 describe('authInterceptor', () => {
 
@@ -81,7 +85,7 @@ describe('authInterceptor', () => {
     const request =
       new HttpRequest(
         'GET',
-        '/api/Notifications'
+        `${API_BASE_URL}/Notifications`
       );
 
     const next = vi.fn((req: HttpRequest<unknown>) =>
@@ -124,7 +128,7 @@ describe('authInterceptor', () => {
     const request =
       new HttpRequest(
         'GET',
-        '/api/Notifications'
+        `${API_BASE_URL}/Notifications`
       );
 
     const next = vi.fn(() =>
@@ -169,7 +173,7 @@ describe('authInterceptor', () => {
     const request =
       new HttpRequest(
         'GET',
-        '/api/Notifications'
+        `${API_BASE_URL}/Notifications`
       );
 
     let calls = 0;
@@ -252,13 +256,13 @@ describe('authInterceptor', () => {
     const request1 =
       new HttpRequest(
         'GET',
-        '/api/Notifications'
+        `${API_BASE_URL}/Notifications`
       );
 
     const request2 =
       new HttpRequest(
         'GET',
-        '/api/Dashboard'
+        `${API_BASE_URL}/Dashboard`
       );
 
     const next1 = createNext();
@@ -313,7 +317,7 @@ describe('authInterceptor', () => {
     const request =
       new HttpRequest(
         'POST',
-        '/api/auth/reset-password',
+        `${API_BASE_URL}/auth/reset-password`,
         {}
       );
 
@@ -358,7 +362,7 @@ describe('authInterceptor', () => {
     const request =
       new HttpRequest(
         'POST',
-        '/api/auth/logout',
+        `${API_BASE_URL}/auth/logout`,
         {}
       );
 
@@ -381,4 +385,103 @@ describe('authInterceptor', () => {
     expect(response.body)
       .toBe('Bearer access-token');
   });
+
+  it('should not clear the session when retry fails after successful refresh', async () => {
+    authService.getAccessToken
+      .mockReturnValueOnce('stale-token')
+      .mockReturnValue('new-access-token');
+
+    authService.refreshToken.mockReturnValue(
+      of({ accessToken: 'new-access-token' })
+    );
+
+    const request = new HttpRequest(
+      'GET',
+      `${API_BASE_URL}/Notifications`
+    );
+
+    let calls = 0;
+
+    const next = vi.fn(() => {
+      calls++;
+
+      return throwError(
+        () => new HttpErrorResponse({
+          status: calls === 1 ? 401 : 500
+        })
+      );
+    });
+
+    await expect(
+      firstValueFrom(
+        TestBed.runInInjectionContext(
+          () => authInterceptor(request, next)
+        )
+      )
+    ).rejects.toMatchObject({
+      status: 500
+    });
+
+    expect(authService.refreshToken)
+      .toHaveBeenCalledTimes(1);
+
+    expect(next)
+      .toHaveBeenCalledTimes(2);
+
+    expect(authService.clearSession)
+      .not.toHaveBeenCalled();
+
+    expect(router.navigate)
+      .not.toHaveBeenCalled();
+  });
+
+  it('should not attach the access token to external requests', () => {
+    authService.getAccessToken.mockReturnValue('secret-token');
+
+    const request = new HttpRequest(
+      'GET',
+      'https://external.example.com/data'
+    );
+
+    const next = vi.fn((req: HttpRequest<unknown>) =>
+      of(new HttpResponse({
+        status: 200,
+        body: req.headers.get('Authorization')
+      }))
+    );
+
+    TestBed.runInInjectionContext(() => {
+      authInterceptor(request, next).subscribe(response => {
+        expect((response as HttpResponse<unknown>).body).toBeNull();
+      });
+    });
+
+    expect(next).toHaveBeenCalledOnce();
+  });
+
+  it('should protect endpoints that only resemble public auth paths', async () => {
+  authService.getAccessToken.mockReturnValue('access-token');
+
+  const request = new HttpRequest(
+    'GET',
+    `${API_BASE_URL}/auth/login-extra`
+  );
+
+  const next = vi.fn((req: HttpRequest<unknown>) =>
+    of(new HttpResponse({
+      status: 200,
+      body: req.headers.get('Authorization')
+    }))
+  );
+
+  const response = await firstValueFrom(
+    TestBed.runInInjectionContext(
+      () => authInterceptor(request, next)
+    )
+  ) as HttpResponse<string>;
+
+  expect(response.body).toBe('Bearer access-token');
+
+  expect(next).toHaveBeenCalledTimes(1);
+});
 });

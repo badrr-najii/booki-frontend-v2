@@ -24,6 +24,8 @@ import {
   AuthService
 } from '../services/auth.service';
 
+import { API_BASE_URL } from '../config/api.config';
+
 let isRefreshing = false;
 
 const refreshTokenSubject =
@@ -40,14 +42,46 @@ export const authInterceptor: HttpInterceptorFn =
     const router =
       inject(Router);
 
+    const apiBaseUrl = new URL(
+      API_BASE_URL,
+      window.location.origin
+    );
+
+    const requestUrl = new URL(
+      req.url,
+      window.location.origin
+    );
+
+    const isApiRequest =
+      requestUrl.origin === apiBaseUrl.origin &&
+      (
+        requestUrl.pathname === apiBaseUrl.pathname ||
+        requestUrl.pathname.startsWith(
+          `${apiBaseUrl.pathname.replace(/\/$/, '')}/`
+        )
+      );
+
+    if (!isApiRequest) {
+      return next(req);
+    }
+
+    const publicAuthPaths = new Set([
+      '/auth/login',
+      '/auth/register',
+      '/auth/refresh-token',
+      '/auth/forgot-password',
+      '/auth/reset-password',
+      '/auth/confirm-email',
+      '/auth/resend-confirmation'
+    ]);
+
+    const apiPath = apiBaseUrl.pathname.replace(/\/$/, '');
+
+    const relativeApiPath =
+      requestUrl.pathname.slice(apiPath.length);
+
     const isPublicAuthEndpoint =
-      req.url.includes("/api/auth/login") ||
-      req.url.includes("/api/auth/register") ||
-      req.url.includes("/api/auth/refresh-token") ||
-      req.url.includes("/api/auth/forgot-password") ||
-      req.url.includes("/api/auth/reset-password") ||
-      req.url.includes("/api/auth/confirm-email") ||
-      req.url.includes("/api/auth/resend-confirmation");
+      publicAuthPaths.has(relativeApiPath);
 
     if (isPublicAuthEndpoint) {
       return next(req);
@@ -86,73 +120,46 @@ export const authInterceptor: HttpInterceptorFn =
               null
             );
 
-            return authService
-              .refreshToken()
-              .pipe(
+            return authService.refreshToken().pipe(
+              catchError(refreshError => {
+                isRefreshing = false;
+                refreshFailed = true;
 
-                switchMap(() => {
+                refreshTokenSubject.next(null);
 
-                  isRefreshing = false;
-                  refreshFailed = false;
+                authService.clearSession();
+                router.navigate(['/login']);
 
-                  const newAccessToken =
-                    authService
-                      .getAccessToken();
+                return throwError(() => refreshError);
+              }),
 
-                  if (!newAccessToken) {
+              switchMap(() => {
+                isRefreshing = false;
+                refreshFailed = false;
 
-                    authService
-                      .clearSession();
+                const newAccessToken = authService.getAccessToken();
 
-                    router.navigate([
-                      '/login'
-                    ]);
+                if (!newAccessToken) {
+                  refreshFailed = true;
+                  refreshTokenSubject.next(null);
 
-                    return throwError(
-                      () => error
-                    );
+                  authService.clearSession();
+                  router.navigate(['/login']);
+
+                  return throwError(() => error);
+                }
+
+                refreshTokenSubject.next(newAccessToken);
+
+                const retryRequest = req.clone({
+                  setHeaders: {
+                    Authorization: `Bearer ${newAccessToken}`
                   }
+                });
 
-                  refreshTokenSubject.next(
-                    newAccessToken
-                  );
-
-                  const retryRequest =
-                    req.clone({
-                      setHeaders: {
-                        Authorization:
-                          `Bearer ${newAccessToken}`
-                      }
-                    });
-
-                  return next(
-                    retryRequest
-                  );
-                }),
-
-                catchError(
-                  refreshError => {
-
-                    isRefreshing = false;
-                    refreshFailed = true;
-
-                    refreshTokenSubject.next(
-                      null
-                    );
-
-                    authService
-                      .clearSession();
-
-                    router.navigate([
-                      '/login'
-                    ]);
-
-                    return throwError(
-                      () => refreshError
-                    );
-                  }
-                )
-              );
+                return next(retryRequest);
+              })
+            );
           }
 
           return refreshTokenSubject.pipe(
