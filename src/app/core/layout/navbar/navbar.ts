@@ -2,6 +2,7 @@
 import {
   ChangeDetectorRef,
   Component,
+  HostListener,
   OnInit
 } from '@angular/core';
 
@@ -72,6 +73,14 @@ export class Navbar implements OnInit {
   // Close mobile menu
   closeMobileMenu(): void {
     this.isMobileMenuOpen = false;
+  }
+
+  // Close mobile menu with Escape key
+  @HostListener('document:keydown.escape')
+  onEscape(): void {
+    if (this.isMobileMenuOpen) {
+      this.closeMobileMenu();
+    }
   }
 
   logout(): void {

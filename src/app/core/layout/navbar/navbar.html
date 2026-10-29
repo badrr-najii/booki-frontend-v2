@@ -9,7 +9,10 @@
 
 <a
   routerLink="/"
-  class="group inline-flex shrink-0 items-center gap-3"
+  class="group inline-flex shrink-0 items-center gap-3
+         rounded-xl focus-visible:outline-none
+         focus-visible:ring-2 focus-visible:ring-violet-600
+         focus-visible:ring-offset-2"
   aria-label="Booki - Accueil"
 >
   <!-- Logo Booki: Calendar + B -->
@@ -88,11 +91,14 @@
       <a
         routerLink="/"
         routerLinkActive="text-zinc-950"
+        ariaCurrentWhenActive="page"
         [routerLinkActiveOptions]="{ exact: true }"
         class="hidden rounded-lg px-3 py-2
-               text-zinc-500 transition
-               hover:bg-zinc-50 hover:text-zinc-950
-               md:inline-flex"
+                text-zinc-500 transition
+                hover:bg-zinc-50 hover:text-zinc-950
+                focus-visible:outline-none focus-visible:ring-2
+                focus-visible:ring-violet-600 focus-visible:ring-offset-2
+                md:inline-flex"
       >
         Accueil
       </a>
@@ -103,10 +109,13 @@
           <a
             routerLink="/dashboard"
             routerLinkActive="bg-zinc-100 text-zinc-950"
+            ariaCurrentWhenActive="page"
             [routerLinkActiveOptions]="{ exact: true }"
             class="rounded-xl px-3 py-2 text-zinc-600
-                   transition hover:bg-zinc-100
-                   hover:text-zinc-950 sm:px-4"
+                  transition hover:bg-zinc-100
+                  hover:text-zinc-950 sm:px-4
+                  focus-visible:outline-none focus-visible:ring-2
+                  focus-visible:ring-violet-600 focus-visible:ring-offset-2"
           >
             Dashboard
           </a>
@@ -114,11 +123,16 @@
           <a
             routerLink="/dashboard/notifications"
             routerLinkActive="bg-zinc-100 text-zinc-950"
+            ariaCurrentWhenActive="page"
             class="relative inline-flex h-10 w-10
                    items-center justify-center rounded-xl
                    text-zinc-600 transition
-                   hover:bg-zinc-100 hover:text-zinc-950"
-            aria-label="Notifications"
+                   hover:bg-zinc-100 hover:text-zinc-950
+                   focus-visible:outline-none focus-visible:ring-2
+                   focus-visible:ring-violet-600 focus-visible:ring-offset-2"
+            [attr.aria-label]="unreadCount > 0
+              ? 'Notifications, ' + unreadCount + ' non lues'
+              : 'Notifications, aucune non lue'"
           >
             <span
               aria-hidden="true"
@@ -129,6 +143,7 @@
 
             @if (unreadCount > 0) {
               <span
+                aria-hidden="true"
                 class="absolute -right-1 -top-1 flex
                        min-h-5 min-w-5 items-center
                        justify-center rounded-full
@@ -145,9 +160,12 @@
           <a
             routerLink="/admin"
             routerLinkActive="bg-zinc-100 text-zinc-950"
+            ariaCurrentWhenActive="page"
             class="rounded-xl px-3 py-2 text-zinc-600
-                   transition hover:bg-zinc-100
-                   hover:text-zinc-950 sm:px-4"
+                    transition hover:bg-zinc-100
+                    hover:text-zinc-950 sm:px-4
+                    focus-visible:outline-none focus-visible:ring-2
+                    focus-visible:ring-violet-600 focus-visible:ring-offset-2"
           >
             Admin
           </a>
@@ -156,9 +174,12 @@
         <a
           routerLink="/account"
           routerLinkActive="bg-zinc-100 text-zinc-950"
+          ariaCurrentWhenActive="page"
           class="rounded-xl px-3 py-2 text-zinc-600
                  transition hover:bg-zinc-100
-                 hover:text-zinc-950 sm:px-4"
+                 hover:text-zinc-950 sm:px-4
+                 focus-visible:outline-none focus-visible:ring-2
+                 focus-visible:ring-violet-600 focus-visible:ring-offset-2"
         >
           <span class="hidden sm:inline">
             Mon compte
@@ -178,7 +199,9 @@
                  transition hover:bg-zinc-50
                  hover:text-zinc-950
                  disabled:cursor-not-allowed
-                 disabled:opacity-50 sm:px-4"
+                 disabled:opacity-50 sm:px-4
+                 focus-visible:outline-none focus-visible:ring-2
+                 focus-visible:ring-violet-600 focus-visible:ring-offset-2"
         >
           @if (isLoggingOut) {
             <span class="hidden sm:inline">
@@ -204,9 +227,12 @@
         <a
           routerLink="/login"
           routerLinkActive="text-zinc-950"
+          ariaCurrentWhenActive="page"
           class="hidden rounded-lg px-3 py-2
                  text-zinc-500 transition
                  hover:bg-zinc-50 hover:text-zinc-950
+                 focus-visible:outline-none focus-visible:ring-2
+                 focus-visible:ring-violet-600 focus-visible:ring-offset-2
                  sm:inline-flex"
         >
           Se connecter
@@ -256,6 +282,7 @@
 
 <div
   id="mobile-navigation"
+  [attr.aria-hidden]="!isMobileMenuOpen"
   class="border-t border-violet-100 bg-white px-6 py-4 md:hidden"
   [class.hidden]="!isMobileMenuOpen"
 >
@@ -265,8 +292,14 @@
   >
     <a
       routerLink="/"
+      routerLinkActive="bg-violet-50"
+      ariaCurrentWhenActive="page"
+      [routerLinkActiveOptions]="{ exact: true }"
       (click)="closeMobileMenu()"
-      class="rounded-xl px-4 py-3 text-zinc-700 hover:bg-violet-50"
+      class="rounded-xl px-4 py-3 text-zinc-700
+               hover:bg-violet-50
+               focus-visible:outline-none focus-visible:ring-2
+               focus-visible:ring-violet-600 focus-visible:ring-offset-2"
     >
       Accueil
     </a>
@@ -275,7 +308,10 @@
       routerLink="/"
       fragment="salons"
       (click)="closeMobileMenu()"
-      class="rounded-xl px-4 py-3 text-zinc-700 hover:bg-violet-50"
+      class="rounded-xl px-4 py-3 text-zinc-700
+             hover:bg-violet-50
+             focus-visible:outline-none focus-visible:ring-2
+             focus-visible:ring-violet-600 focus-visible:ring-offset-2"
     >
       Découvrir les salons
     </a>
@@ -284,16 +320,27 @@
       @if (authService.isOwner()) {
         <a
           routerLink="/dashboard"
+          routerLinkActive="bg-violet-50"
+          ariaCurrentWhenActive="page"
+          [routerLinkActiveOptions]="{ exact: true }"
           (click)="closeMobileMenu()"
-          class="rounded-xl px-4 py-3 text-zinc-700 hover:bg-violet-50"
+          class="rounded-xl px-4 py-3 text-zinc-700
+                 hover:bg-violet-50
+                 focus-visible:outline-none focus-visible:ring-2
+                 focus-visible:ring-violet-600 focus-visible:ring-offset-2"
         >
           Dashboard
         </a>
 
         <a
           routerLink="/dashboard/notifications"
+          routerLinkActive="bg-violet-50"
+          ariaCurrentWhenActive="page"
           (click)="closeMobileMenu()"
-          class="rounded-xl px-4 py-3 text-zinc-700 hover:bg-violet-50"
+          class="rounded-xl px-4 py-3 text-zinc-700
+                 hover:bg-violet-50
+                 focus-visible:outline-none focus-visible:ring-2
+                 focus-visible:ring-violet-600 focus-visible:ring-offset-2"
         >
           Notifications
           @if (unreadCount > 0) {
@@ -305,8 +352,13 @@
       @if (authService.isAdmin()) {
         <a
           routerLink="/admin"
+          routerLinkActive="bg-violet-50"
+          ariaCurrentWhenActive="page"
           (click)="closeMobileMenu()"
-          class="rounded-xl px-4 py-3 text-zinc-700 hover:bg-violet-50"
+          class="rounded-xl px-4 py-3 text-zinc-700
+                 hover:bg-violet-50
+                 focus-visible:outline-none focus-visible:ring-2
+                 focus-visible:ring-violet-600 focus-visible:ring-offset-2"
         >
           Administration
         </a>
@@ -314,8 +366,13 @@
 
       <a
         routerLink="/account"
+        routerLinkActive="bg-violet-50"
+        ariaCurrentWhenActive="page"
         (click)="closeMobileMenu()"
-        class="rounded-xl px-4 py-3 text-zinc-700 hover:bg-violet-50"
+        class="rounded-xl px-4 py-3 text-zinc-700
+               hover:bg-violet-50
+               focus-visible:outline-none focus-visible:ring-2
+               focus-visible:ring-violet-600 focus-visible:ring-offset-2"
       >
         Mon compte
       </a>
@@ -325,24 +382,35 @@
         (click)="logout()"
         [disabled]="isLoggingOut"
         class="rounded-xl px-4 py-3 text-left text-zinc-700
-               hover:bg-violet-50 disabled:opacity-50"
+               hover:bg-violet-50 disabled:opacity-50
+               focus-visible:outline-none focus-visible:ring-2
+               focus-visible:ring-violet-600 focus-visible:ring-offset-2"
       >
         {{ isLoggingOut ? 'Déconnexion...' : 'Se déconnecter' }}
       </button>
     } @else {
       <a
         routerLink="/login"
+        routerLinkActive="bg-violet-50"
+        ariaCurrentWhenActive="page"
         (click)="closeMobileMenu()"
-        class="rounded-xl px-4 py-3 text-zinc-700 hover:bg-violet-50"
+        class="rounded-xl px-4 py-3 text-zinc-700
+               hover:bg-violet-50
+               focus-visible:outline-none focus-visible:ring-2
+               focus-visible:ring-violet-600 focus-visible:ring-offset-2"
       >
         Se connecter
       </a>
 
       <a
         routerLink="/register"
+        routerLinkActive="bg-violet-800"
+        ariaCurrentWhenActive="page"
         (click)="closeMobileMenu()"
         class="rounded-xl bg-violet-700 px-4 py-3 text-center
-               font-semibold text-white hover:bg-violet-800"
+               font-semibold text-white hover:bg-violet-800
+               focus-visible:outline-none focus-visible:ring-2
+               focus-visible:ring-violet-600 focus-visible:ring-offset-2"
       >
         Créer un compte
       </a>
