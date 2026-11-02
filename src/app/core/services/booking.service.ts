@@ -76,11 +76,17 @@ export interface CreateBookingRequest {
 })
 export class BookingService {
 
-private readonly apiUrl = `${API_BASE_URL}/Bookings`;
+    private readonly apiUrl = `${API_BASE_URL}/Bookings`;
 
     constructor(
         private http: HttpClient
     ) { }
+
+    getMyBookings(): Observable<BookingItem[]> {
+        return this.http.get<BookingItem[]>(
+            `${this.apiUrl}/my`
+        );
+    }
 
     getBySalon(
         salonId: string
@@ -127,6 +133,13 @@ private readonly apiUrl = `${API_BASE_URL}/Bookings`;
 
         return this.http.patch<BookingItem>(
             `${this.apiUrl}/${id}/cancel`,
+            {}
+        );
+    }
+
+    cancelMyBooking(id: string): Observable<BookingItem> {
+        return this.http.patch<BookingItem>(
+            `${this.apiUrl}/${id}/cancel-client`,
             {}
         );
     }

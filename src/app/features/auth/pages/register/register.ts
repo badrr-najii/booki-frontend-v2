@@ -7,6 +7,7 @@ import {
 } from '@angular/forms';
 
 import {
+  ActivatedRoute,
   Router,
   RouterLink
 } from '@angular/router';
@@ -28,12 +29,17 @@ export class Register {
   errorMessage = '';
 
   registerForm;
+  isClientRegistration = false;
 
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {
+    this.isClientRegistration =
+      this.route.snapshot.routeConfig?.path === 'register-client';
+
     this.registerForm = this.fb.nonNullable.group({
       fullName: ['', [
         Validators.required,
@@ -105,12 +111,18 @@ export class Register {
 
     this.isLoading = true;
 
-    this.authService.register({
+    const request = {
       fullName: form.fullName,
       email: form.email,
       phoneNumber: form.phoneNumber,
       password: form.password
-    })
+    };
+
+    const registration$ = this.isClientRegistration
+      ? this.authService.registerClient(request)
+      : this.authService.register(request);
+
+    registration$
       .subscribe({
         next: () => {
           this.isLoading = false;
