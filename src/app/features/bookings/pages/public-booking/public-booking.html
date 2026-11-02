@@ -177,6 +177,7 @@
                 [(ngModel)]="selectedDate"
                 (ngModelChange)="loadSlots()"
                 [min]="minDate"
+                [max]="maxDate"
                 class="form-control"
               />
 
@@ -515,12 +516,24 @@
 
         }
 
-        <a
-          routerLink="/"
-          class="home-button"
-        >
-          Retour à l'accueil
-        </a>
+            @if (
+            authService.isAuthenticated() &&
+            authService.getRole() === 'Client'
+          ) {
+            <a
+              routerLink="/my-bookings"
+              class="home-button"
+            >
+              Voir mes réservations
+            </a>
+          } @else {
+            <a
+              routerLink="/"
+              class="home-button"
+            >
+              Retour à l'accueil
+            </a>
+      }
 
       </section>
 

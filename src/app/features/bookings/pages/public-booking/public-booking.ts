@@ -35,6 +35,8 @@ import {
   RouterLink
 } from '@angular/router';
 
+import { AuthService } from '../../../../core/services/auth.service';
+
 @Component({
   selector: 'app-public-booking',
   imports: [
@@ -68,6 +70,7 @@ export class PublicBooking implements OnInit {
   isSubmitting = false;
   bookingCreated = false;
   minDate = '';
+  maxDate = '9999-12-31';
 
   salon?: PublicSalonResponse;
   isLoadingSalon = true;
@@ -77,7 +80,8 @@ export class PublicBooking implements OnInit {
     private salonService: SalonService,
     private serviceService: ServiceService,
     private bookingService: BookingService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    public authService: AuthService,
   ) { }
 
   ngOnInit(): void {
@@ -190,6 +194,15 @@ export class PublicBooking implements OnInit {
       return;
     }
 
+    if (
+      !/^\d{4}-\d{2}-\d{2}$/.test(this.selectedDate) ||
+      this.selectedDate > this.maxDate
+    ) {
+      this.errorMessage = 'Veuillez sélectionner une date valide.';
+      this.cdr.markForCheck();
+      return;
+    }
+
     this.isLoadingSlots = true;
 
     this.bookingService
@@ -289,6 +302,13 @@ export class PublicBooking implements OnInit {
     if (this.notes.trim().length > 500) {
       this.errorMessage =
         'Les notes ne peuvent pas dépasser 500 caractères.';
+      return;
+    }
+    if (
+      !/^\d{4}-\d{2}-\d{2}$/.test(this.selectedDate) ||
+      this.selectedDate > this.maxDate
+    ) {
+      this.errorMessage = 'Veuillez sélectionner une date valide.';
       return;
     }
 

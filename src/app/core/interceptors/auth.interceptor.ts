@@ -68,6 +68,7 @@ export const authInterceptor: HttpInterceptorFn =
     const publicAuthPaths = new Set([
       '/auth/login',
       '/auth/register',
+      '/auth/register-client',
       '/auth/refresh-token',
       '/auth/forgot-password',
       '/auth/reset-password',
