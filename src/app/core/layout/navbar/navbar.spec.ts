@@ -44,11 +44,12 @@ describe('Navbar mobile navigation', () => {
   let component: Navbar;
 
   const authMock = {
-    isAuthenticated: vi.fn(() => false),
-    isOwner: vi.fn(() => false),
-    isAdmin: vi.fn(() => false),
-    logout: vi.fn(() => of({ message: 'OK' }))
-  };
+  isAuthenticated: vi.fn(() => false),
+  isOwner: vi.fn(() => false),
+  isAdmin: vi.fn(() => false),
+  getRole: vi.fn<() => string | null>(() => null),
+  logout: vi.fn(() => of({ message: 'OK' }))
+};
 
   const notificationMock = {
     unreadCount$: of(0),
@@ -67,6 +68,7 @@ describe('Navbar mobile navigation', () => {
     authMock.isAuthenticated.mockReturnValue(false);
     authMock.isOwner.mockReturnValue(false);
     authMock.isAdmin.mockReturnValue(false);
+    authMock.getRole.mockReturnValue(null);
 
     await TestBed.configureTestingModule({
       imports: [Navbar],
@@ -155,6 +157,7 @@ describe('Navbar mobile navigation', () => {
   it('should show owner links for an authenticated owner', async () => {
     authMock.isAuthenticated.mockReturnValue(true);
     authMock.isOwner.mockReturnValue(true);
+    authMock.getRole.mockReturnValue('Owner');
 
     await refreshView();
 
@@ -171,6 +174,7 @@ describe('Navbar mobile navigation', () => {
   it('should show administration for an admin', async () => {
     authMock.isAuthenticated.mockReturnValue(true);
     authMock.isAdmin.mockReturnValue(true);
+    authMock.getRole.mockReturnValue('Admin');
 
     await refreshView();
 
